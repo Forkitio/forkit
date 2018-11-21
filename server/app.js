@@ -11,6 +11,8 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../public/index.ht
 
 app.use(require('body-parser').json());
 
+app.use(passport.initialize());
+
 app.use((req, res, next) => {
   const token = req.headers.authorization;
   if(!token) { return next() }
@@ -32,6 +34,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/pinterest', require('./routes/oauthPinterest'));
 
 app.use((err, req, res, next)=> {
   console.log(err);
