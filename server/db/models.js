@@ -14,15 +14,21 @@ const User = conn.define('users', {
     },
     firstName: {
       type: conn.Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+          notEmpty: true
+      }
     },
     lastName: {
         type: conn.Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
       },
     email: {
         type: conn.Sequelize.STRING(100),
-        allowNull: false,
+        allowNull: true,
         unique: true,
         validate: {
             isEmail: true
@@ -34,6 +40,9 @@ const User = conn.define('users', {
     password: {
       type: conn.Sequelize.STRING,
       allowNull: false,
+      validate: {
+          notEmpty: true
+      }
     },
     img: {
         type: conn.Sequelize.STRING,
@@ -51,7 +60,6 @@ const Recipe = conn.define('recipes', {
     },
     title:{
         type: conn.Sequelize.STRING(100),
-
     },
     directions:{
         type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
@@ -68,7 +76,7 @@ const Recipe = conn.define('recipes', {
         allowNull: false
     },
     nutrition:{
-        type: conn.Sequelize.ARRAY(conn.Sequelize.OBJECT)
+        type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
     },
     healthLabels: {
         type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
@@ -100,7 +108,6 @@ const Recipe = conn.define('recipes', {
     }
 })
 
-
 const Comment = conn.define('comments', {
     id: {
         type: conn.Sequelize.UUID,
@@ -120,8 +127,8 @@ const Comment = conn.define('comments', {
 //Associations
 
 //Following
-User.belongsToMany(User, { through: followers })
-User.belongsToMany(User, { through: followers })
+User.belongsToMany(User, { through: 'followers' , as: 'following' })
+User.belongsToMany(User, { through: 'followers' , as: 'follower' })
 
 //Comments
 User.hasMany(Comment)

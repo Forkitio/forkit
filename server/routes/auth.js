@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const User = require('../db/User')
+const User = require('../db/models.js')
 const jwt = require('jwt-simple')
 module.exports = router
 

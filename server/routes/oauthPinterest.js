@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const passport = require('passport')
-const User = require('../db/User')
+const User = require('../db/models.js')
 const jwt = require('jwt-simple')
 const pinterest = require('passport-pinterest')
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const User = require('./db/User.js');
+const User = require('./db/models.js');
 const passport = require('passport');
 const jwt = require('jwt-simple');
 
