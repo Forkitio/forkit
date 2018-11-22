@@ -1,4 +1,5 @@
-const PORT = process.env.PORT
+const httpPORT = process.env.PORT || 3000
+const httpsPORT = process.env.PORT || 443
 const { syncAndSeed } = require('./db')
 const fs = require('fs')
 const https = require('https')
@@ -13,18 +14,18 @@ require('./app').listen(PORT, () => console.log(`
 */
 
 http.createServer(app)
-  .listen(80, () => console.log(`
-    HTTP Connection : Listening on PORT 80!
-    http://localhost:80/
+  .listen(httpPORT, () => console.log(`
+    HTTP Connection : Listening on PORT ${httpPORT}!
+    http://localhost:${httpPORT}/
   `))
 
 https.createServer({
   key: fs.readFileSync('server.key'),
   cert: fs.readFileSync('server.cert')
 }, app)
-  .listen(443, () => console.log(`
-    HTTPS Connection : Listening on PORT 443!
-    https://localhost:443/
+  .listen(httpsPORT, () => console.log(`
+    HTTPS Connection : Listening on PORT ${httpsPORT}!
+    https://localhost:${httpsPORT}/
   `))
 
 syncAndSeed()

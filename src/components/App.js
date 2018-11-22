@@ -3,10 +3,17 @@ import { HashRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Nav from './Nav'
 import LoginPage from './LoginPage'
+import { exchangeTokenForAuth } from '../store/authStore'
+import queryString from 'query-string'
 
 class App extends Component {
-  constructor() {
-    super()
+  componentDidMount() {
+    const query = queryString.parse(this.props.location.search);
+    if(query.token) {
+      window.localStorage.setItem('token', query.token);
+      this.props.history.push('/');
+    }
+    this.props.tokenCheck();
   }
   render(){
     return (
@@ -21,4 +28,9 @@ class App extends Component {
   }
 }
 
-export default connect(null, null)(App)
+const mapDispatchToProps = dispatch => {
+  return {
+    tokenCheck : () => dispatch(exchangeTokenForAuth())
+  }
+}
+export default connect(null, mapDispatchToProps)(App)

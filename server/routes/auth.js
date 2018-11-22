@@ -20,3 +20,4 @@ router.get('/', (req, res, next) => {
   }
   res.send(req.user);
 })
+

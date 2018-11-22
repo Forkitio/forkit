@@ -11,16 +11,9 @@ const _setAuth = (auth) => ({
   auth
 })
 
-export const getMe = () => dispatch => {
-  return axios.get('/auth/me')
-    .then(res => res.data)
-    .then(user => dispatch(gotMe(user)))
-    .catch(console.error.bind(console))
-}
-
 //grabs the token and then calls the api for the user
 //once it receives the user it will dispatch setAuth to set the user
-const exchangeTokenForAuth = () => {
+export const exchangeTokenForAuth = () => {
   return dispatch => {
     const token = window.localStorage.getItem('token');
     if(!token) {
