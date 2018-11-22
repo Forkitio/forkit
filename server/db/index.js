@@ -1,13 +1,40 @@
 const conn = require('./conn');
-const { User, Comment, Recipe } = require('./models.js');
+const { User, RecipeComment, Recipe } = require('./models.js');
 
 const syncAndSeed = () => {
   return conn.sync({ force: true })
     .then(()=> {
       return Promise.all([
-        User.create({ firstName: 'moe', lastName: 'smith', password: 'MOE' }),
-        User.create({ firstName: 'larry', lastName: 'elton', password: 'LARRY' }),
-        User.create({ firstName: 'curly', lastName: 'jones', password: 'CURLY' }),
+        User.create({ 
+          firstName: 'moe',
+          lastName: 'smith',
+          email: 'moe@gmail.com',
+          username: 'moe',
+          password: 'moe',
+          pinterestId: null,
+          instagramId: null,
+          img: "http://via.placeholder.com/640x360"
+        }),
+        User.create({
+          firstName: 'larry',
+          lastName: 'smith',
+          email: 'larry@gmail.com',
+          username: 'larry',
+          password: 'larry',
+          pinterestId: null,
+          instagramId: null,
+          img: "http://via.placeholder.com/640x360"
+        }),
+        User.create({
+          firstName: 'curly',
+          lastName: 'smith',
+          email: 'curly@gmail.com',
+          username: 'curly',
+          password: 'curly',
+          pinterestId: null,
+          instagramId: null,
+          img: "http://via.placeholder.com/640x360"
+        }),
       ]);
     })
     .then((users) => {
@@ -17,23 +44,15 @@ const syncAndSeed = () => {
           title: 'Tabbouleh',
           time: 3,
           serving: 4,
-        }),
-        Recipe.create({}),
-        Recipe.create({}),
+        })
       ])
     })
     .then((recipes) => {
       [ tabbouleh, hummus, babaghanoush ] = recipes
       return Promise.all([
-        Comment.create({}),
-        Comment.create({}),
-        Comment.create({}),
-      ])
-    })
-    .then((comments) => {
-      [ good, ok, bad ] = comment
-      return Promise.all([
-        plantLI.setOrder(guestCart)
+        RecipeComment.create({title: 'A', content: 'AA'}),
+        RecipeComment.create({title: 'B', content: 'BB'}),
+        RecipeComment.create({title: 'C', content: 'CC'}),
       ])
     })
 };

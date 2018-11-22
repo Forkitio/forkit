@@ -4,9 +4,9 @@ const jwt = require('jwt-simple')
 module.exports = router
 
 router.post('/', (req, res, next) => {
-  const { name, password } = req.body;
+  const { username, password } = req.body;
   User.findOne({
-    where : { name, password}
+    where : { username, password}
   })
     .then( user => {
       const token = jwt.encode({ id : user.id }, process.env.JWT_SECRET);
@@ -20,4 +20,5 @@ router.get('/', (req, res, next) => {
   }
   res.send(req.user);
 })
+
 
