@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 const oauthLogin = () => {
   return (
@@ -8,4 +9,4 @@ const oauthLogin = () => {
   )
 };
 
-export default oauthLogin
+export default connect(null, null)(oauthLogin)
