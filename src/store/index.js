@@ -2,9 +2,11 @@ import { combineReducers, createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import loggerMiddleware from 'redux-logger'
 import auth from './authStore.js'
+import recipeAPI from './recipeAPI.js'
 
 const reducer = combineReducers({
-  auth
+  auth,
+  recipeAPI
 });
 
 const store = createStore(

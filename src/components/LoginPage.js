@@ -21,8 +21,7 @@ const LoginPage = (props) => {
   )
 }
 
-const styles = theme => ({
-  // Load app bar information from the theme
+const styles = () => ({
   navBarSpace: {
     marginTop: '100px',
     marginLeft: '15px'
