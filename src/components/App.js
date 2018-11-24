@@ -5,6 +5,9 @@ import Nav from './Nav'
 import Cookbook from './Cookbook'
 import Dashboard from './Dashboard'
 import LoginPage from './LoginPage'
+import Name from  './Name'
+import Protein from './Protein'
+import Skill from './Skill'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 
@@ -27,7 +30,10 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          <Nav />
+          <Route  exact path='/' render = { () => <Nav /> }/>
+          <Route path='/survey/name' render = { () => <Name/>}/>
+          <Route path='/survey/protein' render = { () => <Protein/>}/>
+          <Route path='/survey/skill' render = { () => <Skill/>}/>
           <Route exact path='/login' component={LoginPage} />
           <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
           <Route path = '/user/dashboard' render = {() => <Dashboard />} />
