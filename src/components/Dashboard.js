@@ -5,6 +5,7 @@ import { Grid, Typography, Button, Divider } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { getRecipes } from '../store/recipeAPI.js'
 import recipeData from './tempData'
+import Nav from './Nav'
 
 
 // To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1
@@ -38,8 +39,10 @@ class Dashboard extends Component {
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
 
             // ADD FOLLOW ANOTHER USER?
-
+            <div className = {classes.white}>
+            <Nav/>
             <div className = {classes.navBarSpace}>
+                <br/>
                 <Typography variant = 'h6'>
                     Dashboard
                 </Typography>
@@ -86,7 +89,7 @@ class Dashboard extends Component {
                 <Typography variant = 'h6'>
                     Quick Recipes
                 </Typography>
-
+            </div>
             </div>
         )
     }
@@ -94,9 +97,14 @@ class Dashboard extends Component {
 
 const styles = theme => ({
     navBarSpace: {
-      marginTop: '100px',
-      marginLeft: '15px'
+      marginTop: '60px',
+      marginLeft: '15px',
+      backgroundColor: 'white'
     },
+    white: {
+        backgroundColor: 'white'
+    }
+    
 });
 
 const mapStateToProps = state => ({

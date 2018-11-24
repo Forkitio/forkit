@@ -8,6 +8,7 @@ import LoginPage from './LoginPage'
 import Name from  './Name'
 import Protein from './Protein'
 import Skill from './Skill'
+import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 
@@ -30,7 +31,7 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          <Route  exact path='/' render = { () => <Nav /> }/>
+          <Route  exact path='/' render = { () => <Homepage/> }/>
           <Route path='/survey/name' render = { () => <Name/>}/>
           <Route path='/survey/protein' render = { () => <Protein/>}/>
           <Route path='/survey/skill' render = { () => <Skill/>}/>

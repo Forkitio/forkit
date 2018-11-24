@@ -9,7 +9,7 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
 
   return (
     <div className = {classes.root}>
-      <AppBar color = 'default' position = 'fixed'>
+      <AppBar position = 'fixed' className = {classes.NavColor}>
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
           FORKIT
@@ -27,7 +27,7 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
           : 
           // <div style = {{float: 'right'}}>
             <Link to='/login' className = {classes.noUnderline}>
-              <Button variant = 'outlined' color = 'inherit' size = 'small'>
+              <Button variant = 'outlined' size = 'small' className = {classes.loginButton}>
                 Login
               </Button>
             </Link>
@@ -45,13 +45,21 @@ const styles = {
   },
   grow: {
     flexGrow: 1,
+    color: 'white'
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
   },
   noUnderline: {
-    textDecoration: 'none'
+    textDecoration: 'none',
+  },
+  loginButton: {
+    borderColor: 'white',
+    color: 'white'
+  },
+  navColor: {
+    color: 'FF3B4A'
   }
 };
 
