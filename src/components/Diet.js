@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Grid, Typography, Button, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
-import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 
@@ -25,20 +24,23 @@ const styles = theme => ({
     }
 })
 
-class Skill extends Component {
+
+class Diet extends Component {
     constructor() {
         super()
         this.state = {
-            skill: 0
+            beef: false,
+            lamb: false,
+            chicken: false,
+            fish: false,
+            pork: false,
+            vegeterian: false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(ev) {
-        this.setState({
-            [ev.target.name]: ev.target.value
-        })
     }
 
     handleSubmit(ev) {
@@ -47,50 +49,50 @@ class Skill extends Component {
 
     render() {
         const { handleSubmit, handleChange } = this
-        const { skill } = this.state
         const { classes } = this.props
+
         return (
             <Fragment>
                 <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>
-                        <Typography variant='h4' className={classes.boldedText}>
-                            What's your skill level in the kitchen?
+                        <form onSubmit={handleSubmit}>
+                            <Typography variant='h4' className={classes.boldedText}>
+                                Are you on any diets?
                             </Typography>
                             <br />
-                        <Typography variant='subtitle1'>
-                            This will help us source recipes that are just appropriate for you
+                            <Typography variant='subtitle1' fontWeight='bold'>
+                                Select the diet that you are on
                             </Typography>
                             <br />
-                        <FormControl>
+                            <FormControl>
                             <RadioGroup
                                 aria-label="Gender"
                                 name="gender1"
-                                className={classes.group}
                                 value={this.state.value}
                                 onChange={this.handleChange}
                             >
-                                <FormControlLabel value="female" control={<Radio />} label="Gordon Ramsey, just less angry" />
-                                <FormControlLabel value="female" control={<Radio />} label="I know what paprika is" />
-                                <FormControlLabel value="male" control={<Radio />} label="I can make an omelette" />
-                                <FormControlLabel value="other" control={<Radio />} label="I am useless in the kitchen" />
+                                <FormControlLabel value="female" control={<Radio />} label="Vegan" />
+                                <FormControlLabel value="female" control={<Radio />} label="Vegeterian" />
+                                <FormControlLabel value="male" control={<Radio />} label="Paleo" />
+                                <FormControlLabel value="other" control={<Radio />} label="Low-Carb Diet" />
+                                <FormControlLabel value="other" control={<Radio />} label="Not on a diet" />
                             </RadioGroup>
-                        </FormControl>
-                        <div>
-                            <Link to='/survey/protein' className={classes.noUnderline}>
-                                <Button variant='contained' color='primary' size='large'>
-                                    Continue
+                            </FormControl>
+                            <br/>
+                            <br/>
+                            <Link to = '/survey/time' className={classes.noUnderline}>
+                            <Button variant='contained' color='primary' size='large'>
+                                Next
                             </Button>
                             </Link>
-                        </div>
-                        <br />
-                        <br />
-                        <div>
-                            <Link to='/survey/cuisine' className={classes.noUnderline}>
+                            <br />
+                            <br/>
+                            <Link to='/survey/protein' className={classes.noUnderline}>
                                 <Typography variant='subtitle1' className={classes.boldedText}>
                                     Back
                                 </Typography>
                             </Link>
-                        </div>
+                        </form>
                     </div>
                 </Grid>
             </Fragment>
@@ -100,4 +102,4 @@ class Skill extends Component {
 
 const mapDispatchToProps = ({})
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Skill))
+export default withStyles(styles)(connect(null, mapDispatchToProps)(Diet))

@@ -12,7 +12,7 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
       <AppBar position = 'fixed' className = {classes.NavColor}>
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
-          FORKIT
+          ForkIt
         </Typography>
       
         {

@@ -6,33 +6,31 @@ import { connect } from 'react-redux'
 
 
 const styles = theme => ({
-    divstyle : {
+    divstyle: {
         marginTop: '300px',
         textAlign: 'center'
     },
 
-    fieldstyle : {
+    fieldstyle: {
         marginLeft: '20px'
     },
 
-    noUnderline : {
+    noUnderline: {
         textDecoration: 'none'
     },
-    
-    boldedText : {
-        fontWeight : 'bold'
+
+    boldedText: {
+        fontWeight: 'bold'
     }
 })
 
 
-
-
-class Name extends Component {
+class Signup extends Component {
     constructor() {
         super()
         this.state = {
-            firstName: '',
-            lastName: ''
+            username: '',
+            password: ''
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -40,53 +38,48 @@ class Name extends Component {
 
     handleChange(ev) {
         this.setState({
-          [ev.target.name]: ev.target.value,
-        });
-        console.log(this.state)
-      };
+            [ ev.target.name ] : ev.target.value
+        })
+    }
 
     handleSubmit(ev) {
         ev.preventDefault()
-        console.log(this.state)
     }
 
     render() {
         const { handleSubmit, handleChange } = this
-        const { firstName, lastName } = this.state
+        const { username, password } = this.state
         const { classes } = this.props
+
         return (
             <Fragment>
                 <Grid container justify="center" display="flex">
-                    <div className = {classes.divstyle}>
-                    <Typography variant='h4' className = {classes.boldedText}>
-                                Hola, what's your name?
+                    <div className={classes.divstyle}>
+                        <form onSubmit={handleSubmit}>
+                            <Typography variant='h4' className={classes.boldedText}>
+                                Sign up
                             </Typography>
                             <br/>
-                            <br/>
-                        <form onSubmit={handleSubmit}>
                             <TextField
-                                name = 'firstName'
-                                label="First Name"
-                                value={firstName}
+                                label="Username"
+                                value={username}
                                 onChange={handleChange}
                                 variant='outlined'
+                                name='username'
                             />
                             <TextField
-                                name = 'lastName'
-                                label="Last Name"
-                                value={lastName}
+                                label="Password"
+                                value={password}
                                 onChange={handleChange}
-                                className = {classes.fieldstyle}
+                                className={classes.fieldstyle}
                                 variant='outlined'
+                                name='password'
                             />
+                            <br />
                             <br/>
-                            <br/>
-                            <br/>
-                            <Link to = '/survey/cuisine' className={classes.noUnderline}>
-                            <Button variant='contained' color='primary' size='large' type='submit'>
-                                Next
+                            <Button variant='contained' color='primary' size='large'>
+                                Signup
                             </Button>
-                            </Link>
                         </form>
                     </div>
                 </Grid>
@@ -95,9 +88,6 @@ class Name extends Component {
     }
 }
 
-const mapDispatchToProps = ({  })
+const mapDispatchToProps = ({})
 
-
-
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Name))
-
+export default withStyles(styles)(connect(null,mapDispatchToProps)(Signup))

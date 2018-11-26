@@ -26,22 +26,26 @@ const styles = theme => ({
 })
 
 
-class Protein extends Component {
+class Cuisine extends Component {
     constructor() {
         super()
         this.state = {
-            beef: false,
-            lamb: false,
-            chicken: false,
-            fish: false,
-            pork: false,
-            tofu: false
+            chinese: false,
+            italian: false,
+            indian: false,
+            thai: false,
+            mediterranean: false,
+            japanese: false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(ev) {
+        this.setState({
+            [ev.target.name]: ev.target.checked,
+        });
+        console.log(this.state)
     }
 
     handleSubmit(ev) {
@@ -51,107 +55,108 @@ class Protein extends Component {
     render() {
         const { handleSubmit, handleChange } = this
         const { classes } = this.props
-        const { beef, lamb, chicken, fish, pork, tofu } = this.state
-
-        return (
-            <Fragment>
+        const { chinese, indian, italian, thai, mediterranean, japanese } = this.state
+         return (
+             <Fragment>
                 <Grid container justify="center" display="flex">
-                    <div className={classes.divstyle}>
+                    <div className = {classes.divstyle}>
                         <form onSubmit={handleSubmit}>
-                            <Typography variant='h4' className={classes.boldedText}>
-                                What protein do you usually eat?
+                            <Typography variant='h4' className = {classes.boldedText}>
+                               What are your favorite cuisines?
                             </Typography>
                             <br />
                             <Typography variant='subtitle1' fontWeight='bold'>
-                                Think of one or two proteins that you are happy eating everyday for the rest of your life
+                                Select the cuisines that you like
                             </Typography>
                             <br />
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={chinese}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="chinese"
                                         color='primary'
-                                        label='beef'
+                                        label='chinese'
                                     />
                                 }
-                                label="Beef"
+                                label="Chinese"
                             />
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={italian}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="italian"
                                         color='primary'
-                                        label='lamb'
+                                        label='italian'
                                     />
                                 }
-                                label="Lamb"
+                                label="Italian"
                             />
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={indian}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="indian"
                                         color='primary'
-                                        label='chicken'
+                                        label='indian'
                                     />
                                 }
-                                label="Chicken"
+                                label="Indian"
                             />
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={thai}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="thai"
                                         color='primary'
-                                        label='fish'
+                                        label='thai'
                                     />
                                 }
-                                label="Fish"
+                                label="Thai"
                             />
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={mediterranean}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="mediterranean"
                                         color='primary'
-                                        label='pork'
+                                        label='mediterranean'
                                     />
                                 }
-                                label="Pork"
+                                label="Mediterranean"
                             />
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={japanese}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="japanese"
                                         color='primary'
-                                        label='tofu'
+                                        label='japanese'
                                     />
                                 }
-                                label="Tofu"
+                                label="Japanese"
                             />
                             <br/>
                             <br/>
-                            <Link to = '/survey/diet' className={classes.noUnderline}>
+                            <Link to = '/survey/skill' className={classes.noUnderline}>
                             <Button variant='contained' color='primary' size='large'>
-                                Next
+                                Continue
                             </Button>
                             </Link>
-                            <br />
                             <br/>
-                            <Link to='/survey/cuisine' className={classes.noUnderline}>
+                            <br/>
+                            <div>
+                                <Link to='/survey/name' className={classes.noUnderline}>
                                 <Typography variant='subtitle1' className={classes.boldedText}>
-                                    Back
+                            Back
                                 </Typography>
-                            </Link>
+                                </Link>    
+                            </div>
                         </form>
                     </div>
                 </Grid>
@@ -162,4 +167,4 @@ class Protein extends Component {
 
 const mapDispatchToProps = ({})
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Protein))
+export default withStyles(styles)(connect(null, mapDispatchToProps)(Cuisine))

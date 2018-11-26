@@ -49,6 +49,26 @@ const User = conn.define('users', {
         allowNull: false,
         defaultValue: "http://via.placeholder.com/640x360"
     },
+    protein: {
+        type: conn.Sequelize.ARRAY(conn.Sequelize.ENUM('beef', 'chicken', 'fish', 'vegeterian', 'lamb', 'tofu')),
+        allowNull: true
+    },
+    cuisine: {
+        type: conn.Sequelize.ARRAY(conn.Sequelize.ENUM('chinese', 'japanese', 'italian', 'indian', 'mediterranean', 'thai')),
+        allowNull: true
+    },
+    skill: {
+        type: conn.Sequelize.ENUM('expert', 'advanced', 'intermediate', 'beginner'),
+        allowNull: true
+    }, 
+    diet: {
+        type: conn.Sequelize.ENUM('vegeterian', 'vegan', 'paleo', 'low-carb', 'no diet'),
+        allowNull: true
+    },
+    time: {
+        type: conn.Sequelize.ENUM('15 min', '30 min', '1 hr', '> 1 hr'),
+        allowNull: true
+    }
 })
 
 
