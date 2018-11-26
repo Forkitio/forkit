@@ -1,5 +1,5 @@
 const conn = require('./conn');
-const { User, Comment, Recipe } = require('./models.js');
+const { User, RecipeComment, Recipe } = require('./models.js');
 
 const syncAndSeed = () => {
   return conn.sync({ force: true })
@@ -50,9 +50,9 @@ const syncAndSeed = () => {
     .then((recipes) => {
       [ tabbouleh, hummus, babaghanoush ] = recipes
       return Promise.all([
-        Comment.create({title: 'A', content: 'AA'}),
-        Comment.create({title: 'B', content: 'BB'}),
-        Comment.create({title: 'C', content: 'CC'}),
+        RecipeComment.create({title: 'A', content: 'AA'}),
+        RecipeComment.create({title: 'B', content: 'BB'}),
+        RecipeComment.create({title: 'C', content: 'CC'}),
       ])
     })
 };

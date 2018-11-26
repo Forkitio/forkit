@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { getRecipes } from '../store/recipeAPI.js'
 import recipeData from './tempData'
 import Nav from './Nav'
+import {Link} from 'react-router-dom';
 
 
 // To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1
@@ -40,7 +41,7 @@ class Dashboard extends Component {
 
             // ADD FOLLOW ANOTHER USER?
             <div className = {classes.white}>
-            <Nav/>
+            {/* <Nav/> */}
             <div className = {classes.navBarSpace}>
                 <br/>
                 <Typography variant = 'h6'>
@@ -55,9 +56,11 @@ class Dashboard extends Component {
                 <Typography variant = 'h6'>
                     My Cookbook
                 </Typography>
+                <Link to={'/recipe/create'}>
                 <Button variant = 'outlined' color = 'primary' size = 'small'>
                     + Add a Recipe
                 </Button>
+                </Link>
                 <br />
                 <br />
                 <Divider/>

@@ -11,7 +11,8 @@ import Skill from './Skill'
 import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
-
+import CerateRecipe from './CreateRecipe';
+import {getRecipes} from './../store';
 
 class App extends Component {
 
@@ -31,13 +32,14 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          <Route  exact path='/' render = { () => <Homepage/> }/>
+          <Route exact path='/' render = { () => <Homepage/> }/>
           <Route path='/survey/name' render = { () => <Name/>}/>
           <Route path='/survey/protein' render = { () => <Protein/>}/>
           <Route path='/survey/skill' render = { () => <Skill/>}/>
           <Route exact path='/login' component={LoginPage} />
           <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
           <Route path = '/user/dashboard' render = {() => <Dashboard />} />
+          <Route path='/recipe/create' render={() => <CerateRecipe />}/>
         </Fragment>
       </Router>
     )
@@ -47,7 +49,8 @@ class App extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    tokenCheck : () => dispatch(exchangeTokenForAuth())
+    tokenCheck : () => dispatch(exchangeTokenForAuth()),
+    loadRecipes: () => dispatch(getRecipes())
   }
 }
 export default connect(null, mapDispatchToProps)(App)

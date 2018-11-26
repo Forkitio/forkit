@@ -108,7 +108,7 @@ const Recipe = conn.define('recipes', {
     }
 })
 
-const Comment = conn.define('comments', {
+const RecipeComment = conn.define('comments', {
     id: {
         type: conn.Sequelize.UUID,
         defaultValue: conn.Sequelize.UUIDV4,
@@ -131,8 +131,8 @@ User.belongsToMany(User, { through: 'followers' , as: 'following' })
 User.belongsToMany(User, { through: 'followers' , as: 'follower' })
 
 //Comments
-User.hasMany(Comment)
-Comment.belongsTo(User)
+User.hasMany(RecipeComment)
+RecipeComment.belongsTo(User)
 
 //Saved Recipe
 User.hasMany(Recipe)
@@ -142,5 +142,5 @@ module.exports = {
   conn,
   User,
   Recipe, 
-  Comment,
+  RecipeComment,
 }
