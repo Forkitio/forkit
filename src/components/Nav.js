@@ -14,17 +14,17 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
         <Typography variant = 'h6' className = {classes.grow}>
           FORKIT
         </Typography>
-      
+
         {
           isLoggedIn ? (
             <div>
-              <span>Hello {auth.name}</span>
+              <span>Hello {auth.firstName + ' ' + auth.lastName}</span>
               <Link to = {`/user/${auth.id}/cookbook`}>cookbook</Link>
               <Link to = {`/user/${auth.id}/dashboard`}>dashboard</Link>
               <button type='button' onClick={logout}>Logout</button>
             </div>
-          ) 
-          : 
+          )
+          :
           // <div style = {{float: 'right'}}>
             <Link to='/login' className = {classes.noUnderline}>
               <Button variant = 'outlined' size = 'small' className = {classes.loginButton}>

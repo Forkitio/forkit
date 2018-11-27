@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import App from './components/App'
-import store from './store'
+import store from './store/index.js'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
 import { yellow, black, grey, red } from '@material-ui/core/colors'
 

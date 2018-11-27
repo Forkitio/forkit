@@ -6,7 +6,7 @@ import { Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 
 const LoginPage = (props) => {
-  const { classes } = props
+  const { classes, history } = props
 
   return (
     <Fragment>
@@ -14,7 +14,7 @@ const LoginPage = (props) => {
         <Typography variant = 'h6'>
           Login Page
         </Typography>
-        <LoginForm />
+        <LoginForm history={history}/>
         <OAuthLogins />
       </div>
     </Fragment>
