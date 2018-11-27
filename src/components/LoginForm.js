@@ -6,7 +6,7 @@ class LoginForm extends Component {
   constructor () {
     super ()
     this.state = {
-      name : '',
+      username : '',
       password : ''
     }
     this.handleChange = this.handleChange.bind(this)
@@ -19,27 +19,27 @@ class LoginForm extends Component {
 
   onSave(evt) {
     evt.preventDefault();
-    const { name, password } = this.state;
-    console.log('onSave', {name, password })
-    this.props.login({ name, password })
+    const { username, password } = this.state;
+    console.log('onSave', {username, password })
+    this.props.login({ username, password })
       .catch(ex => this.setState({ error : 'bad credentials'}))
   }
   render() {
-    const { name, password, error } = this.state;
+    const { username, password, error } = this.state;
     const { handleChange, onSave } = this;
     return (
       <form onSubmit={ onSave }>
-        <input value={ name } name='name' placeholder='name' onChange={handleChange} />
-        <input value={ password } name='password' placeholder='password' onChange={handleChange} />
+        <input value={ username } name='username' placeholder='name' onChange={ handleChange } />
+        <input value={ password } name='password' placeholder='password' onChange={ handleChange } />
         <button>Login</button>
       </form>
     )
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, { history }) => {
   return {
-    login : credentials => dispatch(login(credentials))
+    login : credentials => dispatch(login(credentials, history))
   };
 };
 

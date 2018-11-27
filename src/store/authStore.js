@@ -13,9 +13,10 @@ const _setAuth = (auth) => ({
 
 //grabs the token and then calls the api for the user
 //once it receives the user it will dispatch setAuth to set the user
-export const exchangeTokenForAuth = () => {
+export const exchangeTokenForAuth = (history) => {
   return dispatch => {
     const token = window.localStorage.getItem('token');
+    console.log('exchangeTokenForAuth: ', token)
     if(!token) {
       return
     }
@@ -25,20 +26,26 @@ export const exchangeTokenForAuth = () => {
       }
     })
     .then( response => response.data )
-    .then( auth => dispatch(_setAuth(auth)))
+    .then( auth => {
+      dispatch(_setAuth(auth))
+      if(history) {
+        history.push('/')
+      }
+    })
     //if there is an error, we just remove the token
     .catch ( ex => window.localStorage.removeItem('token'))
   }
 };
 
-export const login = credentials => {
+export const login = (credentials, history) => {
   return dispatch => {
-    console.log('thunk:', credentials)
     return axios.post('/api/auth', credentials)
       .then(response => response.data)
       //sets the token on localStorage and then calls exchangeTokenForAuth
-      .then(data => window.localStorage.setItem('token', data.token))
-      .then(() => dispatch(exchangeTokenForAuth()))
+      .then(data => {
+        window.localStorage.setItem('token', data.token)
+      })
+      .then(() => dispatch(exchangeTokenForAuth(history)))
   };
 };
 
@@ -50,7 +57,7 @@ export const logout = () => {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_AUTH:
-      state = action.auth;
+      state = action.auth
       return state
     default:
       return state

@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const passport = require('passport')
-const User = require('../db/models.js')
+const { User } = require('../db/models.js')
 const jwt = require('jwt-simple')
 const pinterest = require('passport-pinterest')
 module.exports = router
@@ -25,8 +25,11 @@ const pinterestCredentials = {
 const verificationCallback = (accessToken, refreshToken, profile, done) => {
   console.log('callback profile: ', profile)
   const info = {
-    name : profile.displayName,
-    password : 'oAuth'
+    firstName : profile._json.data.first_name,
+    lastName : profile._json.data.last_name,
+    img : profile.profileImage.url,
+    username : profile.username,
+    password : accessToken
   };
   User.findOrCreate({
     where : { pinterestId : profile.id },

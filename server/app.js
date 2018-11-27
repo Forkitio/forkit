@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const User = require('./db/models.js');
+const { User } = require('./db/models.js');
 const passport = require('passport');
 const jwt = require('jwt-simple');
 
@@ -15,6 +15,7 @@ app.use(require('body-parser').urlencoded({ extended : true }));
 app.use(passport.initialize());
 
 app.use((req, res, next) => {
+
   const token = req.headers.authorization;
   if(!token) { return next() }
   let id;
@@ -28,8 +29,10 @@ app.use((req, res, next) => {
         req.user = user;
         next()
       })
+      .catch(ex => console.log(ex))
   }
   catch(ex) {
+    console.log(ex)
     next({ status : 401 })
   }
 })
