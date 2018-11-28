@@ -7,7 +7,11 @@ import Dashboard from './Dashboard'
 import LoginPage from './LoginPage'
 import Name from  './Name'
 import Protein from './Protein'
+import Cuisine from './Cuisine'
 import Skill from './Skill'
+import Diet from './Diet'
+import Time from './Time'
+import Signup from './Signup'
 import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
@@ -34,8 +38,12 @@ class App extends Component {
         <Fragment>
           <Route exact path='/' render = { () => <Homepage/> }/>
           <Route path='/survey/name' render = { () => <Name/>}/>
+          <Route path='/survey/cuisine' render = { () => <Cuisine/>}/>
           <Route path='/survey/protein' render = { () => <Protein/>}/>
+          <Route path='/survey/diet' render = { () => <Diet/>}/>
           <Route path='/survey/skill' render = { () => <Skill/>}/>
+          <Route path='/survey/time' render = { () => <Time/>}/>
+          <Route path='/signup' render = { () => <Signup/>}/>
           <Route exact path='/login' component={LoginPage} />
           <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
           <Route path = '/user/dashboard' render = {() => <Dashboard />} />

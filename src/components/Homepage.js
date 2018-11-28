@@ -11,8 +11,8 @@ const Homepage = ({classes})=> {
             <Nav/>
             <div className = {classes.navBarSpace}>
                 <div className = {classes.centerText}>
-                    <Typography variant='h3' fontWeight='bold' className = {classes.whiteText}>
-                        FORKIT
+                    <Typography variant='h4' fontWeight='bold' className = {classes.whiteTextTitle}>
+                        Take the survey and find out your recipes.
                     </Typography>
                     <br />
                     <Typography variant='subtitle1' fontWeight='bold' className = {classes.whiteText}>
@@ -56,8 +56,12 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: 'center'
     },
+    whiteTextTitle: {
+        color: 'white',
+        fontWeight: 'bold'
+    },
     whiteText: {
-        color: 'white'
+        color: 'white',
     },
     noUnderline: {
         textDecoration: 'none'
