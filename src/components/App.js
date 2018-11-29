@@ -16,7 +16,7 @@ import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 import CerateRecipe from './CreateRecipe';
-import {getRecipes} from './../store';
+import {getRecipes} from './../store/recipes';
 
 class App extends Component {
 
@@ -27,6 +27,7 @@ class App extends Component {
       this.props.history.push('/');
     }
     this.props.tokenCheck();
+    this.props.loadRecipes();
   }
 
   render(){

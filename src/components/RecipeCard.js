@@ -14,11 +14,16 @@ import red from '@material-ui/core/colors/red'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import {connect} from 'react-redux';
+import {saveRecipe, forkRecipe} from './../store/recipes';
 
 const styles = theme => ({
   card: {
     maxWidth: 400,
+    height: 350
   },
   media: {
     height: 0,
@@ -48,10 +53,12 @@ const styles = theme => ({
 class RecipeCard extends Component {
     constructor(props) {
         super(props)
-        this.state = { 
+        this.state = {
             expanded: false
         }
-        this.handleExpandClick = this.handleExpandClick.bind(this)
+        this.handleExpandClick = this.handleExpandClick.bind(this);
+        this.handleSave = this.handleSave.bind(this);
+        this.handleFork = this.handleFork.bind(this);
     }
 
   handleExpandClick(){
@@ -60,40 +67,51 @@ class RecipeCard extends Component {
     })
   };
 
-  render() {
-    const { classes, recipeName, author, image, url} = this.props
-    const { handlImageClick, handleExpandClick } = this
+  handleSave(){
+    this.props.onSaveRecipe(this.props.recipe);
+  }
 
+  handleFork(){
+    this.props.onForkRecipe(this.props.recipe, this.props.userId);
+  }
+
+  render() {
+    const { classes, recipe } = this.props;
+    const { handlImageClick, handleExpandClick , handleSave, handleFork } = this;
     return (
       <Card className={classes.card}>
         <a href = 'true'>
         <CardMedia
             className={classes.media}
-            image = {image}
+            image = {recipe.image}
             onClick = {() => window.open(url, "_blank")}
         />
         </a>
         <CardHeader
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
-              {author[0]}
+              {recipe.source[0]}
             </Avatar>
           }
-          action={
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title = {recipeName}
-          subheader= { author }
+          // action={
+          //   <IconButton>
+          //     <MoreVertIcon />
+          //   </IconButton>
+          // }
+          title = {recipe.label}
+          subheader= { recipe.source }
         />
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="Share">
-            <ShareIcon />
-          </IconButton>
+          <Tooltip TransitionComponent={Zoom} title="Save Recipe">
+            <IconButton aria-label="Save Recipe" onClick={handleSave}>
+              <FavoriteIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
+            <IconButton aria-label="Fork Recipe" onClick={handleFork}>
+              <ShareIcon />
+            </IconButton>
+          </Tooltip>
           {/* <IconButton
             className={classnames(classes.expand, {
               [classes.expandOpen]: this.state.expanded,
@@ -118,4 +136,17 @@ class RecipeCard extends Component {
   }
 }
 
-export default withStyles(styles)(RecipeCard);
+const matchStateToProps = (state) => {
+  return {
+      userId: state.auth.id
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onForkRecipe: (recipe, userId) => dispatch(forkRecipe(recipe, userId)),
+    onSaveRecipe: (recipe) => dispatch(saveRecipe(recipe))
+  };
+};
+
+export default connect(matchStateToProps, mapDispatchToProps)(withStyles(styles)(RecipeCard));

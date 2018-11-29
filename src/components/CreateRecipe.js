@@ -13,11 +13,10 @@ class CreateRecipe extends Component {
     this.state = {
       recipe: {
         title: '',
-        directions: [],
+        directions: '',
         ingredients: [],
         time: 0,
         serving: 0,
-        nutrition: [],
         healthLabels: [],
         dietLabels: [],
         image: ''
@@ -38,20 +37,23 @@ class CreateRecipe extends Component {
   }
 
   handleSubmit(event) {
-    const { onAddRecipe } = this.props;
+    const { onAddRecipe, userId } = this.props;
     const { recipe } = this.state;
+    // created recipe should not have ancestor and parent
+    recipe.ancestoryId = null;
+    recipe.parentId = null;
+    recipe.createdBy = userId;
 
     event.preventDefault();
     onAddRecipe(recipe).then(() => {
-      this.setState({ success: 'Product added successfully!' });
+      this.setState({ success: 'Recipe added successfully!' });
       this.setState({
         recipe: {
             title: '',
-            directions: [],
+            directions: '',
             ingredients: [],
             time: 0,
             serving: 0,
-            nutrition: [],
             healthLabels: [],
             dietLabels: [],
             image: ''
@@ -71,7 +73,6 @@ class CreateRecipe extends Component {
         ingredients,
         time,
         serving,
-        nutrition,
         healthLabels,
         dietLabels,
         image
@@ -79,27 +80,27 @@ class CreateRecipe extends Component {
 
     return (
       <Fragment>
-        <Typography variant="h2" gutterBottom style={{ color: '#FF3B4A' }}>
-          Create Recipe
+          <div>
+        <Typography variant="h4" gutterBottom style={{ color: '#FF3B4A', marginLeft: '50px' }}>
+          Create Your Own Recipe
         </Typography>
 
         <Typography
-          variant="subtitle1"
-          style={{ color: 'green', marginLeft: '25px' }}
+          variant="h6"
+          style={{ color: 'green', marginLeft: '50px' }}
           gutterBottom
         >
           {success}
         </Typography>
 
         <Typography
-          variant="subtitle1"
-          style={{ color: 'red', marginLeft: '25px' }}
+          variant="h6"
+          style={{ color: 'red', marginLeft: '50px' }}
           gutterBottom
         >
           {error}
         </Typography>
 
-        <br />
         <br />
 
         <form onSubmit={handleSubmit}>
@@ -108,16 +109,23 @@ class CreateRecipe extends Component {
             style={{
               backgroundColor: '#FFFFFF',
               padding: '10px',
-              width: '900px',
+              width: '1000px',
             }}
           >
             <Grid
               container
               justify="flex-start"
               spacing={16}
-              style={{ marginLeft: '20px', width: '900px' }}
+              style={{ marginLeft: '20px', width: '1000px' }}
             >
               <Grid item>
+               <Typography
+                variant="subheading"
+                style={{ color: 'red' }}
+                gutterBottom
+                >
+                Image:
+                </Typography>
                 <TextField
                   required
                   type="url"
@@ -127,21 +135,18 @@ class CreateRecipe extends Component {
                   variant="outlined"
                   onChange={handleChange}
                   value={image}
-                  style={{ width: '700px' }}
+                  style={{ width: '900px' }}
                 />
               </Grid>
 
-              {/* <img
-                src={image ? image : null}
-                style={{
-                    width: "25%",
-                    height: "25%",
-                    marginLeft: "10px",
-                    border: image ? "2px solid red" : 'none'
-                }}
-              /> */}
-
             <Grid item>
+                <Typography
+                variant="subheading"
+                style={{ color: 'red' }}
+                gutterBottom
+                >
+                Title:
+                </Typography>
               <TextField
                 required
                 name="title"
@@ -150,63 +155,66 @@ class CreateRecipe extends Component {
                 variant="outlined"
                 onChange={ handleChange }
                 value={ title }
-                style={{ width: "700px" }}
+                style={{ width: "900px" }}
               />
             </Grid>
             </Grid>
           </Paper>
 
           <br />
-          <br />
 
           <Paper
             elevation={5}
             style={{
               backgroundColor: '#FFFFFF',
               padding: '10px',
-              width: '900px',
+              width: '1000px',
             }}
           >
             <Grid
               container
               justify="flex-start"
               spacing={16}
-              style={{ marginLeft: '20px', width: '700px' }}
+              style={{ marginLeft: '20px', width: '1000px' }}
             >
               <Grid item>
+                <Typography
+                variant="subheading"
+                style={{ color: 'red' }}
+                gutterBottom
+                >
+                Steps to Follow:
+                </Typography>
                 <TextField
-                  required
-                  name="directions"
-                  label="Step"
-                  margin="normal"
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={ directions }
-                  style={{ width: '700px' }}
+                label="Steps"
+                multiline
+                name="directions"
+                rowsMax="100"
+                value={ directions }
+                onChange={handleChange}
+                style={{ width: '900px' }}
+                margin="normal"
+                variant="outlined"
                 />
-                <Button variant = 'outlined' color = 'primary' size = 'small'>
-                    + Add a Step
-                </Button>
               </Grid>
             </Grid>
           </Paper>
 
           <br />
-          <br />
 
           <Paper
             elevation={5}
             style={{
               backgroundColor: '#FFFFFF',
               padding: '10px',
-              width: '900px',
+              width: '1000px',
             }}
           >
             <Grid
               container
               justify="flex-start"
               spacing={16}
-              style={{ marginLeft: '20px', width: '700px' }}
+              style={{ marginLeft: '20px', width: '1000px' }}
             >
               <Grid item>
                 <TextField
@@ -216,7 +224,7 @@ class CreateRecipe extends Component {
                   name="serving"
                   placeholder="0"
                   min="1"
-                  label="serving"
+                  label="Serving size"
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange}
@@ -227,13 +235,12 @@ class CreateRecipe extends Component {
 
               <Grid item>
                 <TextField
-                  required
                   name="time"
                   type="number"
-                  step="1"
-                  placeholder="0 minutes"
+                  step="0.1"
+                  placeholder="0 hours"
                   min="0"
-                  label="time"
+                  label="Time to Cook (in hours)"
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange}
@@ -245,68 +252,50 @@ class CreateRecipe extends Component {
           </Paper>
 
           <br />
-          <br />
-
 
           <Paper
             elevation={5}
             style={{
               backgroundColor: '#FFFFFF',
               padding: '10px',
-              width: '900px',
+              width: '1000px',
             }}
           >
             <Grid
               container
               justify="flex-start"
               spacing={16}
-              style={{ marginLeft: '20px', width: '700px', marginBottom: '10px' }}
+              style={{ marginLeft: '20px', width: '1000px', marginBottom: '10px' }}
             >
               <Grid item>
+               <Typography
+                variant="subheading"
+                style={{ color: 'red' }}
+                gutterBottom
+                >
+                Please add ingredients separated by commas:
+                </Typography>
                 <TextField
-                  required
                   name="Ingredient"
-                  label="Ingredient"
+                  label="Ingredients"
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange}
                   value={ingredients}
-                  style={{ width: '400px' }}
+                  style={{ width: '900px' }}
                 />
               </Grid>
-
-              <Grid item>
-                <TextField
-                  required
-                  name="quantity"
-                  type="number"
-                  step="0.5"
-                  placeholder="0 grams"
-                  min="0"
-                  label="quantity"
-                  margin="normal"
-                  variant="outlined"
-                  onChange={handleChange}
-                  // value={quantity}
-                  style={{ width: '200px' }}
-                />
-              </Grid>
-              <Button variant = 'outlined' color = 'primary' size = 'small'>
-                + Add an Ingredient
-              </Button>
             </Grid>
           </Paper>
 
           <br />
-          <br />
-
 
           <Paper
             elevation={5}
             style={{
               backgroundColor: '#FFFFFF',
               padding: '10px',
-              width: '900px',
+              width: '1000px',
             }}
           >
             <Grid
@@ -316,8 +305,14 @@ class CreateRecipe extends Component {
               style={{ marginLeft: '20px', width: '700px' }}
             >
               <Grid item>
+                <Typography
+                variant="subheading"
+                style={{ color: 'red' }}
+                gutterBottom
+                >
+                Select Health and Dietary Labels from suggested:
+                </Typography>
                 <TextField
-                  required
                   name="healthLabels"
                   label="Health Labels"
                   margin="normal"
@@ -330,7 +325,6 @@ class CreateRecipe extends Component {
 
               <Grid item>
                 <TextField
-                  required
                   name="dietLabels"
                   label="Diet Labels"
                   margin="normal"
@@ -344,7 +338,6 @@ class CreateRecipe extends Component {
           </Paper>
 
           <br />
-          <br />
 
           <Button
             type="submit"
@@ -352,15 +345,21 @@ class CreateRecipe extends Component {
             color="primary"
             style={{ width: '100px' }}
           >
-            Submit
+            Create Recipe
           </Button>
 
           <br />
-          <br />
         </form>
+            </div>
       </Fragment>
     );
   }
+}
+
+const matchStateToProps = (state) => {
+    return {
+        userId: state.auth.id
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -369,5 +368,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(CreateRecipe);
+export default connect(matchStateToProps, mapDispatchToProps)(CreateRecipe);
 

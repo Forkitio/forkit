@@ -82,7 +82,8 @@ const Recipe = conn.define('recipes', {
         type: conn.Sequelize.STRING(100),
     },
     directions:{
-        type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
+        // type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
+        type: conn.Sequelize.TEXT
     },
     ingredients:{
         type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
@@ -107,7 +108,7 @@ const Recipe = conn.define('recipes', {
     ancestoryId: {
         type: conn.Sequelize.UUID,
         defaultValue: conn.Sequelize.UUIDV4,
-        primaryKey: true
+        // primaryKey: true
     },
     img: {
         type: conn.Sequelize.STRING,
@@ -118,7 +119,7 @@ const Recipe = conn.define('recipes', {
     parentId:{
         type: conn.Sequelize.UUID,
         defaultValue: conn.Sequelize.UUIDV4,
-        primaryKey: true
+        // primaryKey: true
     },
     //used id
     createdBy:{

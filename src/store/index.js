@@ -2,8 +2,8 @@ import { combineReducers, createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
 import authReducer from './authStore.js'
-import recipeAPI from './recipeAPI.js'
-import { recipeReducer } from './recipes.js'
+import recipeAPI from './recipeAPI.js';
+import { recipeReducer } from './recipes';
 
 const reducer = combineReducers({
   auth : authReducer,

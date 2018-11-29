@@ -34,8 +34,6 @@ class Dashboard extends Component {
             _recipes = recipeData.hits.slice(0,8)
         }
 
-        console.log(_recipes)
-
         return (
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
 
@@ -71,12 +69,7 @@ class Dashboard extends Component {
                 <Grid container spacing = {24}>
                 { _recipes.map(recipe => (
                     <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
-                        <RecipeCard
-                            recipeName = {recipe.recipe.label}
-                            author = {recipe.recipe.source}
-                            image = {recipe.recipe.image}
-                            url = {recipe.recipe.url}
-                        />
+                        <RecipeCard recipe = {recipe.recipe} />
                     </Grid>
                 ))}
                 </Grid>
