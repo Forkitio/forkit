@@ -5,11 +5,11 @@ module.exports = router
 
 router.post('/', (req, res, next) => {
   console.log('auth route : ', req.body)
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   User.findOne({
-    where : { username, password}
+    where : { email, password }
   })
-    .then( user => {
+    .then(user => {
       console.log('auth route user: ', user.id)
       const token = jwt.encode({ id : user.id }, process.env.JWT_SECRET);
       console.log('auth route token: ', token)

@@ -15,7 +15,7 @@ import Signup from './Signup'
 import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
-import CerateRecipe from './CreateRecipe';
+import CreateRecipe from './CreateRecipe';
 import {getRecipes} from './../store/recipes';
 
 class App extends Component {
@@ -38,7 +38,7 @@ class App extends Component {
       <Router>
         <Fragment>
           <Route exact path='/' render = { () => <Homepage/> }/>
-          <Route path='/survey/name' render = { () => <Name/>}/>
+          <Route path='/survey/name' render = {() => <Name/>}/>
           <Route path='/survey/cuisine' render = { () => <Cuisine/>}/>
           <Route path='/survey/protein' render = { () => <Protein/>}/>
           <Route path='/survey/diet' render = { () => <Diet/>}/>
@@ -48,7 +48,7 @@ class App extends Component {
           <Route exact path='/login' component={LoginPage} />
           <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
           <Route path = '/user/dashboard' render = {() => <Dashboard />} />
-          <Route path='/recipe/create' render={() => <CerateRecipe />}/>
+          <Route path='/recipe/create' render={() => <CreateRecipe />}/>
         </Fragment>
       </Router>
     )

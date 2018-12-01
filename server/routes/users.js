@@ -15,6 +15,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    console.log('in user post route')
     User.create(req.body)
         .then(user => res.status(201).send(user))
         .catch(next)
@@ -24,14 +25,14 @@ router.delete('/:id', (req, res, next) => {
     User.findById(req.params.id)
         .then(user => user.destroy)
         .then(() => res.sendStatus(204))
-        .cathc(next)
+        .catch(next)
 });
 
 router.put('/:id', (req, res, next) => {
     User.findById(req.params.id)
         .then(user => user.update(req.body))
-        .then(res => res.send(user))
-        .cathc(next)
+        .then(user => res.send(user))
+        .catch(next)
 });
 
 /* NEXTED ROUTES FOR RECIPES FORKED AND SAVED */

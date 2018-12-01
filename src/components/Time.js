@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { Grid, Typography, Button, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
+import { updateUser } from '../store/userStore'
+import Signup from './Signup'
 
 
 const styles = theme => ({
@@ -28,17 +30,24 @@ class Time extends Component {
     constructor() {
         super()
         this.state = {
-            time: ''
+            time : '',
+            completed : false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(ev) {
+        this.setState({
+            time : ev.target.value
+        })
     }
 
     handleSubmit(ev) {
         ev.preventDefault()
+        const updatedUser = {...this.props.user, time : this.state.time }
+        this.props.updateUser(updatedUser)
+            .then(() => this.setState({ completed : true }))
     }
 
     render() {
@@ -47,8 +56,11 @@ class Time extends Component {
 
         return (
             <Fragment>
+            { !this.state.completed ? (
+            <Fragment>
                 <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>
+                        <form onSubmit={handleSubmit}>
                         <Typography variant='h4' className={classes.boldedText}>
                             On average, how long do you usually spend cooking?
                             </Typography>
@@ -57,24 +69,22 @@ class Time extends Component {
                                 aria-label="Gender"
                                 name="gender1"
                                 value={this.state.value}
-                                onChange={this.handleChange}
+                                onChange={handleChange}
                             >
-                                <FormControlLabel value="female" control={<Radio />} label="Vegan" />
-                                <FormControlLabel value="female" control={<Radio />} label="Vegeterian" />
-                                <FormControlLabel value="male" control={<Radio />} label="Paleo" />
-                                <FormControlLabel value="other" control={<Radio />} label="Low-Carb Diet" />
-                                <FormControlLabel value="other" control={<Radio />} label="Not on a diet" />
+                                <FormControlLabel value="15 min " control={<Radio />} label="Real quick! About 15 minutes." />
+                                <FormControlLabel value="30 min" control={<Radio />} label="No more than 30 minutes." />
+                                <FormControlLabel value="1 hr" control={<Radio />} label="I've got some time, but not over an hour." />
+                                <FormControlLabel value="> 1 hr" control={<Radio />} label="Throwing down in the kitchen! An hour plus." />
                             </RadioGroup>
                             </FormControl>
-                            <div>
-                        <Link to='/signup' className={classes.noUnderline}>
-                            <Button variant='contained' color='primary' size='large' style={{ textDecoration: 'none' }}>
+                            <br />
+                            <br />
+                            <Button variant='contained' color='primary' size='large' style={{ textDecoration: 'none' }} type='submit'>
                                 Next
                             </Button>
-                        </Link>
-                            </div>
+                        </form>
                         <br />
-                        <br/>
+                        <br />
                             <Link to='/survey/diet' className={classes.noUnderline}>
                                 <Typography variant='subtitle1' className={classes.boldedText}>
                                     Back
@@ -82,11 +92,22 @@ class Time extends Component {
                             </Link>
                     </div>
                 </Grid>
+            </Fragment> ) : <Signup />
+            }
             </Fragment>
         )
     }
 }
 
-const mapDispatchToProps = ({})
+const mapStateToProps = state => {
+    return {
+        user : state.user.user
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        updateUser : user => dispatch(updateUser(user))
+    }
+};
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Time))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Time))
