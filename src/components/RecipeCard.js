@@ -68,7 +68,7 @@ class RecipeCard extends Component {
   };
 
   handleSave(){
-    this.props.onSaveRecipe(this.props.recipe);
+    this.props.onSaveRecipe(this.props.recipe, this.props.userId);
   }
 
   handleFork(){
@@ -145,7 +145,7 @@ const matchStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     onForkRecipe: (recipe, userId) => dispatch(forkRecipe(recipe, userId)),
-    onSaveRecipe: (recipe) => dispatch(saveRecipe(recipe))
+    onSaveRecipe: (recipe, userId) => dispatch(saveRecipe(recipe, userId))
   };
 };
 

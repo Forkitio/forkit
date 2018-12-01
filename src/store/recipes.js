@@ -40,9 +40,35 @@ export const _deleteRecipe = recipe => {
 // thunks
 
 const getRecipes = () => {
-  console.log('here')
   return (dispatch) => {
     return axios.get(`/api/recipes`)
+      .then(res => res.data)
+      .then(recipes => dispatch(_getRecipes(recipes)))
+      .catch(error => console.log(error))
+  };
+}
+
+const getCreatedRecipes = (userId) => {
+  return (dispatch) => {
+    return axios.get(`/api/recipes/${userId}/created`)
+      .then(res => res.data)
+      .then(recipes => dispatch(_getRecipes(recipes)))
+      .catch(error => console.log(error))
+  };
+}
+
+const getSavedRecipes = (userId) => {
+  return (dispatch) => {
+    return axios.get(`/api/recipes/${userId}/saved`)
+      .then(res => res.data)
+      .then(recipes => dispatch(_getRecipes(recipes)))
+      .catch(error => console.log(error))
+  };
+}
+
+const getRorkedRecipes = (userId) => {
+  return (dispatch) => {
+    return axios.get(`/api/recipes/${userId}/forked`)
       .then(res => res.data)
       .then(recipes => dispatch(_getRecipes(recipes)))
       .catch(error => console.log(error))
@@ -63,7 +89,6 @@ const addRecipe = (recipe) => {
 // ancestor and parent will be set to the original recipe's values accoring to below comments
 const forkRecipe = (recipe, userId) => {
   const _recipe = mapApiRecipeTolocalRecipe(recipe);
-  console.log('!!!', _recipe)
   const savedRecipe = Object.assign({}, _recipe);
   // need parent to determine whether or not this is the original recipie or a fork
   recipe.ancestoryId === null ? savedRecipe.ancestoryId = recipe.id : savedRecipe.ancestoryId = recipe.ancestoryId;
@@ -83,16 +108,10 @@ const forkRecipe = (recipe, userId) => {
 // saving a recipe will create a copy of the recipe for the user
 // createdBy will be set to the originalCreator or null
 // ancestor and parent will be set to the forked recipe's values accoring to below comments
-const saveRecipe = (recipe) => {
+const saveRecipe = (recipe, userId) => {
   const _recipe = mapApiRecipeTolocalRecipe(recipe);
   const savedRecipe = Object.assign({}, _recipe);
-  // need parent to determine whether or not this is the original recipie or a fork
-  recipe.ancestoryId === null ? savedRecipe.ancestoryId = recipe.id : savedRecipe.ancestoryId = recipe.ancestoryId;
-  // if the parent's ancestoryId is null then this is an original recipe and the forked revipe
-  // should set ancestoryId to the id of parent recipe
-  // otherwise parent recipe is a fork intself and the ancestoryId should persist
-  recipe.parentId === null ?  savedRecipe.parentId = recipe.id : savedRecipe.parentId = recipe.parentId;
-  recipe.createdBy !== null? savedRecipe.createdBy = recipe.createdBy : savedRecipe.createdBy = null;
+  savedRecipe.userId = userId;
   return (dispatch) => {
     return axios.post(`/api/recipes`, savedRecipe)
       .then(res => res.data)
@@ -146,5 +165,8 @@ export {
   deleteRecipe,
   addRecipe,
   saveRecipe,
-  forkRecipe
+  forkRecipe,
+  getSavedRecipes,
+  getRorkedRecipes,
+  getCreatedRecipes
 }
