@@ -267,7 +267,7 @@ class CreateRecipe extends Component {
                   variant="contained"
                   color="primary"
                   size = 'large'
-                  href={`/#/recipe/edit/${latestCreated}`}
+                  href={`/#/recipe/${latestCreated}`}
                 >
                   Create Recipe
                 </Button>
@@ -288,7 +288,7 @@ CreateRecipe.propTypes = {
 const matchStateToProps = (state) => {
   return {
     userId: state.auth.id,
-    latestCreated: getLatestForkId(state.createdRecipes)
+    latestCreated: getLatestCreatedId(state.createdRecipes)
   }
 }
 
