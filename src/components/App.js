@@ -48,8 +48,8 @@ class App extends Component {
           <Route path='/signup' render = { () => <Signup/>}/>
           <Route exact path='/login' component={LoginPage} />
           <Switch>
-          <Route exact path='/recipe/create' render={() => <CerateRecipe />}/>
-          <Route path='/recipe/:id' render = { () => <Recipe/>}/>
+          <Route exact path='/recipe/create' render={() => <CreateRecipe />}/>
+          <Route path='/recipe/:name' render = { () => <Recipe/>}/>
           </Switch>
           <Route path = '/user/:userid/cookbook' render = {() => <Cookbook /> }/>
           <Route path = '/user/:userid/dashboard' render = {() => <Dashboard />} />

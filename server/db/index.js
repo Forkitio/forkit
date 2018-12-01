@@ -16,8 +16,8 @@ const syncAndSeed = () => {
           img: "http://via.placeholder.com/640x360"
         }),
         User.create({
-          firstName: 'anthony',
-          lastName: 'bourdain',
+          firstName: 'Anthony',
+          lastName: 'Bourdain',
           email: 'anthony.bourdain@gmail.com',
           username: 'anthony',
           password: 'anthony',

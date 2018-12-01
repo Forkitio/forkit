@@ -12,7 +12,7 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
       <AppBar position = 'fixed' className = {classes.NavColor}>
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
-        <Link to="/user/:authId/dashboard" className={classes.noUnderline}>
+        <Link to="/user/dashboard" className={classes.noUnderline}>
           <img src='/public/forkit.png'></img>
         </Link>
         </Typography>
@@ -21,16 +21,16 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
           isLoggedIn ? (
             <div>
               <div style={{display: 'flex', justifyContent:'space-around'}}>
-              <Typography variant="subtitle1" className={classes.link}>
+              <Typography variant="subtitle1" className={classes.link} style={{marginRight:'20px'}}>
                Hey {auth.firstName}
               </Typography>
-              <Link to = {`/user/${auth.id}/cookbook`} className = {classes.link}>
+              <Link to = {`/user/cookbook`} className = {classes.link} style={{marginRight:'20px'}}>
               <Typography variant="subtitle1" className={classes.link}>
                 My Cookbook
               </Typography>
               </Link>
-              <Typography variant="subtitle1" className={classes.bold}>
-              <Link to = {`/user/${auth.id}/dashboard`} className = {classes.link}>
+              <Typography variant="subtitle1" className={classes.bold} style={{marginRight:'20px'}}>
+              <Link to = {`/user/dashboard`} className = {classes.link}>
                 Recipes
               </Link>
               </Typography>

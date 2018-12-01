@@ -9,6 +9,7 @@ import { addCreatedRecipe } from './../store/createdRecipes';
 import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
+import Nav from './Nav'
 
 const styles = theme => ({
   root: {
@@ -51,7 +52,7 @@ class CreateRecipe extends Component {
     this.handleChipSelect = this.handleChipSelect.bind(this);
   }
 
-  
+
 
   handleChipSelect(data) {
     this.setState(state => {
@@ -82,14 +83,14 @@ class CreateRecipe extends Component {
       this.setState({ success: 'Recipe added successfully!' });
       this.setState({
         recipe: {
-            title: '',
-            directions: '',
-            ingredients: [],
-            time: 0,
-            serving: 0,
-            healthLabels: [],
-            dietLabels: [],
-            image: ''
+          title: '',
+          directions: '',
+          ingredients: [],
+          time: 0,
+          serving: 0,
+          healthLabels: [],
+          dietLabels: [],
+          image: ''
         },
         error: '',
         chipData: [
@@ -98,9 +99,9 @@ class CreateRecipe extends Component {
           { key: 2, label: 'React' },
           { key: 3, label: 'Vue.js' }
         ]
-        });
+      });
     })
-    .catch(ex => this.setState({ error: `An error has occurred. ${ex}`, success: '' }));
+      .catch(ex => this.setState({ error: `An error has occurred. ${ex}`, success: '' }));
   }
 
   render() {
@@ -108,155 +109,87 @@ class CreateRecipe extends Component {
     const { handleChange, handleSubmit, handleChipSelect } = this;
     const { success, error, chipData } = this.state;
     const {
-        title,
-        directions,
-        ingredients,
-        time,
-        serving,
-        healthLabels,
-        dietLabels,
-        image
+      title,
+      directions,
+      ingredients,
+      time,
+      serving,
+      healthLabels,
+      dietLabels,
+      image
     } = this.state.recipe;
     console.log('!!!', chipData)
     return (
       <Fragment>
+        <Grid container justify="center" display="flex" style={{marginTop:'100px'}}>
           <div>
-        <Typography variant="h4" gutterBottom style={{ color: '#FF3B4A', marginLeft: '50px' }}>
-          Create Your Own Recipe
-        </Typography>
-
-        <Typography
-          variant="h6"
-          style={{ color: 'green', marginLeft: '50px' }}
-          gutterBottom
-        >
-          {success}
-        </Typography>
-
-        <Typography
-          variant="h6"
-          style={{ color: 'red', marginLeft: '50px' }}
-          gutterBottom
-        >
-          {error}
-        </Typography>
-
-        <br />
-
-        <form onSubmit={handleSubmit}>
-          <Paper
-            elevation={5}
-            style={{
-              backgroundColor: '#FFFFFF',
-              padding: '10px',
-              width: '1000px',
-            }}
-          >
-            <Grid
-              container
-              justify="flex-start"
-              spacing={16}
-              style={{ marginLeft: '20px', width: '1000px' }}
+            <Nav />
+            <Paper
+              elevation={1}
+              style={{
+                backgroundColor: '#FFFFFF',
+                padding: '25px',
+                width: '800px',
+              }}
             >
-              <Grid item>
-               <Typography
-                variant="subheading"
-                style={{ color: 'red' }}
+              <Typography variant="h4" gutterBottom style={{textAlign: 'center', fontWeight:'bold'}}>
+                Create your own recipe
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom style={{textAlign: 'center'}}>
+                Fill in the form below and make some magic happen!
+        </Typography>
+
+              <Typography
+                variant="h6"
+                style={{ color: 'green', marginLeft: '50px' }}
                 gutterBottom
-                >
-                Image:
-                </Typography>
+              >
+                {success}
+              </Typography>
+
+              <Typography
+                variant="h6"
+                style={{ color: 'red', marginLeft: '50px' }}
+                gutterBottom
+              >
+                {error}
+              </Typography>
+              <form onSubmit={handleSubmit}>
                 <TextField
                   required
                   type="url"
                   name="image"
-                  label="image"
+                  label="Image"
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange}
                   value={image}
-                  style={{ width: '900px' }}
+                  style={{ width: '800px' }}
                 />
-              </Grid>
 
-            <Grid item>
-                <Typography
-                variant="subheading"
-                style={{ color: 'red' }}
-                gutterBottom
-                >
-                Title:
-                </Typography>
-              <TextField
-                required
-                name="title"
-                label="title"
-                margin="normal"
-                variant="outlined"
-                onChange={ handleChange }
-                value={ title }
-                style={{ width: "900px" }}
-              />
-            </Grid>
-            </Grid>
-          </Paper>
-
-          <br />
-
-          <Paper
-            elevation={5}
-            style={{
-              backgroundColor: '#FFFFFF',
-              padding: '10px',
-              width: '1000px',
-            }}
-          >
-            <Grid
-              container
-              justify="flex-start"
-              spacing={16}
-              style={{ marginLeft: '20px', width: '1000px' }}
-            >
-              <Grid item>
-                <Typography
-                variant="subheading"
-                style={{ color: 'red' }}
-                gutterBottom
-                >
-                Steps to Follow:
-                </Typography>
                 <TextField
-                label="Steps"
-                multiline
-                name="directions"
-                rowsMax="100"
-                value={ directions }
-                onChange={handleChange}
-                style={{ width: '900px' }}
-                margin="normal"
-                variant="outlined"
+                  required
+                  name="title"
+                  label="Title"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={title}
+                  style={{ width: "800px" }}
                 />
-              </Grid>
-            </Grid>
-          </Paper>
 
-          <br />
+                <TextField
+                  label="Steps"
+                  multiline
+                  name="directions"
+                  rowsMax="100"
+                  value={directions}
+                  onChange={handleChange}
+                  style={{ width: '800px' }}
+                  margin="normal"
+                  variant="outlined"
+                />
 
-          <Paper
-            elevation={5}
-            style={{
-              backgroundColor: '#FFFFFF',
-              padding: '10px',
-              width: '1000px',
-            }}
-          >
-            <Grid
-              container
-              justify="flex-start"
-              spacing={16}
-              style={{ marginLeft: '20px', width: '1000px' }}
-            >
-              <Grid item>
                 <TextField
                   required
                   type="number"
@@ -271,9 +204,7 @@ class CreateRecipe extends Component {
                   value={serving}
                   style={{ width: '200px' }}
                 />
-              </Grid>
 
-              <Grid item>
                 <TextField
                   name="time"
                   type="number"
@@ -287,34 +218,6 @@ class CreateRecipe extends Component {
                   value={time}
                   style={{ width: '200px' }}
                 />
-              </Grid>
-            </Grid>
-          </Paper>
-
-          <br />
-
-          <Paper
-            elevation={5}
-            style={{
-              backgroundColor: '#FFFFFF',
-              padding: '10px',
-              width: '1000px',
-            }}
-          >
-            <Grid
-              container
-              justify="flex-start"
-              spacing={16}
-              style={{ marginLeft: '20px', width: '1000px', marginBottom: '10px' }}
-            >
-              <Grid item>
-               <Typography
-                variant="subheading"
-                style={{ color: 'red' }}
-                gutterBottom
-                >
-                Please add ingredients separated by commas:
-                </Typography>
                 <TextField
                   name="Ingredient"
                   label="Ingredients"
@@ -322,90 +225,55 @@ class CreateRecipe extends Component {
                   variant="outlined"
                   onChange={handleChange}
                   value={ingredients}
-                  style={{ width: '900px' }}
+                  style={{ width: '800px' }}
                 />
-              </Grid>
-            </Grid>
-          </Paper>
 
-          <br />
-
-          <Paper
-            elevation={5}
-            style={{
-              backgroundColor: '#FFFFFF',
-              padding: '10px',
-              width: '1000px',
-            }}
-          >
-            <Grid
-              container
-              justify="flex-start"
-              spacing={16}
-              style={{ marginLeft: '20px', width: '700px' }}
-            >
-              <Grid item>
-                <Typography
-                variant="subheading"
-                style={{ color: 'red' }}
-                gutterBottom
-                >
-                Select Health and Dietary Labels from suggested:
-                </Typography>
                 <TextField
                   name="healthLabels"
                   label="Health Labels"
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange}
-                  value={ healthLabels }
-                  style={{ width: '700px' }}
+                  value={healthLabels}
+                  style={{ width: '800px' }}
                 />
-              </Grid>
 
-              <Grid item>
                 <div>
                   {chipData.map(data => {
                     return (
                       <Chip
                         key={data.key}
                         label={data.label}
-                        onDelete={ handleChipSelect(data) }
+                        onDelete={handleChipSelect(data)}
                         className={classes.chip}
                       />
                     );
                   })}
-                  </div>
-              </Grid>
-
-              <Grid item>
+                </div>
                 <TextField
                   name="dietLabels"
                   label="Diet Labels"
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange}
-                  value={ dietLabels }
-                  style={{ width: '700px' }}
+                  value={dietLabels}
+                  style={{ width: '800px' }}
                 />
-              </Grid>
-            </Grid>
-          </Paper>
-
-          <br />
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{ width: '100px' }}
-          >
-            Create Recipe
+                <div style={{ textAlign: 'center' }}>
+                <br/>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size = 'large'
+                >
+                  Create Recipe
           </Button>
-
-          <br />
-        </form>
-            </div>
+                </div>
+              </form>
+            </Paper>
+          </div>
+        </Grid>
       </Fragment>
     );
   }
@@ -416,9 +284,9 @@ CreateRecipe.propTypes = {
 };
 
 const matchStateToProps = (state) => {
-    return {
-        userId: state.auth.id
-    }
+  return {
+    userId: state.auth.id
+  }
 }
 
 const mapDispatchToProps = dispatch => {
