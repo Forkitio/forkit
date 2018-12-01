@@ -19,68 +19,77 @@ class Dashboard extends Component {
     }
 
     componentDidMount(){
-        if (useTempData == 1){
-            this.props.getAPIRecipes("Asian")
+        const { getAPIRecipes } = this.props
+        const { auth } = this.props
+        let _time
+        
+        if (auth.time === '>1 hr'){
+            _time = '60%2B'
+        } else if (auth.time === '1 hr'){
+            _time = '0-60'
+        } else if (auth.time === '30 min'){
+            _time = '0-30'
+        } else if (auth.time === '15 min'){
+            _time = '0-15'
+        }
+
+        if (useTempData == 1 && auth.id){
+            getAPIRecipes('cuisine', auth.protein[0])
+            getAPIRecipes('protein', auth.cuisine[0])
+            getAPIRecipes('time', _time)
         }
 
     }
 
     render () {
-        let _recipes
-        let _auth = true
+        let _recipesCuisine
+        let _recipesTime
+        let _recipesProtein
+        let _recipesFavorite = recipeData.hits.slice(0,8)
 
-        const { classes, recipeAPICuisine, auth } = this.props
+        const { classes, recipeAPI, auth } = this.props
+        
 
         if (useTempData == 1){
-            _recipes = recipeAPICuisine.slice(0,8)
+            _recipesCuisine = recipeAPI.cuisine.slice(0,8)
+            _recipesTime = recipeAPI.time.slice(0,8)
+            _recipesProtein = recipeAPI.protein.slice(0,8)
         } else {
-            _recipes = recipeData.hits.slice(0,8)
+            _recipesCuisine = recipeData.hits.slice(0,8)
         }
 
-        auth.id ? _auth = true : null;
-
-        console.log('auth: ', auth)
-        // console.log(auth.auth == {})
-        console.log('_auth: ', _auth)
-
+        const capitalize = word => {
+            return word[0].toUpperCase() + word.slice(1, word.length)
+        }
 
         return (
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
 
-            // ADD FOLLOW ANOTHER USER?
-
-            _auth
+            auth.id
             ?
             <div className = {classes.white}>
             <Nav/>
             <div className = {classes.navBarSpace}>
                 <br/>
                 <Typography variant = 'h6'>
-                    Dashboard
+                    Explore
                 </Typography>
                 <Typography variant = 'body1'>
                     Our picks for you are below.  Click on any recipe to get started.
                 </Typography>
+                {/* <Link to={'/recipe/create'} className = {classes.noUnderline}>
+                <Button variant = 'outlined' color = 'primary' size = 'small'>
+                    + Add a Recipe
+                </Button>
+                </Link> */}
                 <br/>
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    My Cookbook
-                </Typography>
-                <Link to={'/recipe/create'} className = {classes.noUnderline}>
-                <Button variant = 'outlined' color = 'primary' size = 'small'>
-                    + Add a Recipe
-                </Button>
-                </Link>
-                <br />
-                <br />
-                <Divider/>
-
-                <Typography variant = 'h6'>
-                    Chicken Recipes
+                    Our Top Forked Recipes
                 </Typography>
                 <Grid container spacing = {24}>
-                { _recipes.map(recipe => (
+                { _recipesFavorite.map(recipe => (
                     <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
                         <RecipeCard recipe = {recipe.recipe} />
                     </Grid>
@@ -90,19 +99,58 @@ class Dashboard extends Component {
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    Mexican Recipes
+                    {capitalize(auth.protein[0])} Recipes
                 </Typography>
+                <Grid container spacing = {24}>
+                { _recipesCuisine.map(recipe => (
+                    <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
+                        <RecipeCard recipe = {recipe.recipe} />
+                    </Grid>
+                ))}
+                </Grid>
                 <br />
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    Quick Recipes
+                    {capitalize(auth.cuisine[0])} Recipes
                 </Typography>
+                <Grid container spacing = {24}>
+                { _recipesProtein.map(recipe => (
+                    <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
+                        <RecipeCard recipe = {recipe.recipe} />
+                    </Grid>
+                ))}
+                </Grid>
+                <br />
+                <Divider/>
+
+                <Typography variant = 'h6'>
+                    {auth.time} Recipes
+                </Typography>
+                <Grid container spacing = {24}>
+                { _recipesTime.map(recipe => (
+                    <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
+                        <RecipeCard recipe = {recipe.recipe} />
+                    </Grid>
+                ))}
+                </Grid>
+                <br />
             </div>
             </div>
             :
-            <div>
-                four oh four
+            <div className = {classes.navBarSpace404}>
+                <Nav/>
+                <Typography variant = 'h6'>
+                    fourohfour
+                </Typography>
+                
+                <Link to='/' className = {classes.noUnderline}>
+                    <Button variant = 'outlined' color = 'primary' size = 'small'>
+                        Take me home
+                    </Button>
+                </Link>
+
+
             </div>
         )
     }
@@ -110,10 +158,14 @@ class Dashboard extends Component {
 
 const styles = theme => ({
     navBarSpace: {
-      marginTop: '60px',
+      marginTop: '70px',
       marginLeft: '15px',
       backgroundColor: 'white'
     },
+    navBarSpace404: {
+        marginTop: '70px',
+        marginLeft: '15px',
+      },
     white: {
         backgroundColor: 'white'
     },
@@ -124,7 +176,7 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     recipes: state.recipes,
-    recipeAPICuisine: state.recipeAPI.cuisine,
+    recipeAPI: state.recipeAPI,
     auth: state.auth,
     // userRecipes: state.recipes.filter()
     // authPreferences: __,

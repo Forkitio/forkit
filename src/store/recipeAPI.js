@@ -8,9 +8,10 @@ const initialState = {
 
 const GOT_RECIPES = 'GOT_RECIPES'
 
-const gotRecipes  = (recipes) => ({
+const gotRecipes  = (field, recipes) => ({
   type: GOT_RECIPES,
-  recipes
+  field,
+  recipes,
 })
 
 // Thunks - gets recipes from Edamam based on the input
@@ -20,19 +21,24 @@ const gotRecipes  = (recipes) => ({
 //     preference: "asian"
 // }
 
-export const getAPIRecipes = (type) => {
+export const getAPIRecipes = (field, type) => {
     return dispatch => (
-        axios.get(`/api/edamam/${type}`)
-        .then(res => dispatch(gotRecipes(res.data.hits)))
+        axios.get(`/api/edamam/${field}/${type}`)
+        .then(res => dispatch(gotRecipes(field, res.data.hits)))
         .catch(ex => console.log(ex)) 
     )
 }
 
-
 const recipeAPIReducer = (state = initialState, action) => {
   switch (action.type) {
     case GOT_RECIPES:
-      state = {...state, cuisine: action.recipes}
+      if (action.field === 'cuisine'){
+        state = {...state, cuisine: action.recipes}
+      } if (action.field === 'protein'){
+        state = {...state, protein: action.recipes}
+      } if (action.field === 'time'){
+        state = {...state, time: action.recipes}
+      }
       return state
     default:
       return state
