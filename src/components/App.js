@@ -15,8 +15,8 @@ import Recipe from './Recipe'
 import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
-import CreateRecipe from './CreateRecipe';
-//import EditRecipe from './EditRecipe';
+import CerateRecipe from './CreateRecipe';
+import EditRecipe from './EditRecipe';
 import {getCreatedRecipes} from './../store/createdRecipes';
 import {getSavedRecipes} from './../store/savedRecipes';
 import {getForkedRecipes} from './../store/forkedRecipes';
@@ -48,12 +48,14 @@ class App extends Component {
           <Route exact path='/login' component={LoginPage} />
 
           <Switch>
-          <Route exact path='/recipe/create' render={() => <CreateRecipe />}/>
-          <Route path='/recipe/:name' render = { () => <Recipe/>}/>
+          <Route exact path='/recipe/create' render={() => <CerateRecipe />}/>
+          <Route exact path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/>
+          <Route path='/recipe/:id' render = { () => <Recipe/>}/>
           </Switch>
           <Route path = '/user/:userid/cookbook' render = {({ history }) => <Cookbook history={history}/> }/>
           <Route path = '/user/:userid/dashboard' render = {({ history }) => <Dashboard history={history}/>} />
           {/* <Route path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/> */}
+
         </Fragment>
       </Router>
     )

@@ -1,8 +1,11 @@
-export const getRecipe = (id, recipes) => {
-    return recipes.find(recipe => recipe.id === id)
+const getRecipeById = (recipes, id) => {
+    if(!recipes || recipes.length === 0){
+        return null;
+    }
+    return recipes.find(recipe => recipe.id == id)
 }
 
-export const mapApiRecipeTolocalRecipe = (recipe) => {
+const mapApiRecipeTolocalRecipe = (recipe) => {
     let res = {};
     res.title = recipe.label;
     res.healthLabels = recipe.healthLabels;
@@ -13,4 +16,17 @@ export const mapApiRecipeTolocalRecipe = (recipe) => {
     // no servings info on API recipies and we require that
     res.serving = 0;
     return res;
+}
+
+const getLatestForkId = (forkedRecipes) => {
+    if(forkedRecipes.length === 0 || !forkedRecipes){
+        return null;
+    }
+    return forkedRecipes[forkedRecipes.length-1].id
+}
+
+export {
+    mapApiRecipeTolocalRecipe,
+    getRecipeById,
+    getLatestForkId
 }
