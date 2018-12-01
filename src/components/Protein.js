@@ -71,6 +71,9 @@ class Protein extends Component {
             { !completed ? (
             <Fragment>
                 <Grid container justify="center" display="flex">
+                <img src='/public/forkit-bk.png'></img>
+                </Grid>
+                <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>
                         <form onSubmit={handleSubmit}>
                             <Typography variant='h4' className={classes.boldedText}>

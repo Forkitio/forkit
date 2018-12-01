@@ -29,7 +29,7 @@ export const exchangeTokenForAuth = (history) => {
     .then( auth => {
       dispatch(_setAuth(auth))
       if(history) {
-        history.push('/')
+        history.push('/user/:authId/dashboard')
       }
     })
     //if there is an error, we just remove the token
