@@ -22,14 +22,14 @@ export const _addCreatedRecipe = recipe => {
   }
 }
 
-export const _updateCreatedRecipe = recipe => {
+export const _updateRecipe = recipe => {
   return {
     type: UPDATE_CREATED_RECIPE,
     recipe
   }
 }
 
-export const _deleteCreatedRecipe = recipe => {
+export const _deleteRecipe = recipe => {
   return {
     type: DELETE_CREATED_RECIPE,
     recipe
@@ -57,19 +57,19 @@ const addCreatedRecipe = (recipe) => {
   };
 };
 
-const updateCreatedRecipe = (recipe) => {
+const updateRecipe = (recipe) => {
   return (dispatch) => {
     return axios.put(`/api/recipes/${recipe.id}`, recipe)
       .then(res => res.data)
-      .then(recipe => dispatch(_updateCreatedRecipe(recipe)))
+      .then(recipe => dispatch(_updateRecipe(recipe)))
       .catch(error => console.log(error))
   };
 };
 
-const deleteCreatedRecipe = (recipe, history) => {
+const deleteRecipe = (recipe, history) => {
   return (dispatch) => {
       return axios.delete(`/api/recipes/${recipe.id}`)
-        .then(() => dispatch(_deleteCreatedRecipe(recipe)))
+        .then(() => dispatch(_deleteRecipe(recipe)))
         .then(() => history.back())
         .catch(error => console.log(error))
   }
@@ -100,7 +100,7 @@ const createdRecipeReducer = (state = [], action) => {
 export {
     createdRecipeReducer,
     getCreatedRecipes,
-    updateCreatedRecipe,
-    deleteCreatedRecipe,
+    updateRecipe,
+    deleteRecipe,
     addCreatedRecipe
 }

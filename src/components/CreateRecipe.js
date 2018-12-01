@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav';
+import {getLatestCreatedId} from './../utils';
 
 const styles = theme => ({
   root: {
@@ -105,7 +106,7 @@ class CreateRecipe extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, latestCreated } = this.props;
     const { handleChange, handleSubmit, handleChipSelect } = this;
     const { success, error, chipData } = this.state;
     const {
@@ -134,10 +135,10 @@ class CreateRecipe extends Component {
             >
               <Typography variant="h4" gutterBottom style={{textAlign: 'center', fontWeight:'bold'}}>
                 Create your own recipe
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom style={{textAlign: 'center'}}>
-                Fill in the form below and make some magic happen!
-        </Typography>
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom style={{textAlign: 'center'}}>
+                      Fill in the form below and make some magic happen!
+              </Typography>
 
               <Typography
                 variant="h6"
@@ -266,9 +267,10 @@ class CreateRecipe extends Component {
                   variant="contained"
                   color="primary"
                   size = 'large'
+                  href={`/#/recipe/edit/${latestCreated}`}
                 >
                   Create Recipe
-          </Button>
+                </Button>
                 </div>
               </form>
             </Paper>
@@ -285,7 +287,8 @@ CreateRecipe.propTypes = {
 
 const matchStateToProps = (state) => {
   return {
-    userId: state.auth.id
+    userId: state.auth.id,
+    latestCreated: getLatestForkId(state.createdRecipes)
   }
 }
 

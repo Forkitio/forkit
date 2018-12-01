@@ -25,8 +25,16 @@ const getLatestForkId = (forkedRecipes) => {
     return forkedRecipes[forkedRecipes.length-1].id
 }
 
+const getLatestCreatedId = (createdRecipes) => {
+    if(createdRecipes.length === 0 || !createdRecipes){
+        return null;
+    }
+    return createdRecipes[createdRecipes.length-1].id
+}
+
 export {
     mapApiRecipeTolocalRecipe,
     getRecipeById,
-    getLatestForkId
+    getLatestForkId,
+    getLatestCreatedId
 }

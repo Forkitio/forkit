@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
-import { updateRecipe, deleteRecipe } from './../store/recipes';
+import { updateRecipe, deleteRecipe } from './../store/createdRecipes';
+import { updateForkedRecipe } from './../store/forkedRecipes';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -249,17 +250,20 @@ class EditRecipe extends Component {
                     >
                     Submit
                     </Button>
-
-                    <Button
-                        type="button"
-                        variant="contained"
-                        color="secondary"
-                        style={{ width: '200px', marginLeft: '10px' }}
-                        onClick={() => handleDelete(this.state.product)}
-                    >
-                        Delete Recipe
-                    <DeleteIcon />
-                </Button>
+                    {
+                        recipe.ancestoryId ? null : (
+                            <Button
+                            type="button"
+                            variant="contained"
+                            color="secondary"
+                            style={{ width: '200px', marginLeft: '10px' }}
+                            onClick={() => handleDelete(this.state.product)}
+                            >
+                                Delete Recipe
+                                <DeleteIcon />
+                            </Button>
+                        )
+                    }
                 </div>
               </form>
             </Paper>
@@ -284,7 +288,12 @@ const mapStateToProps = ({ forkedRecipes, createdRecipes }, { match }) => {
 
 const mapDispatchToProps = (dispatch, { history }) => {
   return {
-    onUpdateRecipe: recipe => dispatch(updateRecipe(recipe)),
+    onUpdateRecipe: (recipe) => {
+        if(recipe.ancestoryId){
+            return dispatch(updateForkedRecipe(recipe))
+        }
+        return dispatch(updateRecipe(recipe))
+    },
     onDeleteRecipe: recipe => dispatch(deleteRecipe(recipe, history))
   };
 };
