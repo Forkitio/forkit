@@ -31,14 +31,9 @@ class App extends Component {
       this.props.history.push('/');
     }
     this.props.tokenCheck();
-    this.props.loadSavedRecipes(this.props.userId);
-    this.props.loadForkedRecipes(this.props.userId);
-    this.props.loadCreatedRecipes(this.props.userId);
   }
 
   render(){
-    //KG note: once I can figure out how to get auth working, cookbook route should be '/user/:userId/cookbook', dashboard route should be '/user/:userId/dashboard'
-
 
     return (
       <Router>
@@ -66,18 +61,10 @@ class App extends Component {
   }
 }
 
-const matchStateToProps = (state) => {
-  return {
-      userId: state.auth.id
-  }
-}
 
 const mapDispatchToProps = dispatch => {
   return {
     tokenCheck : () => dispatch(exchangeTokenForAuth()),
-    loadSavedRecipes: (userId) => dispatch(getSavedRecipes(userId)),
-    loadForkedRecipes: (userId) => dispatch(getForkedRecipes(userId)),
-    loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId))
   }
 }
-export default connect(matchStateToProps, mapDispatchToProps)(App)
+export default connect(null, mapDispatchToProps)(App)

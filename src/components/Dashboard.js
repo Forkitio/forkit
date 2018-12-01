@@ -10,7 +10,7 @@ import {Link} from 'react-router-dom';
 
 
 
-// To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1
+// To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1 and make sure you create a file for the API keys I provided
 const useTempData = 0
 
 class Dashboard extends Component {
@@ -56,6 +56,8 @@ class Dashboard extends Component {
             _recipesProtein = recipeAPI.protein.slice(0,8)
         } else {
             _recipesCuisine = recipeData.hits.slice(0,8)
+            _recipesTime = recipeData.hits.slice(0,8)
+            _recipesProtein = recipeData.hits.slice(0,8)
         }
 
         const capitalize = word => {
