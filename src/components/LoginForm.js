@@ -43,21 +43,20 @@ class LoginForm extends Component {
     evt.preventDefault();
     const { email, password } = this.state;
     console.log('onSave', { email, password })
-    this.props.login({ email, password })
+    this.props.login({ email, password }, this.props.history)
       .catch(ex => this.setState({ error: 'bad credentials' }))
-    this.props.history.push('/user/dashboard')
   }
   render() {
-    const { email;, password, error } = this.state;
-    const { handleChange, onSave } = this;
+    const { email, password, error } = this.state;
+    const { handleChange, handleSubmit } = this;
     const { classes } = this.props
     return (
       <Fragment>
         <Grid container justify='center' display="flex">
         <div className={classes.divstyle}>
-          <form onSubmit={onSave}>
+          <form onSubmit={handleSubmit}>
             <TextField
-              label="email"
+              label="Email Address"
               value={email}
               onChange={handleChange}
               variant='outlined'
