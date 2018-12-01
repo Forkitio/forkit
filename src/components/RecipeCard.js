@@ -82,13 +82,13 @@ class RecipeCard extends Component {
     const { classes, recipe } = this.props;
     const { handlImageClick, handleExpandClick, handleSave, handleFork } = this;
     return (
-      <Link to={`/recipe/${recipe.label}`} style={{textDecoration: 'none'}}>
+      // <Link to={`/recipe/${recipe.label}`} style={{textDecoration: 'none'}}>
         <Card className={classes.card}>
           <a href='true'>
             <CardMedia
               className={classes.media}
               image={recipe.image}
-              onClick={() => window.open(url, "_blank")}
+              onClick={() => <Recipe props={recipe}/>}
             />
           </a>
           <CardHeader
@@ -139,7 +139,7 @@ class RecipeCard extends Component {
           </CardContent>
         </Collapse> */}
         </Card>
-      </Link>
+      // </Link>
     );
   }
 }
