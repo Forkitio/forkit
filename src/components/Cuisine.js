@@ -75,6 +75,9 @@ class Cuisine extends Component {
         const { chinese, indian, italian, thai, mediterranean, japanese, completed } = this.state
          return (
              <Fragment>
+                <Grid container justify="center" display="flex">
+                <img src='/public/forkit-bk.png'></img>
+                </Grid>
              {
                  !completed ? (
                  <Fragment>

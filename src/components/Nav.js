@@ -12,16 +12,33 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
       <AppBar position = 'fixed' className = {classes.NavColor}>
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
-          ForkIt
+        <Link to="/user/:authId/dashboard" className={classes.noUnderline}>
+          <img src='/public/forkit.png'></img>
+        </Link>
         </Typography>
 
         {
           isLoggedIn ? (
             <div>
-              <span>Hello {auth.firstName + ' ' + auth.lastName}</span>
-              <Link to = {`/user/${auth.id}/cookbook`}>cookbook</Link>
-              <Link to = {`/user/${auth.id}/dashboard`}>dashboard</Link>
-              <button type='button' onClick={logout}>Logout</button>
+              <div style={{display: 'flex', justifyContent:'space-around'}}>
+              <Typography variant="subtitle1" className={classes.link}>
+               Hey {auth.firstName}
+              </Typography>
+              <Link to = {`/user/${auth.id}/cookbook`} className = {classes.link}>
+              <Typography variant="subtitle1" className={classes.link}>
+                My Cookbook
+              </Typography>
+              </Link>
+              <Typography variant="subtitle1" className={classes.bold}>
+              <Link to = {`/user/${auth.id}/dashboard`} className = {classes.link}>
+                Recipes
+              </Link>
+              </Typography>
+              <Button variant = 'outlined' size = 'small' className = {classes.loginButton} onClick={logout}>
+                Logout
+              </Button>
+              </div>
+              {/* <button type='button' onClick={logout}>Logout</button> */}
             </div>
           )
           :
@@ -60,6 +77,13 @@ const styles = {
   },
   navColor: {
     color: 'FF3B4A'
+  },
+  boldedText:{
+    fontWeight: 'bold'
+  },
+  link: {
+    color: 'white',
+    textDecoration: 'none'
   }
 };
 

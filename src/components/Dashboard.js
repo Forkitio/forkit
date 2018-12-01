@@ -9,6 +9,7 @@ import Nav from './Nav'
 import {Link} from 'react-router-dom';
 
 
+
 // To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1
 const useTempData = 0
 
@@ -26,7 +27,7 @@ class Dashboard extends Component {
 
     render () {
         let _recipes
-        let _auth = false
+        let _auth = true
 
         const { classes, recipeAPICuisine, auth } = this.props
 
@@ -41,6 +42,7 @@ class Dashboard extends Component {
         console.log('auth: ', auth)
         // console.log(auth.auth == {})
         console.log('_auth: ', _auth)
+
 
         return (
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
