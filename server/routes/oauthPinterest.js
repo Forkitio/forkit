@@ -9,7 +9,7 @@ router.get('/', passport.authenticate('pinterest', { scope : 'email' }));
 
 router.get('/callback',
 passport.authenticate('pinterest', { session : false, failureRedirect : '/login' }), (req, res) => {
-  var token = req.user.token;
+  const token = req.user.token;
   res.redirect('/?token=' + token)
 });
 

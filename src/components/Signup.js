@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { Grid, Typography, Button, Divider, TextField } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
+import { updateUser } from '../store/userStore'
+import LoginPage from './LoginPage'
 
 
 const styles = theme => ({
@@ -29,8 +31,9 @@ class Signup extends Component {
     constructor() {
         super()
         this.state = {
-            username: '',
-            password: ''
+            email: '',
+            password: '',
+            completed : false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -44,15 +47,25 @@ class Signup extends Component {
 
     handleSubmit(ev) {
         ev.preventDefault()
+        const updatedUser = {
+            ...this.props.user,
+            email : this.state.email,
+            password : this.state.password
+        }
+        this.props.updateUser(updatedUser)
+            .then(() => this.setState({ completed : true }))
     }
 
     render() {
         const { handleSubmit, handleChange } = this
-        const { username, password } = this.state
+        const { email, password, completed } = this.state
         const { classes } = this.props
 
         return (
             <Fragment>
+            {
+                !completed ? (
+                <Fragment>
                 <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>
                         <form onSubmit={handleSubmit}>
@@ -61,11 +74,11 @@ class Signup extends Component {
                             </Typography>
                             <br/>
                             <TextField
-                                label="Username"
-                                value={username}
+                                label="email"
+                                value={email}
                                 onChange={handleChange}
                                 variant='outlined'
-                                name='username'
+                                name='email'
                             />
                             <TextField
                                 label="Password"
@@ -77,17 +90,28 @@ class Signup extends Component {
                             />
                             <br />
                             <br/>
-                            <Button variant='contained' color='primary' size='large'>
+                            <Button variant='contained' color='primary' size='large' type='submit'>
                                 Signup
                             </Button>
                         </form>
                     </div>
                 </Grid>
+                </Fragment> ) : <LoginPage />
+            }
             </Fragment>
         )
     }
 }
 
-const mapDispatchToProps = ({})
+const mapStateToProps = state => {
+    return {
+        user : state.user.user
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        updateUser : user => dispatch(updateUser(user))
+    }
+};
 
-export default withStyles(styles)(connect(null,mapDispatchToProps)(Signup))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Signup))

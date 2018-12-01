@@ -1,45 +1,47 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../store/authStore'
+import Dashboard from './Dashboard'
 
 class LoginForm extends Component {
   constructor () {
     super ()
     this.state = {
-      username : '',
+      email : '',
       password : ''
     }
     this.handleChange = this.handleChange.bind(this)
-    this.onSave = this.onSave.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(evt) {
     this.setState({ [ evt.target.name ] : evt.target.value })
   }
 
-  onSave(evt) {
+  handleSubmit(evt) {
     evt.preventDefault();
-    const { username, password } = this.state;
-    console.log('onSave', {username, password })
-    this.props.login({ username, password })
+    const { email, password } = this.state;
+    this.props.login({ email, password }, this.props.history)
       .catch(ex => this.setState({ error : 'bad credentials'}))
   }
   render() {
-    const { username, password, error } = this.state;
-    const { handleChange, onSave } = this;
+    const { email, password, error } = this.state;
+    const { handleChange, handleSubmit } = this;
     return (
-      <form onSubmit={ onSave }>
-        <input value={ username } name='username' placeholder='name' onChange={ handleChange } />
-        <input value={ password } name='password' placeholder='password' onChange={ handleChange } />
+      <Fragment>
+        <form onSubmit={handleSubmit}>
+        <input value={email} name='email' placeholder='email' onChange={handleChange} />
+        <input value={password} name='password' placeholder='password' onChange={handleChange} />
         <button>Login</button>
       </form>
+      </Fragment>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch, { history }) => {
+const mapDispatchToProps = dispatch => {
   return {
-    login : credentials => dispatch(login(credentials, history))
+    login : (credentials, history) => dispatch(login(credentials, history))
   };
 };
 

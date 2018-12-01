@@ -2,8 +2,12 @@ import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Grid, Typography, Button, Divider, TextField, ButtonBase, Checkbox } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
+import { updateUser } from '../store/userStore'
+import Protein from './Protein'
+import Name from './Name'
+
 
 
 const styles = theme => ({
@@ -35,30 +39,46 @@ class Cuisine extends Component {
             indian: false,
             thai: false,
             mediterranean: false,
-            japanese: false
+            japanese: false,
+            completed : false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(ev) {
+        //console.log('ev target name: ', ev.target.name)
+        //console.log('ev target check: ', ev.target.checked)
         this.setState({
-            [ev.target.name]: ev.target.checked,
+            [ev.target.name]: ev.target.checked
         });
-        console.log(this.state)
     }
 
     handleSubmit(ev) {
         ev.preventDefault()
+        const copyState = {...this.state};
+        const cuisines = [];
+        for( let cuisine in copyState) {
+            if( copyState[cuisine] === true ) {
+                cuisines.push(cuisine)
+            }
+        }
+        const updatedUser = {...this.props.user, cuisine : cuisines}
+        //console.log('updated User: ', updatedUser )
+        this.props.updateUser(updatedUser)
+            .then(() => this.setState({ completed : true }))
     }
 
     render() {
         const { handleSubmit, handleChange } = this
         const { classes } = this.props
-        const { chinese, indian, italian, thai, mediterranean, japanese } = this.state
+        const { chinese, indian, italian, thai, mediterranean, japanese, completed } = this.state
          return (
              <Fragment>
-                <Grid container justify="center" display="flex">
+             {
+                 !completed ? (
+                 <Fragment>
+                    <Grid container justify="center" display="flex">
                     <div className = {classes.divstyle}>
                         <form onSubmit={handleSubmit}>
                             <Typography variant='h4' className = {classes.boldedText}>
@@ -74,7 +94,8 @@ class Cuisine extends Component {
                                     <Checkbox
                                         checked={chinese}
                                         onChange={handleChange}
-                                        value="chinese"
+                                        value='chinese'
+                                        name='chinese'
                                         color='primary'
                                         label='chinese'
                                     />
@@ -87,6 +108,7 @@ class Cuisine extends Component {
                                         checked={italian}
                                         onChange={handleChange}
                                         value="italian"
+                                        name='italian'
                                         color='primary'
                                         label='italian'
                                     />
@@ -99,6 +121,7 @@ class Cuisine extends Component {
                                         checked={indian}
                                         onChange={handleChange}
                                         value="indian"
+                                        name='indian'
                                         color='primary'
                                         label='indian'
                                     />
@@ -111,6 +134,7 @@ class Cuisine extends Component {
                                         checked={thai}
                                         onChange={handleChange}
                                         value="thai"
+                                        name='thai'
                                         color='primary'
                                         label='thai'
                                     />
@@ -123,6 +147,7 @@ class Cuisine extends Component {
                                         checked={mediterranean}
                                         onChange={handleChange}
                                         value="mediterranean"
+                                        name='mediterranean'
                                         color='primary'
                                         label='mediterranean'
                                     />
@@ -135,6 +160,7 @@ class Cuisine extends Component {
                                         checked={japanese}
                                         onChange={handleChange}
                                         value="japanese"
+                                        name='japanese'
                                         color='primary'
                                         label='japanese'
                                     />
@@ -143,28 +169,35 @@ class Cuisine extends Component {
                             />
                             <br/>
                             <br/>
-                            <Link to = '/survey/skill' className={classes.noUnderline}>
-                            <Button variant='contained' color='primary' size='large'>
+                            <Button variant='contained' color='primary' size='large' type='submit'>
                                 Continue
                             </Button>
-                            </Link>
                             <br/>
                             <br/>
                             <div>
-                                <Link to='/survey/name' className={classes.noUnderline}>
-                                <Typography variant='subtitle1' className={classes.boldedText}>
-                            Back
-                                </Typography>
-                                </Link>    
+                                <Button variant='text' type='button' className={classes.boldedText} onClick={() => { return <Name />}}>
+                                    Back
+                                </Button>
                             </div>
                         </form>
                     </div>
                 </Grid>
+            </Fragment>) : <Protein />
+            }
             </Fragment>
         )
     }
 }
 
-const mapDispatchToProps = ({})
+const mapStateToProps = state => {
+    return {
+        user : state.user.user
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        updateUser : user => dispatch(updateUser(user))
+    }
+};
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Cuisine))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Cuisine))

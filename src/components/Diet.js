@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { Grid, Typography, Button, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
+import { updateUser } from '../store/userStore'
+import Skill from './Skill'
 
 
 const styles = theme => ({
@@ -29,29 +31,35 @@ class Diet extends Component {
     constructor() {
         super()
         this.state = {
-            beef: false,
-            lamb: false,
-            chicken: false,
-            fish: false,
-            pork: false,
-            vegeterian: false
+            diet : '',
+            completed : false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(ev) {
+        console.log(ev.target)
+        console.log( ev.target.value )
+        this.setState({
+            diet : ev.target.value
+        })
     }
 
     handleSubmit(ev) {
         ev.preventDefault()
+        const updatedUser = {...this.props.user, diet : this.state.diet }
+        this.props.updateUser(updatedUser)
+            .then(() => this.setState({ completed : true }))
     }
 
     render() {
         const { handleSubmit, handleChange } = this
         const { classes } = this.props
-
         return (
+            <Fragment>
+            {
+            !this.state.completed ? (
             <Fragment>
                 <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>
@@ -69,22 +77,25 @@ class Diet extends Component {
                                 aria-label="Gender"
                                 name="gender1"
                                 value={this.state.value}
-                                onChange={this.handleChange}
+                                onChange={handleChange}
                             >
-                                <FormControlLabel value="female" control={<Radio />} label="Vegan" />
-                                <FormControlLabel value="female" control={<Radio />} label="Vegeterian" />
-                                <FormControlLabel value="male" control={<Radio />} label="Paleo" />
-                                <FormControlLabel value="other" control={<Radio />} label="Low-Carb Diet" />
-                                <FormControlLabel value="other" control={<Radio />} label="Not on a diet" />
+                                <FormControlLabel value="vegan" control={<Radio />} label="Vegan" />
+
+                                <FormControlLabel value="vegetarian" control={<Radio />} label="Vegetarian" />
+
+                                <FormControlLabel value="paleo" control={<Radio />} label="Paleo" />
+
+                                <FormControlLabel value="low-carb" control={<Radio />} label="Low-Carb Diet" />
+
+                                <FormControlLabel value="no diet" control={<Radio />} label="Not on a diet" />
+
                             </RadioGroup>
                             </FormControl>
                             <br/>
                             <br/>
-                            <Link to = '/survey/time' className={classes.noUnderline}>
-                            <Button variant='contained' color='primary' size='large'>
+                            <Button variant='contained' color='primary' size='large' type='submit'>
                                 Next
                             </Button>
-                            </Link>
                             <br />
                             <br/>
                             <Link to='/survey/protein' className={classes.noUnderline}>
@@ -95,11 +106,22 @@ class Diet extends Component {
                         </form>
                     </div>
                 </Grid>
+            </Fragment> ) : <Skill />
+        }
             </Fragment>
         )
     }
 }
 
-const mapDispatchToProps = ({})
+const mapStateToProps = state => {
+    return {
+        user : state.user.user
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        updateUser : user => dispatch(updateUser(user))
+    }
+};
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Diet))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Diet))
