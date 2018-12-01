@@ -20,7 +20,7 @@ const gotRecipes  = (recipes) => ({
 //     preference: "asian"
 // }
 
-export const getRecipes = (type) => {
+export const getAPIRecipes = (type) => {
     return dispatch => (
         axios.get(`/api/edamam/${type}`)
         .then(res => dispatch(gotRecipes(res.data.hits)))
