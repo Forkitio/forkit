@@ -16,8 +16,11 @@ import Recipe from './Recipe'
 import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
-import CerateRecipe from './CreateRecipe';
-import {getRecipes} from './../store/recipes';
+import CreateRecipe from './CreateRecipe';
+// import EditRecipe from './EditRecipe';
+import {getCreatedRecipes} from './../store/createdRecipes';
+import {getSavedRecipes} from './../store/savedRecipes';
+import {getForkedRecipes} from './../store/forkedRecipes';
 
 class App extends Component {
 
@@ -28,7 +31,9 @@ class App extends Component {
       this.props.history.push('/');
     }
     this.props.tokenCheck();
-    this.props.loadRecipes();
+    this.props.loadSavedRecipes(this.props.userId);
+    this.props.loadForkedRecipes(this.props.userId);
+    this.props.loadCreatedRecipes(this.props.userId);
   }
 
   render(){
@@ -39,7 +44,7 @@ class App extends Component {
       <Router>
         <Fragment>
           <Route exact path='/' render = { () => <Homepage/> }/>
-          <Route path='/survey/name' render = { () => <Name/>}/>
+          <Route path='/survey/name' render = {() => <Name/>}/>
           <Route path='/survey/cuisine' render = { () => <Cuisine/>}/>
           <Route path='/survey/protein' render = { () => <Protein/>}/>
           <Route path='/survey/diet' render = { () => <Diet/>}/>
@@ -47,12 +52,13 @@ class App extends Component {
           <Route path='/survey/time' render = { () => <Time/>}/>
           <Route path='/signup' render = { () => <Signup/>}/>
           <Route exact path='/login' component={LoginPage} />
-          <Route path = '/user/:authId/cookbook' render = {() => <Cookbook /> }/>
-          <Route path = '/user/:authId/dashboard' render = {() => <Dashboard />} />
           <Switch>
           <Route exact path='/recipe/create' render={() => <CerateRecipe />}/>
           <Route path='/recipe/:id' render = { () => <Recipe/>}/>
           </Switch>
+          <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
+          <Route path = '/user/dashboard' render = {() => <Dashboard />} />
+          {/* <Route path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/> */}
         </Fragment>
       </Router>
     )
@@ -60,10 +66,18 @@ class App extends Component {
   }
 }
 
+const matchStateToProps = (state) => {
+  return {
+      userId: state.auth.id
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     tokenCheck : () => dispatch(exchangeTokenForAuth()),
-    loadRecipes: () => dispatch(getRecipes())
+    loadSavedRecipes: (userId) => dispatch(getSavedRecipes(userId)),
+    loadForkedRecipes: (userId) => dispatch(getForkedRecipes(userId)),
+    loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId))
   }
 }
-export default connect(null, mapDispatchToProps)(App)
+export default connect(matchStateToProps, mapDispatchToProps)(App)

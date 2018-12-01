@@ -18,7 +18,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import {connect} from 'react-redux';
-import {saveRecipe, forkRecipe} from './../store/recipes';
+import {saveRecipe} from './../store/savedRecipes';
+import {forkRecipe} from './../store/forkedRecipes';
 
 const styles = theme => ({
   card: {
@@ -68,7 +69,7 @@ class RecipeCard extends Component {
   };
 
   handleSave(){
-    this.props.onSaveRecipe(this.props.recipe);
+    this.props.onSaveRecipe(this.props.recipe, this.props.userId);
   }
 
   handleFork(){
@@ -108,7 +109,10 @@ class RecipeCard extends Component {
             </IconButton>
           </Tooltip>
           <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
-            <IconButton aria-label="Fork Recipe" onClick={handleFork}>
+            <IconButton 
+              aria-label="Fork Recipe"
+              onClick={handleFork}
+              >
               <ShareIcon />
             </IconButton>
           </Tooltip>
@@ -145,7 +149,7 @@ const matchStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     onForkRecipe: (recipe, userId) => dispatch(forkRecipe(recipe, userId)),
-    onSaveRecipe: (recipe) => dispatch(saveRecipe(recipe))
+    onSaveRecipe: (recipe, userId) => dispatch(saveRecipe(recipe, userId))
   };
 };
 

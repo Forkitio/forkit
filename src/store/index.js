@@ -3,12 +3,19 @@ import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
 import authReducer from './authStore.js'
 import recipeAPI from './recipeAPI.js';
-import { recipeReducer } from './recipes';
+//import { recipeReducer } from './recipes';
+import userReducer from './userStore.js';
+import { forkedRecipeReducer } from './forkedRecipes';
+import { savedRecipeReducer } from './savedRecipes';
+import { createdRecipeReducer } from './createdRecipes';
 
 const reducer = combineReducers({
   auth : authReducer,
   recipeAPI,
-  recipes : recipeReducer
+  createdRecipes : createdRecipeReducer,
+  savedRecipes : savedRecipeReducer,
+  forkedRecipes : forkedRecipeReducer,
+  user : userReducer
 });
 
 const store = createStore(

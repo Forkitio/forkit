@@ -4,6 +4,8 @@ import { Grid, Typography, Button, FormControl, RadioGroup, FormControlLabel, Ra
 import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
+import { updateUser } from '../store/userStore'
+import Time from './Time'
 
 
 const styles = theme => ({
@@ -29,7 +31,8 @@ class Skill extends Component {
     constructor() {
         super()
         this.state = {
-            skill: 0
+            skill: '',
+            completed : false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -37,25 +40,32 @@ class Skill extends Component {
 
     handleChange(ev) {
         this.setState({
-            [ev.target.name]: ev.target.value
+            skill : ev.target.value
         })
     }
 
     handleSubmit(ev) {
         ev.preventDefault()
+        const updatedUser = {...this.props.user, skill : this.state.skill}
+        this.props.updateUser(updatedUser)
+        .then(() => this.setState({ completed : true }))
     }
 
     render() {
         const { handleSubmit, handleChange } = this
-        const { skill } = this.state
+        const { completed } = this.state
         const { classes } = this.props
         return (
+            <Fragment>
+            {
+            !completed ? (
             <Fragment>
                 <Grid container justify="center" display="flex">
                 <img src='/public/forkit-bk.png'></img>
                 </Grid>
                 <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>
+                        <form onSubmit={handleSubmit}>
                         <Typography variant='h4' className={classes.boldedText}>
                             What's your skill level in the kitchen?
                             </Typography>
@@ -70,21 +80,21 @@ class Skill extends Component {
                                 name="gender1"
                                 className={classes.group}
                                 value={this.state.value}
-                                onChange={this.handleChange}
+                                onChange={handleChange}
                             >
-                                <FormControlLabel value="female" control={<Radio />} label="Gordon Ramsey, just less angry" />
-                                <FormControlLabel value="female" control={<Radio />} label="I know what paprika is" />
-                                <FormControlLabel value="male" control={<Radio />} label="I can make an omelette" />
-                                <FormControlLabel value="other" control={<Radio />} label="I am useless in the kitchen" />
+                                <FormControlLabel value="advance" control={<Radio />} label="Gordon Ramsey, just less angry" />
+                                <FormControlLabel value="beginner" control={<Radio />} label="I know what paprika is" />
+                                <FormControlLabel value="intermediate" control={<Radio />} label="I can make an omelette" />
+                                <FormControlLabel value="beginner" control={<Radio />} label="I am useless in the kitchen" />
                             </RadioGroup>
                         </FormControl>
                         <div>
-                            <Link to='/survey/protein' className={classes.noUnderline}>
-                                <Button variant='contained' color='primary' size='large'>
-                                    Continue
+                            <Button variant='contained' color='primary' size='large' type='submit'>
+                                Continue
                             </Button>
-                            </Link>
+
                         </div>
+                        </form>
                         <br />
                         <br />
                         <div>
@@ -96,11 +106,22 @@ class Skill extends Component {
                         </div>
                     </div>
                 </Grid>
+            </Fragment> ) : <Time />
+            }
             </Fragment>
         )
     }
 }
 
-const mapDispatchToProps = ({})
+const mapStateToProps = state => {
+    return {
+        user : state.user.user
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        updateUser : user => dispatch(updateUser(user))
+    }
+};
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Skill))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Skill))

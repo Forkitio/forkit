@@ -50,7 +50,7 @@ const User = conn.define('users', {
         defaultValue: "http://via.placeholder.com/640x360"
     },
     protein: {
-        type: conn.Sequelize.ARRAY(conn.Sequelize.ENUM('beef', 'chicken', 'fish', 'vegeterian', 'lamb', 'tofu')),
+        type: conn.Sequelize.ARRAY(conn.Sequelize.ENUM('beef', 'chicken', 'fish', 'vegetarian', 'lamb', 'tofu')),
         allowNull: true
     },
     cuisine: {
@@ -60,9 +60,9 @@ const User = conn.define('users', {
     skill: {
         type: conn.Sequelize.ENUM('expert', 'advanced', 'intermediate', 'beginner'),
         allowNull: true
-    }, 
+    },
     diet: {
-        type: conn.Sequelize.ENUM('vegeterian', 'vegan', 'paleo', 'low-carb', 'no diet'),
+        type: conn.Sequelize.ENUM('vegetarian', 'vegan', 'paleo', 'low-carb', 'no diet'),
         allowNull: true
     },
     time: {
@@ -154,6 +154,8 @@ User.belongsToMany(User, { through: 'followers' , as: 'follower' })
 //Comments
 User.hasMany(RecipeComment)
 RecipeComment.belongsTo(User)
+Recipe.hasMany(RecipeComment)
+RecipeComment.belongsTo(Recipe)
 
 //Saved Recipe
 User.hasMany(Recipe)
@@ -162,6 +164,6 @@ User.hasMany(Recipe)
 module.exports = {
   conn,
   User,
-  Recipe, 
+  Recipe,
   RecipeComment,
 }

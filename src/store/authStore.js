@@ -1,15 +1,15 @@
 import axios from 'axios'
 
 const initialState = {
-  auth: {}
-}
+  auth : {}
+};
 
 const SET_AUTH = 'SET_AUTH'
 
 const _setAuth = (auth) => ({
   type: SET_AUTH,
   auth
-})
+});
 
 //grabs the token and then calls the api for the user
 //once it receives the user it will dispatch setAuth to set the user

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { Grid, Typography, Button, Divider, TextField } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
+import { createUser } from '../store/userStore.js'
+import Cuisine from './Cuisine'
 
 
 const styles = theme => ({
@@ -18,7 +20,7 @@ const styles = theme => ({
     noUnderline : {
         textDecoration: 'none'
     },
-    
+
     boldedText : {
         fontWeight : 'bold'
     }
@@ -32,7 +34,8 @@ class Name extends Component {
         super()
         this.state = {
             firstName: '',
-            lastName: ''
+            lastName: '',
+            userCreated : false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -43,26 +46,33 @@ class Name extends Component {
           [ev.target.name]: ev.target.value,
         });
         console.log(this.state)
-      };
+      }
 
     handleSubmit(ev) {
-        ev.preventDefault()
-        console.log(this.state)
+        ev.preventDefault();
+        const newUser = {...this.state, password : 'placeholder'};
+        console.log('inhandleSubmit')
+        this.props.createUser(newUser)
+            .then(() => this.setState({ userCreated : true }))
     }
 
     render() {
         const { handleSubmit, handleChange } = this
-        const { firstName, lastName } = this.state
+        const { firstName, lastName, userCreated } = this.state
         const { classes } = this.props
+
         return (
             <Fragment>
                 <Grid container justify="center" display="flex">
                 <img src='/public/forkit-bk.png'></img>
                 </Grid>
-                <Grid container justify="center" display="flex">
-                    <div className = {classes.divstyle}>
-                    <Typography variant='h4' className = {classes.boldedText}>
-                                Hola, what's your name?
+            <div>
+                {!userCreated ? (
+                    <Fragment>
+                        <Grid container justify="center" display="flex">
+                         <div className={classes.divstyle}>
+                        <Typography variant='h4' className={classes.boldedText}>
+                            Hola, what's your name?
                             </Typography>
                             <br/>
                             <br/>
@@ -85,20 +95,24 @@ class Name extends Component {
                             <br/>
                             <br/>
                             <br/>
-                            <Link to = '/survey/cuisine' className={classes.noUnderline}>
                             <Button variant='contained' color='primary' size='large' type='submit'>
                                 Next
                             </Button>
-                            </Link>
                         </form>
                     </div>
                 </Grid>
-            </Fragment>
+            </Fragment> ) : ( <Cuisine /> )}
+            </div>
         )
     }
 }
 
-const mapDispatchToProps = ({  })
+
+const mapDispatchToProps = dispatch => {
+    return {
+        createUser : user => dispatch(createUser(user))
+    }
+};
 
 
 

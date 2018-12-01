@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const {Recipe, RecipeComment} = require('../db/models');
+const conn = require('./../db/conn');
+const Op = conn.Sequelize.Op;
 
 module.exports = router;
 
@@ -35,16 +37,54 @@ router.put('/:id', (req, res, next) => {
     .catch(next);
 });
 
-/* NEXTED ROUTES FOR COMMENTS */
+/* NESTED ROUTES FOR RECIPES */
 
-router.get('/:id/comments', (req, res, next) => {
-  RecipeComment.findAll({
-      where: {
-        userId: req.params.id
+// get all forked recipes
+router.get('/:id/forked', (req, res, next) => {
+  Recipe.findAll({
+    where: {
+      createdBy: req.params.id,
+      parentId: {
+        [Op.ne]: null
       }
-  })
-  .then(comments => res.send(comments))
-  .catch(next);
-})
+    }
+  }).then(recipes => res.send(recipes))
+    .catch(next);
+});
+
+// get all version of a forked recipe
+router.get('/:id/forked/:recipeId', (req, res, next) => {
+  Recipe.findAll({
+    where: {
+      createdBy: req.params.id,
+      ancestoryId: recipeId
+    }
+  }).then(recipes => res.send(recipes))
+    .catch(next);
+});
+
+// get all saved recipes
+router.get('/:id/saved', (req, res, next) => {
+  Recipe.findAll({
+    where: {
+      userId: req.params.id
+    }
+  }).then(recipes => res.send(recipes))
+    .catch(next);
+});
+
+// get all created recipes
+router.get('/:id/created', (req, res, next) => {
+  Recipe.findAll({
+    where: {
+      createdBy: req.params.id,
+      parentId: null,
+      ancestoryId: null
+    }
+  }).then(recipes => res.send(recipes))
+    .catch(next);
+});
+
+
 
 

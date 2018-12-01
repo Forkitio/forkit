@@ -4,6 +4,8 @@ import { Grid, Typography, Button, Divider, TextField, ButtonBase, Checkbox } fr
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
+import { updateUser } from '../store/userStore'
+import Diet from './Diet'
 
 
 const styles = theme => ({
@@ -30,30 +32,43 @@ class Protein extends Component {
     constructor() {
         super()
         this.state = {
-            beef: false,
-            lamb: false,
-            chicken: false,
-            fish: false,
-            pork: false,
-            tofu: false
+            beef : false,
+            lamb : false,
+            chicken : false,
+            fish : false,
+            vegetarian : false,
+            tofu : false,
+            completed : false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(ev) {
+        this.setState({
+            [ev.target.name]: ev.target.checked
+          });
     }
 
     handleSubmit(ev) {
         ev.preventDefault()
+        const copyState = {...this.state}
+        const proteins = [];
+        for(let protein in copyState) {
+            copyState[protein] === true ? proteins.push(protein) : null
+        }
+        const updatedUser = {...this.props.user, protein : proteins}
+        this.props.updateUser(updatedUser)
+            .then(() => this.setState({ completed : true }))
     }
 
     render() {
         const { handleSubmit, handleChange } = this
         const { classes } = this.props
-        const { beef, lamb, chicken, fish, pork, tofu } = this.state
-
+        const { beef, lamb, chicken, fish, vegetarian, tofu, completed } = this.state
         return (
+            <Fragment>
+            { !completed ? (
             <Fragment>
                 <Grid container justify="center" display="flex">
                 <img src='/public/forkit-bk.png'></img>
@@ -72,9 +87,10 @@ class Protein extends Component {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={beef}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value='beef'
+                                        name='beef'
                                         color='primary'
                                         label='beef'
                                     />
@@ -84,9 +100,10 @@ class Protein extends Component {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={lamb}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="lamb"
+                                        name='lamb'
                                         color='primary'
                                         label='lamb'
                                     />
@@ -96,9 +113,10 @@ class Protein extends Component {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={chicken}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="chicken"
+                                        name='chicken'
                                         color='primary'
                                         label='chicken'
                                     />
@@ -108,9 +126,10 @@ class Protein extends Component {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={fish}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="fish"
+                                        name='fish'
                                         color='primary'
                                         label='fish'
                                     />
@@ -120,21 +139,22 @@ class Protein extends Component {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={vegetarian}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="vegetarian"
                                         color='primary'
-                                        label='pork'
+                                        label='vegetarian'
                                     />
                                 }
-                                label="Pork"
+                                label="Vegetarian"
                             />
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={this.state.checkedA}
+                                        checked={tofu}
                                         onChange={handleChange}
-                                        value="checkedA"
+                                        value="tofu"
+                                        name='tofu'
                                         color='primary'
                                         label='tofu'
                                     />
@@ -143,11 +163,9 @@ class Protein extends Component {
                             />
                             <br/>
                             <br/>
-                            <Link to = '/survey/diet' className={classes.noUnderline}>
-                            <Button variant='contained' color='primary' size='large'>
+                            <Button variant='contained' color='primary' size='large' type='submit'>
                                 Next
                             </Button>
-                            </Link>
                             <br />
                             <br/>
                             <Link to='/survey/cuisine' className={classes.noUnderline}>
@@ -158,11 +176,22 @@ class Protein extends Component {
                         </form>
                     </div>
                 </Grid>
+            </Fragment> ) : <Diet/>
+            }
             </Fragment>
         )
     }
 }
 
-const mapDispatchToProps = ({})
+const mapStateToProps = state => {
+    return {
+        user : state.user.user
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        updateUser : user => dispatch(updateUser(user))
+    }
+};
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Protein))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Protein))
