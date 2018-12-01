@@ -92,26 +92,34 @@ class RecipeCard extends Component {
   }
 
   render() {
-    const { classes, recipe, latestFork, fullScreen } = this.props;
+    const { classes, recipe, latestFork, fullScreen, author } = this.props;
     const { handleSave, handleFork, handleClickEvent, handleClose } = this;
     const { modalOpen } = this.state;
+
+    let avatarSymbol
+    if (recipe.source){
+      avatarSymbol = recipe.source[0]
+    } else if (author){
+      avatarSymbol = author.firstName[0]
+    }
+
     return (
       <Card className={classes.card}>
         <a href = 'true'>
         <CardMedia
             className={classes.media}
-            image = {recipe.image}
+            image = {recipe.image || recipe.img}
             onClick={() => <Recipe props={recipe}/>}
         />
         </a>
         <CardHeader
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
-              {recipe.source[0]}
+              {avatarSymbol}
             </Avatar>
           }
-          title = {recipe.label}
-          subheader= { recipe.source }
+          title = {recipe.label || recipe.title}
+          subheader= { recipe.source || null}
         />
         <CardActions className={classes.actions} disableActionSpacing>
           <Tooltip TransitionComponent={Zoom} title="Save Recipe">

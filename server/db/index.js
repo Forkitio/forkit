@@ -1,7 +1,11 @@
 const conn = require('./conn');
+const Sequelize = require('sequelize');
+
 const { User, RecipeComment, Recipe } = require('./models.js');
 
 const syncAndSeed = () => {
+  let moe, Anthony, curly, tabbouleh, hummus, babaghanoush
+
   return conn.sync({ force: true })
     .then(()=> {
       return Promise.all([
@@ -40,20 +44,37 @@ const syncAndSeed = () => {
           instagramId: null,
           img: "http://via.placeholder.com/640x360"
         }),
-      ]);
-    })
-    .then((users) => {
-      [ moe, larry, curly ] = users
-      return Promise.all([
-        Recipe.create({
-          title: 'Tabbouleh',
-          time: 3,
-          serving: 4,
-        })
-      ])
-    })
+        ]);
+      })
+      .then( users => {
+        [ moe, Anthony, curly ] = users
+
+        return Promise.all([
+          Recipe.create({
+            title: 'tabbouleh',
+            time: 3,
+            serving: 4,
+            createdBy: Anthony.id
+          }),
+          Recipe.create({
+            title: 'hummus',
+            time: 3,
+            serving: 4,
+            createdBy: Anthony.id
+          }),
+          Recipe.create({
+            title: 'babaghanoush',
+            time: 3,
+            serving: 4,
+            createdBy: Anthony.id
+          }),
+        ])
+      })
     .then((recipes) => {
       [ tabbouleh, hummus, babaghanoush ] = recipes
+
+      tabbouleh.setUser(Anthony)
+
       return Promise.all([
         RecipeComment.create({title: 'A', content: 'AA'}),
         RecipeComment.create({title: 'B', content: 'BB'}),
