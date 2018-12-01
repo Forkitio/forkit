@@ -31,7 +31,7 @@ export const exchangeTokenForAuth = (history) => {
       dispatch(_setAuth(auth))
       if(history) {
         console.log('exchange token history: ', history)
-        history.push(`/user/${auth.id}/dashboard`)
+        history.push(`/user/dashboard`)
       }
     })
     //if there is an error, we just remove the token

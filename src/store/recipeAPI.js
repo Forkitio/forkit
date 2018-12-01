@@ -37,13 +37,11 @@ export const getAPIRecipes = (field, type) => {
 }
 
 export const getOneAPIRecipe = (id) => {
-  console.log("thunk working")
 
   return dispatch => (
     axios.get(`/api/edamam/getRecipeInfo/${id}`)
     .then(res => {
       dispatch(gotOneRecipe(res.data[0]))
-      console.log(res.data)
     })
     .catch(ex => console.log(ex))
   )
