@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Grid, Typography, Button, Divider } from '@material-ui/core'
+import { Typography, Button, Divider } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav'
 
@@ -13,19 +13,15 @@ class Cookbook extends Component {
         this.props.loadCreatedRecipes(id)
     }
 
-
     render () {
-
-        const { classes } = this.props
-
+        const { classes, history } = this.props;
         return(
             <div className = {classes.white}>
-                <Nav />
+                <Nav history={history}/>
                 <div className = {classes.navBarSpace}>
                     <Typography variant = 'h6'>
                         My Cookbook
                     </Typography>
-                    
                 </div>
             </div>
         )

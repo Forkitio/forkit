@@ -22,7 +22,7 @@ class Dashboard extends Component {
         const { getAPIRecipes } = this.props
         const { auth } = this.props
         let _time
-        
+
         if (auth.time === '>1 hr'){
             _time = '60%2B'
         } else if (auth.time === '1 hr'){
@@ -38,9 +38,6 @@ class Dashboard extends Component {
             getAPIRecipes('protein', auth.cuisine[0])
             getAPIRecipes('time', _time)
         }
-
-        this.props.getOneAPIRecipe('recipe_584ac5e486c088b3c8409c252d7f290c')
-
     }
 
     render () {
@@ -49,8 +46,9 @@ class Dashboard extends Component {
         let _recipesProtein
         let _recipesFavorite = recipeData.hits.slice(0,8)
 
-        const { classes, recipeAPI, auth } = this.props
-        
+
+        const { classes, recipeAPI, auth, history } = this.props
+
 
         if (useTempData == 1){
             _recipesCuisine = recipeAPI.cuisine.slice(0,8)
@@ -66,13 +64,14 @@ class Dashboard extends Component {
             return word[0].toUpperCase() + word.slice(1, word.length)
         }
 
+
         return (
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
 
             auth.id
             ?
             <div className = {classes.white}>
-            <Nav/>
+            <Nav history={history}/>
             <div className = {classes.navBarSpace}>
                 <br/>
                 <Typography variant = 'h6'>
@@ -147,7 +146,7 @@ class Dashboard extends Component {
                 <Typography variant = 'h6'>
                     fourohfour
                 </Typography>
-                
+
                 <Link to='/' className = {classes.noUnderline}>
                     <Button variant = 'outlined' color = 'primary' size = 'small'>
                         Take me home
