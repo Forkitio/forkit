@@ -16,7 +16,10 @@ import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 import CreateRecipe from './CreateRecipe';
-import {getRecipes} from './../store/recipes';
+import EditRecipe from './EditRecipe';
+import {getCreatedRecipes} from './../store/createdRecipes';
+import {getSavedRecipes} from './../store/savedRecipes';
+import {getForkedRecipes} from './../store/forkedRecipes';
 
 class App extends Component {
 
@@ -27,7 +30,9 @@ class App extends Component {
       this.props.history.push('/');
     }
     this.props.tokenCheck();
-    this.props.loadRecipes();
+    this.props.loadSavedRecipes(this.props.userId);
+    this.props.loadForkedRecipes(this.props.userId);
+    this.props.loadCreatedRecipes(this.props.userId);
   }
 
   render(){
@@ -49,6 +54,7 @@ class App extends Component {
           <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
           <Route path = '/user/dashboard' render = {() => <Dashboard />} />
           <Route path='/recipe/create' render={() => <CreateRecipe />}/>
+          <Route path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/>
         </Fragment>
       </Router>
     )
@@ -56,10 +62,18 @@ class App extends Component {
   }
 }
 
+const matchStateToProps = (state) => {
+  return {
+      userId: state.auth.id
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     tokenCheck : () => dispatch(exchangeTokenForAuth()),
-    loadRecipes: () => dispatch(getRecipes())
+    loadSavedRecipes: (userId) => dispatch(getSavedRecipes(userId)),
+    loadForkedRecipes: (userId) => dispatch(getForkedRecipes(userId)),
+    loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId))
   }
 }
-export default connect(null, mapDispatchToProps)(App)
+export default connect(matchStateToProps, mapDispatchToProps)(App)

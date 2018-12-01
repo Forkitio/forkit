@@ -5,7 +5,22 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { addRecipe } from './../store/recipes';
+import { addCreatedRecipe } from './../store/createdRecipes';
+import PropTypes from 'prop-types';
+import Chip from '@material-ui/core/Chip';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    padding: theme.spacing.unit / 2,
+  },
+  chip: {
+    margin: theme.spacing.unit / 2,
+  },
+});
 
 class CreateRecipe extends Component {
   constructor() {
@@ -23,11 +38,29 @@ class CreateRecipe extends Component {
       },
       success: '',
       error: '',
+      chipData: [
+        { key: 0, label: 'Angular' },
+        { key: 1, label: 'jQuery' },
+        { key: 2, label: 'React' },
+        { key: 3, label: 'Vue.js' }
+      ]
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChipSelect = this.handleChipSelect.bind(this);
   }
+
+  
+
+  handleChipSelect(data) {
+    this.setState(state => {
+      const chipData = [...state.chipData];
+      const chipToDelete = chipData.indexOf(data);
+      chipData.splice(chipToDelete, 1);
+      return { chipData };
+    });
+  };
 
   handleChange(event) {
     const recipe = Object.assign({}, this.state.recipe, {
@@ -58,15 +91,22 @@ class CreateRecipe extends Component {
             dietLabels: [],
             image: ''
         },
-        error: ''
+        error: '',
+        chipData: [
+          { key: 0, label: 'Angular' },
+          { key: 1, label: 'jQuery' },
+          { key: 2, label: 'React' },
+          { key: 3, label: 'Vue.js' }
+        ]
         });
     })
     .catch(ex => this.setState({ error: `An error has occurred. ${ex}`, success: '' }));
   }
 
   render() {
-    const { handleChange, handleSubmit } = this;
-    const { success, error } = this.state;
+    const { classes } = this.props;
+    const { handleChange, handleSubmit, handleChipSelect } = this;
+    const { success, error, chipData } = this.state;
     const {
         title,
         directions,
@@ -77,7 +117,7 @@ class CreateRecipe extends Component {
         dietLabels,
         image
     } = this.state.recipe;
-
+    console.log('!!!', chipData)
     return (
       <Fragment>
           <div>
@@ -324,6 +364,21 @@ class CreateRecipe extends Component {
               </Grid>
 
               <Grid item>
+                <div>
+                  {chipData.map(data => {
+                    return (
+                      <Chip
+                        key={data.key}
+                        label={data.label}
+                        onDelete={ handleChipSelect(data) }
+                        className={classes.chip}
+                      />
+                    );
+                  })}
+                  </div>
+              </Grid>
+
+              <Grid item>
                 <TextField
                   name="dietLabels"
                   label="Diet Labels"
@@ -356,6 +411,10 @@ class CreateRecipe extends Component {
   }
 }
 
+CreateRecipe.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
 const matchStateToProps = (state) => {
     return {
         userId: state.auth.id
@@ -364,9 +423,9 @@ const matchStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddRecipe: recipe => dispatch(addRecipe(recipe)),
+    onAddRecipe: recipe => dispatch(addCreatedRecipe(recipe)),
   };
 };
 
-export default connect(matchStateToProps, mapDispatchToProps)(CreateRecipe);
+export default connect(matchStateToProps, mapDispatchToProps)(withStyles(styles)(CreateRecipe));
 
