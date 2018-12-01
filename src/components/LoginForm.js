@@ -1,10 +1,32 @@
 import React, { Component, Fragment } from 'react'
+import { Grid, Typography, Button, Divider, TextField, ButtonBase, Checkbox } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { login } from '../store/authStore'
+import { withStyles } from '@material-ui/core/styles';
+
+
+const styles = theme => ({
+  divstyle: {
+      textAlign: 'center'
+  },
+
+  fieldstyle: {
+      marginLeft: '20px'
+  },
+
+  noUnderline: {
+      textDecoration: 'none'
+  },
+
+  boldedText: {
+      fontWeight: 'bold'
+  }
+})
+
 
 class LoginForm extends Component {
-  constructor () {
-    super ()
+  constructor() {
+    super()
     this.state = {
       email : '',
       password : ''
@@ -14,25 +36,51 @@ class LoginForm extends Component {
   }
 
   handleChange(evt) {
-    this.setState({ [ evt.target.name ] : evt.target.value })
+    this.setState({ [evt.target.name]: evt.target.value })
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
     const { email, password } = this.state;
+    console.log('onSave', { email, password })
     this.props.login({ email, password }, this.props.history)
-      .catch(ex => this.setState({ error : 'bad credentials'}))
+      .catch(ex => this.setState({ error: 'bad credentials' }))
   }
   render() {
     const { email, password, error } = this.state;
     const { handleChange, handleSubmit } = this;
+    const { classes } = this.props
     return (
       <Fragment>
-        <form onSubmit={handleSubmit}>
-        <input value={email} name='email' placeholder='email' onChange={handleChange} />
-        <input value={password} name='password' placeholder='password' onChange={handleChange} />
-        <button>Login</button>
-      </form>
+        <Grid container justify='center' display="flex">
+        <div className={classes.divstyle}>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Email Address"
+              value={email}
+              onChange={handleChange}
+              variant='outlined'
+              name='email'
+            />
+            <TextField
+              label="Password"
+              value={password}
+              onChange={handleChange}
+              className={classes.fieldstyle}
+              variant='outlined'
+              name='password'
+              type='password'
+            />
+            <div>
+            <br/>
+            <Button variant='contained' color='primary' size='large' type='submit'>
+              Login
+            </Button>
+            </div>
+            {/* <button>Login</button> */}
+          </form>
+        </div>
+        </Grid>
       </Fragment>
     )
   }
@@ -44,4 +92,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginForm)
+export default withStyles(styles)(connect(null, mapDispatchToProps)(LoginForm))

@@ -46,6 +46,7 @@ export const login = (credentials, history) => {
       //sets the token on localStorage and then calls exchangeTokenForAuth
       .then(data => {
         window.localStorage.setItem('token', data.token)
+        console.log('****', data.token)
       })
       .then(() => dispatch(exchangeTokenForAuth(history)))
   };

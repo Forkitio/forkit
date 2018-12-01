@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { HashRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Cookbook from './Cookbook'
 import Dashboard from './Dashboard'
@@ -11,6 +11,7 @@ import Skill from './Skill'
 import Diet from './Diet'
 import Time from './Time'
 import Signup from './Signup'
+import Recipe from './Recipe'
 import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
@@ -29,9 +30,6 @@ class App extends Component {
       this.props.history.push('/');
     }
     this.props.tokenCheck();
-    this.props.loadSavedRecipes(this.props.userId);
-    this.props.loadForkedRecipes(this.props.userId);
-    this.props.loadCreatedRecipes(this.props.userId);
   }
 
   render(){
@@ -48,9 +46,14 @@ class App extends Component {
           <Route path='/survey/time' render = { () => <Time/>}/>
           <Route path='/signup' render = { () => <Signup/>}/>
           <Route exact path='/login' component={LoginPage} />
+
+          <Switch>
+          <Route exact path='/recipe/create' render={() => <CreateRecipe />}/>
+          <Route path='/recipe/:name' render = { () => <Recipe/>}/>
+          </Switch>
           <Route path = '/user/:userid/cookbook' render = {({ history }) => <Cookbook history={history}/> }/>
           <Route path = '/user/:userid/dashboard' render = {({ history }) => <Dashboard history={history}/>} />
-          <Route path='/recipe/create' render={() => <CreateRecipe />}/>
+          {/* <Route path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/> */}
         </Fragment>
       </Router>
     )
@@ -58,18 +61,10 @@ class App extends Component {
   }
 }
 
-const matchStateToProps = (state) => {
-  return {
-      userId: state.auth.id
-  }
-}
 
 const mapDispatchToProps = dispatch => {
   return {
     tokenCheck : () => dispatch(exchangeTokenForAuth()),
-    loadSavedRecipes: (userId) => dispatch(getSavedRecipes(userId)),
-    loadForkedRecipes: (userId) => dispatch(getForkedRecipes(userId)),
-    loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId))
   }
 }
-export default connect(matchStateToProps, mapDispatchToProps)(App)
+export default connect(null, mapDispatchToProps)(App)

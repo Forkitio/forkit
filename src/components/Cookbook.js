@@ -6,6 +6,13 @@ import Nav from './Nav'
 
 class Cookbook extends Component {
 
+    componentDidMount(){
+        const { id } = this.props.auth
+        this.props.loadSavedRecipes(id)
+        this.props.loadForkedRecipes(id)
+        this.props.loadCreatedRecipes(id)
+    }
+
     render () {
         const { classes, history } = this.props;
         return(
@@ -24,7 +31,7 @@ class Cookbook extends Component {
 
 const styles = theme => ({
     navBarSpace: {
-      marginTop: '60px',
+      marginTop: '70px',
       marginLeft: '15px',
       backgroundColor: 'white'
     },
@@ -33,4 +40,19 @@ const styles = theme => ({
     }
 });
 
-export default withStyles(styles)(Cookbook)
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth
+    }
+  }
+  
+
+const mapDispatchToProps = dispatch => {
+    return {
+      loadSavedRecipes: (userId) => dispatch(getSavedRecipes(userId)),
+      loadForkedRecipes: (userId) => dispatch(getForkedRecipes(userId)),
+      loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId))
+    }
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Cookbook))

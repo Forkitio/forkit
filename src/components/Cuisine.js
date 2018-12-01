@@ -74,6 +74,9 @@ class Cuisine extends Component {
         }
          return (
              <Fragment>
+                <Grid container justify="center" display="flex">
+                <img src='/public/forkit-bk.png'></img>
+                </Grid>
              {
                  !completed ? (
                  <Fragment>

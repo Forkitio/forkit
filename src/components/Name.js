@@ -63,6 +63,9 @@ class Name extends Component {
             <div>
                 {!userCreated ? (
                     <Fragment>
+                <Grid container justify="center" display="flex">
+                <img src='/public/forkit-bk.png'></img>
+                </Grid>
                         <Grid container justify="center" display="flex">
                          <div className={classes.divstyle}>
                         <Typography variant='h4' className={classes.boldedText}>

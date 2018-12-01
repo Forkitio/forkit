@@ -12,7 +12,7 @@ const Homepage = ({ classes, history })=> {
             <div className = {classes.navBarSpace}>
                 <div className = {classes.centerText}>
                     <Typography variant='h4' fontWeight='bold' className = {classes.whiteTextTitle}>
-                        Take the survey and find out your recipes.
+                        Fork it
                     </Typography>
                     <br />
                     <Typography variant='subtitle1' fontWeight='bold' className = {classes.whiteText}>
