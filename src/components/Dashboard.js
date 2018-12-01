@@ -21,14 +21,13 @@ class Dashboard extends Component {
         if (useTempData == 1){
             this.props.getAPIRecipes("Asian")
         }
-
     }
 
     render () {
         let _recipes
         let _auth = false
 
-        const { classes, recipeAPICuisine, auth } = this.props
+        const { classes, recipeAPICuisine, auth, history } = this.props
 
         if (useTempData == 1){
             _recipes = recipeAPICuisine.slice(0,8)
@@ -39,7 +38,6 @@ class Dashboard extends Component {
         auth.id ? _auth = true : null;
 
         console.log('auth: ', auth)
-        // console.log(auth.auth == {})
         console.log('_auth: ', _auth)
 
         return (
@@ -50,7 +48,7 @@ class Dashboard extends Component {
             _auth
             ?
             <div className = {classes.white}>
-            <Nav/>
+            <Nav history={history}/>
             <div className = {classes.navBarSpace}>
                 <br/>
                 <Typography variant = 'h6'>

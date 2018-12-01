@@ -6,19 +6,15 @@ import Nav from './Nav'
 
 class Cookbook extends Component {
 
-
     render () {
-
-        const { classes } = this.props
-
+        const { classes, history } = this.props;
         return(
             <div className = {classes.white}>
-                <Nav />
+                <Nav history={history}/>
                 <div className = {classes.navBarSpace}>
                     <Typography variant = 'h6'>
                         My Cookbook
                     </Typography>
-                    
                 </div>
             </div>
         )

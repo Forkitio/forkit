@@ -1,14 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Grid, Typography, Button, Divider, TextField, ButtonBase, Checkbox } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { updateUser } from '../store/userStore'
-import Protein from './Protein'
-import Name from './Name'
-
-
 
 const styles = theme => ({
     divstyle: {
@@ -71,8 +67,11 @@ class Cuisine extends Component {
 
     render() {
         const { handleSubmit, handleChange } = this
-        const { classes } = this.props
+        const { classes, user } = this.props
         const { chinese, indian, italian, thai, mediterranean, japanese, completed } = this.state
+        if(!user.id) {
+            return <Redirect to='/survey/name' />
+        }
          return (
              <Fragment>
              {
@@ -175,14 +174,14 @@ class Cuisine extends Component {
                             <br/>
                             <br/>
                             <div>
-                                <Button variant='text' type='button' className={classes.boldedText} onClick={() => { return <Name />}}>
+                                <Button variant='text' type='button' className={classes.boldedText} onClick={() => <Redirect to='/survey/name' />}>
                                     Back
                                 </Button>
                             </div>
                         </form>
                     </div>
                 </Grid>
-            </Fragment>) : <Protein />
+            </Fragment>) : <Redirect to='/survey/protein' />
             }
             </Fragment>
         )

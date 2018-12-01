@@ -36,13 +36,11 @@ class App extends Component {
   }
 
   render(){
-    //KG note: once I can figure out how to get auth working, cookbook route should be '/user/:userId/cookbook', dashboard route should be '/user/:userId/dashboard'
-
 
     return (
       <Router>
         <Fragment>
-          <Route exact path='/' render = { () => <Homepage/> }/>
+          <Route exact path='/' render = {({ history }) => <Homepage history={history}/> }/>
           <Route path='/survey/name' render = {() => <Name/>}/>
           <Route path='/survey/cuisine' render = { () => <Cuisine/>}/>
           <Route path='/survey/protein' render = { () => <Protein/>}/>
@@ -51,8 +49,8 @@ class App extends Component {
           <Route path='/survey/time' render = { () => <Time/>}/>
           <Route path='/signup' render = { () => <Signup/>}/>
           <Route exact path='/login' component={LoginPage} />
-          <Route path = '/user/:userid/cookbook' render = {() => <Cookbook /> }/>
-          <Route path = '/user/:userid/dashboard' render = {() => <Dashboard />} />
+          <Route path = '/user/:userid/cookbook' render = {({ history }) => <Cookbook history={history}/> }/>
+          <Route path = '/user/:userid/dashboard' render = {({ history }) => <Dashboard history={history}/>} />
           <Route path='/recipe/create' render={() => <CreateRecipe />}/>
         </Fragment>
       </Router>

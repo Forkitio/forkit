@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Grid, Typography, Button, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import { updateUser } from '../store/userStore'
-import Signup from './Signup'
-
 
 const styles = theme => ({
     divstyle: {
@@ -51,8 +49,12 @@ class Time extends Component {
     }
 
     render() {
-        const { handleSubmit, handleChange } = this
-        const { classes } = this.props
+        const { handleSubmit, handleChange } = this;
+        const { classes, user } = this.props;
+
+        if(!user.id) {
+            return <Redirect to='/survey/name' />
+        }
 
         return (
             <Fragment>
@@ -66,9 +68,9 @@ class Time extends Component {
                             </Typography>
                             <FormControl>
                             <RadioGroup
-                                aria-label="Gender"
-                                name="gender1"
-                                value={this.state.value}
+                                aria-label='Time spent cooking'
+                                name="cooking time"
+                                value={this.state.time}
                                 onChange={handleChange}
                             >
                                 <FormControlLabel value="15 min " control={<Radio />} label="Real quick! About 15 minutes." />
@@ -92,7 +94,7 @@ class Time extends Component {
                             </Link>
                     </div>
                 </Grid>
-            </Fragment> ) : <Signup />
+            </Fragment> ) : <Redirect to='/signup' />
             }
             </Fragment>
         )

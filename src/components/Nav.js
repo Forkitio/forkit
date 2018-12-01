@@ -1,14 +1,23 @@
-import React, { Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../store/authStore'
 import { Button, Typography, AppBar, Toolbar} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 
-const Nav = ({ auth, isLoggedIn, logout, classes }) => {
+class Nav extends Component {
+  constructor() {
+    super()
+    this.state = {
+      loggedOut : false
+    }
+  }
+  render () {
+    const { auth, isLoggedIn, logout, classes, history } = this.props;
 
-  return (
-    <div className = {classes.root}>
+    //if(this.state.loggedOut) { return <Redirect to='/' /> }
+    return (
+      <div className = {classes.root}>
       <AppBar position = 'fixed' className = {classes.NavColor}>
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
@@ -21,7 +30,7 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
               <span>Hello {auth.firstName + ' ' + auth.lastName}</span>
               <Link to = {`/user/${auth.id}/cookbook`}>cookbook</Link>
               <Link to = {`/user/${auth.id}/dashboard`}>dashboard</Link>
-              <button type='button' onClick={logout}>Logout</button>
+              <button type='button' onClick={() => logout(history)}>Logout</button>
             </div>
           )
           :
@@ -34,10 +43,11 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
           // </div>
           }
         </Toolbar>
-    </AppBar>
-    </div>
-  )
-};
+      </AppBar>
+      </div>
+    )
+  }
+}
 
 const styles = {
   root: {
@@ -72,7 +82,7 @@ const mapStateToProps = ({ auth }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout : () => dispatch(logout())
+    logout : (history) => dispatch(logout(history))
   }
 };
 

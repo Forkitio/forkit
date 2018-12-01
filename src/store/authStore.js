@@ -30,6 +30,7 @@ export const exchangeTokenForAuth = (history) => {
       console.log('exchange token for auth: ', auth)
       dispatch(_setAuth(auth))
       if(history) {
+        console.log('exchange token history: ', history)
         history.push(`/user/${auth.id}/dashboard`)
       }
     })
@@ -50,10 +51,14 @@ export const login = (credentials, history) => {
   };
 };
 
-export const logout = () => {
-  window.localStorage.removeItem('token');
-  return _setAuth({});
-}
+export const logout = (history) => {
+  return dispatch => {
+    console.log('logout thunk history: ', history)
+    window.localStorage.removeItem('token');
+    dispatch(_setAuth({}))
+    if(history) { history.push('/') }
+  }
+};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {

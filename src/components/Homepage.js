@@ -1,14 +1,15 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Grid, Typography, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav'
 
 
-const Homepage = ({classes})=> {
+const Homepage = ({ classes, history })=> {
     return (
         <Fragment>
-            <Nav/>
+            {console.log('homepage history: ', history)}
+            <Nav history={history}/>
             <div className = {classes.navBarSpace}>
                 <div className = {classes.centerText}>
                     <Typography variant='h4' fontWeight='bold' className = {classes.whiteTextTitle}>
@@ -16,18 +17,18 @@ const Homepage = ({classes})=> {
                     </Typography>
                     <br />
                     <Typography variant='subtitle1' fontWeight='bold' className = {classes.whiteText}>
-                        A place to share and save your favorite meals and discover more food memories.  
+                        A place to share and save your favorite meals and discover more food memories.
                     </Typography>
                     <br />
-                    
-                    <Link to = '/survey/name' className = {classes.noUnderline}>
-                        <Button className = {classes.getStartedButtton}>
+
+                    <Link to='/survey/name' className={classes.noUnderline}>
+                        <Button className={classes.getStartedButtton}>
                             Get Started
                         </Button>
                     </Link>
                 </div>
-                <img src = '/public/background.jpg' className = {classes.centerImage}/>
-            </div>      
+                <img src='/public/background.jpg' className={classes.centerImage}/>
+            </div>
         </Fragment>
     )
 }

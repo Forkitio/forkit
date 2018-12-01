@@ -55,9 +55,13 @@ class Signup extends Component {
     }
 
     render() {
-        const { handleSubmit, handleChange } = this
-        const { email, password, completed } = this.state
-        const { classes } = this.props
+        const { handleSubmit, handleChange } = this;
+        const { email, password, completed } = this.state;
+        const { classes, user } = this.props;
+
+        if(!user.id) {
+            return <Redirect to='/survey/name' />
+        }
 
         return (
             <Fragment>
