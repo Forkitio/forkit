@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { Grid, Typography, Button, Divider, TextField, ButtonBase, Checkbox } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { login } from '../store/authStore'
-import { withStyles } from '@material-ui/core/styles';
-import Dashboard from './Dashboard'
 
 const styles = theme => ({
   divstyle: {

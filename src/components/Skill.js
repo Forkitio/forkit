@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Grid, Typography, Button, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
 import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles';
@@ -92,7 +92,6 @@ class Skill extends Component {
                             <Button variant='contained' color='primary' size='large' type='submit'>
                                 Continue
                             </Button>
-
                         </div>
                         </form>
                         <br />
@@ -125,3 +124,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Skill))
+
+/*
+
+*/

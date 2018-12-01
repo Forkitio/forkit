@@ -49,6 +49,7 @@ class Dashboard extends Component {
 
         const { classes, recipeAPI, auth } = this.props
         
+
         if (useTempData == 1){
             _recipesCuisine = recipeAPI.cuisine.slice(0,8)
             _recipesTime = recipeAPI.time.slice(0,8)
@@ -182,7 +183,7 @@ const mapStateToProps = state => ({
     // authRecipes: __,
 })
 
-const mapDispatchtoProps = ({ getAPIRecipes }) 
+const mapDispatchtoProps = ({ getAPIRecipes })
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchtoProps)(Dashboard))
 
