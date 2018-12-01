@@ -14,8 +14,8 @@ const LoginPage = (props) => {
       <Nav/>
       <Grid container justify='center'>
       <br/>
-      <div className = {classes.navBarSpace}>
-        <Typography variant = 'h4' className={classes.boldedText}>
+      <div className = {classes.navBarSpace} style={{textAlign:'center'}}>
+        <Typography variant = 'h4' className={classes.boldedText} >
           Hey there, sign in here
         </Typography>
         <br/>

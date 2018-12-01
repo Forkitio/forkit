@@ -47,8 +47,8 @@ class App extends Component {
           <Route path='/survey/time' render = { () => <Time/>}/>
           <Route path='/signup' render = { () => <Signup/>}/>
           <Route exact path='/login' component={LoginPage} />
-          <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
-          <Route path = '/user/dashboard' render = {() => <Dashboard />} />
+          <Route path = '/user/:authId/cookbook' render = {() => <Cookbook /> }/>
+          <Route path = '/user/:authId/dashboard' render = {() => <Dashboard />} />
           <Switch>
           <Route exact path='/recipe/create' render={() => <CerateRecipe />}/>
           <Route path='/recipe/:id' render = { () => <Recipe/>}/>

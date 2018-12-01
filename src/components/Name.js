@@ -57,6 +57,9 @@ class Name extends Component {
         return (
             <Fragment>
                 <Grid container justify="center" display="flex">
+                <img src='/public/forkit-bk.png'></img>
+                </Grid>
+                <Grid container justify="center" display="flex">
                     <div className = {classes.divstyle}>
                     <Typography variant='h4' className = {classes.boldedText}>
                                 Hola, what's your name?

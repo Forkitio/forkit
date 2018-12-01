@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   divstyle: {
-      marginTop: '300px',
       textAlign: 'center'
   },
 
@@ -46,6 +45,7 @@ class LoginForm extends Component {
     console.log('onSave', { username, password })
     this.props.login({ username, password })
       .catch(ex => this.setState({ error: 'bad credentials' }))
+    this.props.history.push('/user/dashboard')
   }
   render() {
     const { username, password, error } = this.state;
@@ -53,7 +53,8 @@ class LoginForm extends Component {
     const { classes } = this.props
     return (
       <Fragment>
-        <Grid container justify='center'>
+        <Grid container justify='center' display="flex">
+        <div className={classes.divstyle}>
           <form onSubmit={onSave}>
             {/* <input value={username} name='username' placeholder='name' onChange={handleChange} />
             <input value={password} name='password' placeholder='password' onChange={handleChange} /> */}
@@ -71,14 +72,17 @@ class LoginForm extends Component {
               className={classes.fieldstyle}
               variant='outlined'
               name='password'
+              type='password'
             />
             <div>
+            <br/>
             <Button variant='contained' color='primary' size='large' type='submit'>
               Login
             </Button>
             </div>
             {/* <button>Login</button> */}
           </form>
+        </div>
         </Grid>
       </Fragment>
 

@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 const styles = theme => ({
     divstyle: {
-        marginTop: '200px',
+        marginTop: '300px',
         textAlign: 'center'
     },
 

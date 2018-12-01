@@ -29,12 +29,11 @@ class Diet extends Component {
     constructor() {
         super()
         this.state = {
-            beef: false,
-            lamb: false,
-            chicken: false,
-            fish: false,
-            pork: false,
-            vegeterian: false
+            vegan: false,
+            vegeterian: false,
+            paleo: false,
+            lowCarbDiet: false,
+            noDiet: false,
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -53,6 +52,9 @@ class Diet extends Component {
 
         return (
             <Fragment>
+                <Grid container justify="center" display="flex">
+                <img src='/public/forkit-bk.png'></img>
+                </Grid>
                 <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>
                         <form onSubmit={handleSubmit}>
