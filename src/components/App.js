@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { HashRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Nav from './Nav'
 import Cookbook from './Cookbook'
@@ -12,6 +12,7 @@ import Skill from './Skill'
 import Diet from './Diet'
 import Time from './Time'
 import Signup from './Signup'
+import Recipe from './Recipe'
 import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
@@ -48,7 +49,10 @@ class App extends Component {
           <Route exact path='/login' component={LoginPage} />
           <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
           <Route path = '/user/dashboard' render = {() => <Dashboard />} />
-          <Route path='/recipe/create' render={() => <CerateRecipe />}/>
+          <Switch>
+          <Route exact path='/recipe/create' render={() => <CerateRecipe />}/>
+          <Route path='/recipe/:id' render = { () => <Recipe/>}/>
+          </Switch>
         </Fragment>
       </Router>
     )

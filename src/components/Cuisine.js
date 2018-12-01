@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 const styles = theme => ({
     divstyle: {
-        marginTop: '300px',
+        marginTop: '200px',
         textAlign: 'center'
     },
 
@@ -58,6 +58,9 @@ class Cuisine extends Component {
         const { chinese, indian, italian, thai, mediterranean, japanese } = this.state
          return (
              <Fragment>
+                <Grid container justify="center" display="flex">
+                <img src='/public/forkit-bk.png'></img>
+                </Grid>
                 <Grid container justify="center" display="flex">
                     <div className = {classes.divstyle}>
                         <form onSubmit={handleSubmit}>

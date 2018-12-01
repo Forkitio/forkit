@@ -12,7 +12,9 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
       <AppBar position = 'fixed' className = {classes.NavColor}>
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
-          ForkIt
+        <Link to="/user/dashboard" className={classes.noUnderline}>
+          <img src='/public/forkit.png'></img>
+        </Link>
         </Typography>
 
         {
@@ -21,7 +23,10 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
               <span>Hello {auth.firstName + ' ' + auth.lastName}</span>
               <Link to = {`/user/${auth.id}/cookbook`}>cookbook</Link>
               <Link to = {`/user/${auth.id}/dashboard`}>dashboard</Link>
-              <button type='button' onClick={logout}>Logout</button>
+              {/* <button type='button' onClick={logout}>Logout</button> */}
+              <Button variant = 'outlined' size = 'small' className = {classes.loginButton} onClick={logout}>
+                Logout
+              </Button>
             </div>
           )
           :
