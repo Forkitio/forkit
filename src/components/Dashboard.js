@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import RecipeCard from './RecipeCard'
 import { Grid, Typography, Button, Divider } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
-import { getAPIRecipes } from '../store/recipeAPI.js'
+import { getAPIRecipes, getOneAPIRecipe } from '../store/recipeAPI.js'
 import recipeData from './tempData'
 import Nav from './Nav'
 import {Link} from 'react-router-dom';
@@ -186,7 +186,7 @@ const mapStateToProps = state => ({
     // authRecipes: __,
 })
 
-const mapDispatchtoProps = ({ getAPIRecipes })
+const mapDispatchtoProps = ({ getAPIRecipes, getOneAPIRecipe })
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchtoProps)(Dashboard))
 

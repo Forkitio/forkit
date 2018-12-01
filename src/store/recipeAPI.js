@@ -3,15 +3,22 @@ import axios from 'axios'
 const initialState = {
   cuisine: [],
   protein: [],
-  time: []
+  time: [],
+  selectedRecipe: {}
 }
 
 const GOT_RECIPES = 'GOT_RECIPES'
+const GOT_ONE_RECIPE = 'GOT_ONE_RECIPE'
 
 const gotRecipes  = (field, recipes) => ({
   type: GOT_RECIPES,
   field,
   recipes,
+})
+
+const gotOneRecipe = (recipe) => ({
+  type: GOT_ONE_RECIPE,
+  recipe
 })
 
 // Thunks - gets recipes from Edamam based on the input
@@ -23,10 +30,23 @@ const gotRecipes  = (field, recipes) => ({
 
 export const getAPIRecipes = (field, type) => {
     return dispatch => (
-        axios.get(`/api/edamam/${field}/${type}`)
+        axios.get(`/api/edamam/recommendations/${field}/${type}`)
         .then(res => dispatch(gotRecipes(field, res.data.hits)))
         .catch(ex => console.log(ex)) 
     )
+}
+
+export const getOneAPIRecipe = (id) => {
+  console.log("thunk working")
+
+  return dispatch => (
+    axios.get(`/api/edamam/getRecipeInfo/${id}`)
+    .then(res => {
+      dispatch(gotOneRecipe(res.data[0]))
+      console.log(res.data)
+    })
+    .catch(ex => console.log(ex))
+  )
 }
 
 const recipeAPIReducer = (state = initialState, action) => {
@@ -40,6 +60,10 @@ const recipeAPIReducer = (state = initialState, action) => {
         state = {...state, time: action.recipes}
       }
       return state
+    
+    case GOT_ONE_RECIPE:
+      return state = {...state, selectedRecipe: action.recipe}
+
     default:
       return state
   }
