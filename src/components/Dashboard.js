@@ -144,7 +144,7 @@ class Dashboard extends Component {
             <div className = {classes.navBarSpace404}>
                 <Nav/>
                 <Typography variant = 'h6'>
-                    fourohfour
+                    fourohfour - did you log in?
                 </Typography>
 
                 <Link to='/' className = {classes.noUnderline}>
@@ -152,8 +152,6 @@ class Dashboard extends Component {
                         Take me home
                     </Button>
                 </Link>
-
-
             </div>
         )
     }

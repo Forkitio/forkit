@@ -68,7 +68,8 @@ router.get('/:id/saved', (req, res, next) => {
   Recipe.findAll({
     where: {
       userId: req.params.id
-    }
+    },
+    include: [ { model: User } ]
   }).then(recipes => res.send(recipes))
     .catch(next);
 });

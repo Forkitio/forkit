@@ -107,7 +107,7 @@ const Recipe = conn.define('recipes', {
     },
     ancestoryId: {
         type: conn.Sequelize.UUID,
-        defaultValue: conn.Sequelize.UUIDV4,
+        defaultValue: null,
         // primaryKey: true
     },
     img: {
@@ -118,7 +118,7 @@ const Recipe = conn.define('recipes', {
     //parent recipe
     parentId:{
         type: conn.Sequelize.UUID,
-        defaultValue: conn.Sequelize.UUIDV4,
+        defaultValue: null,
         // primaryKey: true
     },
     //used id
