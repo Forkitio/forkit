@@ -22,7 +22,7 @@ class Dashboard extends Component {
         const { getAPIRecipes } = this.props
         const { auth } = this.props
         let _time
-        
+
         if (auth.time === '>1 hr'){
             _time = '60%2B'
         } else if (auth.time === '1 hr'){
@@ -60,11 +60,6 @@ class Dashboard extends Component {
             _recipesProtein = recipeData.hits.slice(0,8)
         }
 
-
-        auth.id ? _auth = true : null;
-
-        console.log('auth: ', auth)
-        console.log('_auth: ', _auth)
         const capitalize = word => {
             return word[0].toUpperCase() + word.slice(1, word.length)
         }
@@ -151,7 +146,7 @@ class Dashboard extends Component {
                 <Typography variant = 'h6'>
                     fourohfour
                 </Typography>
-                
+
                 <Link to='/' className = {classes.noUnderline}>
                     <Button variant = 'outlined' color = 'primary' size = 'small'>
                         Take me home
