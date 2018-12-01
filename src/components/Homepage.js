@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Grid, Typography, Button } from '@material-ui/core'
+import { Typography, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav'
 
@@ -8,7 +8,6 @@ import Nav from './Nav'
 const Homepage = ({ classes, history })=> {
     return (
         <Fragment>
-            {console.log('homepage history: ', history)}
             <Nav history={history}/>
             <div className = {classes.navBarSpace}>
                 <div className = {classes.centerText}>

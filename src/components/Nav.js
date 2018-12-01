@@ -14,7 +14,6 @@ class Nav extends Component {
   }
   render () {
     const { auth, isLoggedIn, logout, classes, history } = this.props;
-
     //if(this.state.loggedOut) { return <Redirect to='/' /> }
     return (
       <div className = {classes.root}>

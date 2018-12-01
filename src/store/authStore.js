@@ -53,9 +53,9 @@ export const login = (credentials, history) => {
 
 export const logout = (history) => {
   return dispatch => {
-    console.log('logout thunk history: ', history)
+    //console.log('logout thunk history: ', history)
     window.localStorage.removeItem('token');
-    dispatch(_setAuth({}))
+    dispatch(_setAuth({}));
     if(history) { history.push('/') }
   }
 };

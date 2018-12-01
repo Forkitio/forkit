@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Grid, Typography, Button, Divider } from '@material-ui/core'
+import { Typography, Button, Divider } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav'
 

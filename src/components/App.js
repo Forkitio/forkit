@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Nav from './Nav'
 import Cookbook from './Cookbook'
 import Dashboard from './Dashboard'
 import LoginPage from './LoginPage'
