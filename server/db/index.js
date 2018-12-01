@@ -16,11 +16,16 @@ const syncAndSeed = () => {
           img: "http://via.placeholder.com/640x360"
         }),
         User.create({
-          firstName: 'larry',
-          lastName: 'smith',
-          email: 'larry@gmail.com',
-          username: 'larry',
-          password: 'larry',
+          firstName: 'anthony',
+          lastName: 'bourdain',
+          email: 'anthony.bourdain@gmail.com',
+          username: 'anthony',
+          password: 'anthony',
+          protein: ['beef', 'chicken', 'fish'],
+          cuisine: ['chinese', 'indian','thai'],
+          skill: 'advanced',
+          diet: 'low-carb',
+          time: '30 min',
           pinterestId: null,
           instagramId: null,
           img: "http://via.placeholder.com/640x360"
