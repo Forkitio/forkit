@@ -34,5 +34,10 @@ class Recipe extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    recipes: state.recipes
+})
 
-export default Recipe
+
+
+export default connect(mapStateToProps)(Recipe)
