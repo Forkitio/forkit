@@ -34,3 +34,25 @@ router.put('/:id', (req, res, next) => {
         .then(res => res.send(comment))
         .cathc(next)
 });
+
+/* NESTED ROUTES FOR COMMENTS */
+
+router.get('/recipe/:recipeId', (req, res, next) => {
+    RecipeComment.findAll({
+        where: {
+          recipeId: req.params.id
+        }
+    })
+    .then(comments => res.send(comments))
+    .catch(next);
+});
+
+router.get('/user/:recipeId', (req, res, next) => {
+    RecipeComment.findAll({
+        where: {
+          userId: req.params.id
+        }
+    })
+    .then(comments => res.send(comments))
+    .catch(next);
+});

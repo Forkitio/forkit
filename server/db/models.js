@@ -154,6 +154,8 @@ User.belongsToMany(User, { through: 'followers' , as: 'follower' })
 //Comments
 User.hasMany(RecipeComment)
 RecipeComment.belongsTo(User)
+Recipe.hasMany(RecipeComment)
+RecipeComment.belongsTo(Recipe)
 
 //Saved Recipe
 User.hasMany(Recipe)

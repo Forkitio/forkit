@@ -85,16 +85,6 @@ router.get('/:id/created', (req, res, next) => {
     .catch(next);
 });
 
-/* NESTED ROUTES FOR COMMENTS */
 
-router.get('/:id/comments', (req, res, next) => {
-  RecipeComment.findAll({
-      where: {
-        userId: req.params.id*1
-      }
-  })
-  .then(comments => res.send(comments))
-  .catch(next);
-})
 
 
