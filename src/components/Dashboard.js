@@ -7,7 +7,6 @@ import { getAPIRecipes } from '../store/recipeAPI.js'
 import recipeData from './tempData'
 import Nav from './Nav'
 import {Link} from 'react-router-dom';
-import { AUTH_FAILURE } from '../../../../13SuperAdvancedRedux/Lab.ReduxRoundingOut/src/reducers/auth';
 
 
 // To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1
@@ -37,13 +36,9 @@ class Dashboard extends Component {
             _recipes = recipeData.hits.slice(0,8)
         }
 
-        if (Object.keys(auth.auth).length == 0){
+        if (Object.keys(auth.auth).length){
             _auth = true
         }
-
-        console.log(auth.auth)
-        // console.log(auth.auth == {})
-        console.log(_auth)
 
         return (
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
