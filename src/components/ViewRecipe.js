@@ -7,33 +7,28 @@ import { getRecipes } from '../store/recipeAPI.js'
 import recipeData from './tempData'
 import Nav from './Nav'
 
+const useRealData = 0
 
-// To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1
-const useTempData = 0
-
-class Dashboard extends Component {
+class ViewRecipe extends Component {
     constructor(props){
         super(props)
     }
 
     componentDidMount(){
-        if (useTempData == 1){
-            this.props.getRecipes("Asian")
-        }
+        //we need to fetch the recipe from the database based on the URL params and mnount this in here,
+        //for now, we will use more fake data
     }
 
+
     render () {
-        let _recipes
 
-        const { classes, recipes } = this.props
-        
-        if (useTempData == 1){
-            _recipes = recipes.slice(0,8)
+        let _recipe
+
+        if (useRealData == 0){
+            _recipe = this.propss.recipe
         } else {
-            _recipes = recipeData.hits.slice(0,8)
+            _recipe = recipeData[0].recipe
         }
-
-        console.log(_recipes)
 
         return (
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
@@ -42,6 +37,7 @@ class Dashboard extends Component {
             <div className = {classes.white}>
             <Nav/>
             <div className = {classes.navBarSpace}>
+                <img src = {_recipe.image} classname = {classes.image}/>
                 <br/>
                 <Typography variant = 'h6'>
                     Dashboard
@@ -121,8 +117,7 @@ const mapStateToProps = state => ({
     recipes: state.recipes
 })
 
-const mapDispatchtoProps = ({ getRecipes }) 
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchtoProps)(Dashboard))
+export default withStyles(styles)(connect(mapStateToProps)(ViewRecipe))
 
 

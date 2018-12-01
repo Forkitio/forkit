@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../store/authStore'
-import { Button, Typography, AppBar, Toolbar} from '@material-ui/core'
+import { Button, Typography, AppBar, Toolbar, Grid} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 
 const Nav = ({ auth, isLoggedIn, logout, classes }) => {
@@ -11,10 +11,9 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
     <div className = {classes.root}>
       <AppBar position = 'fixed' className = {classes.NavColor}>
       <Toolbar>
-        <Typography variant = 'h6' className = {classes.grow}>
-          FORKIT
-        </Typography>
-      
+          <Typography variant = 'h6' className = {classes.grow}>
+            FORKIT
+          </Typography>
         {
           isLoggedIn ? (
             <div>
@@ -33,7 +32,7 @@ const Nav = ({ auth, isLoggedIn, logout, classes }) => {
             </Link>
           // </div>
           }
-        </Toolbar>
+      </Toolbar>
     </AppBar>
     </div>
   )

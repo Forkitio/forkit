@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Grid, Typography, Button } from '@material-ui/core'
+import { Typography, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav'
 

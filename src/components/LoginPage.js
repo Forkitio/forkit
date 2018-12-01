@@ -4,12 +4,14 @@ import LoginForm from './LoginForm'
 import OAuthLogins from './OAuthLogins'
 import { Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
+import Nav from './Nav'
 
 const LoginPage = (props) => {
   const { classes } = props
 
   return (
     <Fragment>
+      <Nav/>
       <div className = {classes.navBarSpace}>
         <Typography variant = 'h6'>
           Login Page

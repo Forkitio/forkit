@@ -9,6 +9,7 @@ import Name from  './Name'
 import Protein from './Protein'
 import Skill from './Skill'
 import Homepage from './Homepage'
+import ViewRecipe from './ViewRecipe'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 
@@ -26,6 +27,7 @@ class App extends Component {
 
   render(){
     //KG note: once I can figure out how to get auth working, cookbook route should be '/user/:userId/cookbook', dashboard route should be '/user/:userId/dashboard'
+    // recipes route needs to be: /user/:userId/recipe/:recipeId
 
 
     return (
@@ -38,6 +40,7 @@ class App extends Component {
           <Route exact path='/login' component={LoginPage} />
           <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
           <Route path = '/user/dashboard' render = {() => <Dashboard />} />
+          <Route path = '/user/recipe' render = {() => <ViewRecipe />} />
         </Fragment>
       </Router>
     )
