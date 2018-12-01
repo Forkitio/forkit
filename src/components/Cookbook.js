@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Typography, Button, Divider } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
+import {getCreatedRecipes} from './../store/createdRecipes';
+import {getSavedRecipes} from './../store/savedRecipes';
+import {getForkedRecipes} from './../store/forkedRecipes';
 import Nav from './Nav'
 
 class Cookbook extends Component {
