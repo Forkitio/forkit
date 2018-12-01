@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import RecipeCard from './RecipeCard'
 import { Grid, Typography, Button, Divider } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
-import { getAPIRecipes } from '../store/recipeAPI.js'
+import { getAPIRecipes, getOneAPIRecipe } from '../store/recipeAPI.js'
 import recipeData from './tempData'
 import Nav from './Nav'
 import {Link} from 'react-router-dom';
@@ -38,6 +38,8 @@ class Dashboard extends Component {
             getAPIRecipes('protein', auth.cuisine[0])
             getAPIRecipes('time', _time)
         }
+
+        this.props.getOneAPIRecipe('recipe_584ac5e486c088b3c8409c252d7f290c')
 
     }
 
@@ -185,7 +187,7 @@ const mapStateToProps = state => ({
     // authRecipes: __,
 })
 
-const mapDispatchtoProps = ({ getAPIRecipes })
+const mapDispatchtoProps = ({ getAPIRecipes, getOneAPIRecipe })
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchtoProps)(Dashboard))
 
