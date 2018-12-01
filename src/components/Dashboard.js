@@ -27,7 +27,7 @@ class Dashboard extends Component {
 
     render () {
         let _recipes
-        let _auth = false
+        let _auth = true
 
         const { classes, recipeAPICuisine, auth } = this.props
         
@@ -37,9 +37,9 @@ class Dashboard extends Component {
             _recipes = recipeData.hits.slice(0,8)
         }
 
-        if (Object.keys(auth.auth).length){
-            _auth = true
-        }
+        // if (Object.keys(auth.auth).length){
+        //     _auth = true
+        // }
 
         return (
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
