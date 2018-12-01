@@ -8,6 +8,21 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { getRecipeById } from './../utils';
+import { withStyles } from '@material-ui/core/styles';
+import Nav from './Nav';
+import PropTypes from 'prop-types';
+
+const styles = theme => ({
+    root: {
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      padding: theme.spacing.unit / 2,
+    },
+    chip: {
+      margin: theme.spacing.unit / 2,
+    },
+});
 
 class EditRecipe extends Component {
     constructor() {
@@ -58,7 +73,7 @@ class EditRecipe extends Component {
 
     event.preventDefault();
     onUpdateRecipe(recipe).then(() => {
-      this.setState({ success: 'Product updated successfully!' });
+      this.setState({ success: 'Recipe updated successfully!' });
     });
   }
 
@@ -86,161 +101,91 @@ class EditRecipe extends Component {
 
     return (
         <Fragment>
-            <div>
-          <Typography variant="h4" gutterBottom style={{ color: '#FF3B4A', marginLeft: '50px' }}>
-            Edit Recipe
-          </Typography>
-  
-          <Typography
-            variant="h6"
-            style={{ color: 'green', marginLeft: '50px' }}
-            gutterBottom
-          >
-            {success}
-          </Typography>
-  
-          <Typography
-            variant="h6"
-            style={{ color: 'red', marginLeft: '50px' }}
-            gutterBottom
-          >
-            {error}
-          </Typography>
-  
-          <br />
-  
-          <form onSubmit={handleSubmit}>
+        <Grid container justify="center" display="flex" style={{marginTop:'100px'}}>
+          <div>
+            <Nav />
             <Paper
-              elevation={5}
+              elevation={1}
               style={{
                 backgroundColor: '#FFFFFF',
-                padding: '10px',
-                width: '1000px',
+                padding: '25px',
+                width: '800px',
               }}
             >
-              <Grid
-                container
-                justify="flex-start"
-                spacing={16}
-                style={{ marginLeft: '20px', width: '1000px' }}
+            <Typography variant="h4" gutterBottom style={{textAlign: 'center', fontWeight:'bold'}}>
+                Edit your recipe
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom style={{textAlign: 'center'}}>
+                Let's spice it up!
+            </Typography>
+
+              <Typography
+                variant="h6"
+                style={{ color: 'green', marginLeft: '50px' }}
+                gutterBottom
               >
-                <Grid item>
-                 <Typography
-                  variant="subheading"
-                  style={{ color: 'red' }}
-                  gutterBottom
-                  >
-                  Image:
-                  </Typography>
-                  <TextField
-                    required
-                    type="url"
-                    name="image"
-                    label="image"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                    value={image}
-                    style={{ width: '900px' }}
-                  />
-                </Grid>
-  
-              <Grid item>
-                  <Typography
-                  variant="subheading"
-                  style={{ color: 'red' }}
-                  gutterBottom
-                  >
-                  Title:
-                  </Typography>
+                {success}
+              </Typography>
+
+              <Typography
+                variant="h6"
+                style={{ color: 'red', marginLeft: '50px' }}
+                gutterBottom
+              >
+                {error}
+              </Typography>
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  required
+                  type="url"
+                  name="image"
+                  label="Image"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={image}
+                  style={{ width: '800px' }}
+                />
+
                 <TextField
                   required
                   name="title"
-                  label="title"
+                  label="Title"
                   margin="normal"
                   variant="outlined"
-                  onChange={ handleChange }
-                  value={ title }
-                  style={{ width: "900px" }}
+                  onChange={handleChange}
+                  value={title}
+                  style={{ width: "800px" }}
                 />
-              </Grid>
-              </Grid>
-            </Paper>
-  
-            <br />
-  
-            <Paper
-              elevation={5}
-              style={{
-                backgroundColor: '#FFFFFF',
-                padding: '10px',
-                width: '1000px',
-              }}
-            >
-              <Grid
-                container
-                justify="flex-start"
-                spacing={16}
-                style={{ marginLeft: '20px', width: '1000px' }}
-              >
-                <Grid item>
-                  <Typography
-                  variant="subheading"
-                  style={{ color: 'red' }}
-                  gutterBottom
-                  >
-                  Steps to Follow:
-                  </Typography>
-                  <TextField
+
+                <TextField
                   label="Steps"
                   multiline
                   name="directions"
                   rowsMax="100"
-                  value={ directions }
+                  value={directions}
                   onChange={handleChange}
-                  style={{ width: '900px' }}
+                  style={{ width: '800px' }}
                   margin="normal"
                   variant="outlined"
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-  
-            <br />
-  
-            <Paper
-              elevation={5}
-              style={{
-                backgroundColor: '#FFFFFF',
-                padding: '10px',
-                width: '1000px',
-              }}
-            >
-              <Grid
-                container
-                justify="flex-start"
-                spacing={16}
-                style={{ marginLeft: '20px', width: '1000px' }}
-              >
-                <Grid item>
-                  <TextField
-                    required
-                    type="number"
-                    step="1"
-                    name="serving"
-                    placeholder="0"
-                    min="1"
-                    label="Serving size"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                    value={serving}
-                    style={{ width: '200px' }}
-                  />
-                </Grid>
-  
-                <Grid item>
-                  <TextField
+                />
+
+                <TextField
+                  required
+                  type="number"
+                  step="1"
+                  name="serving"
+                  placeholder="0"
+                  min="1"
+                  label="Serving size"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={serving}
+                  style={{ width: '200px' }}
+                />
+
+                <TextField
                   name="time"
                   type="number"
                   step="0.1"
@@ -252,146 +197,86 @@ class EditRecipe extends Component {
                   onChange={handleChange}
                   value={time}
                   style={{ width: '200px' }}
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-  
-            <br />
-  
-            <Paper
-              elevation={5}
-              style={{
-                backgroundColor: '#FFFFFF',
-                padding: '10px',
-                width: '1000px',
-              }}
-            >
-              <Grid
-                container
-                justify="flex-start"
-                spacing={16}
-                style={{ marginLeft: '20px', width: '1000px', marginBottom: '10px' }}
-              >
-                <Grid item>
-                 <Typography
-                  variant="subheading"
-                  style={{ color: 'red' }}
-                  gutterBottom
-                  >
-                  Please add ingredients separated by commas:
-                  </Typography>
-                  <TextField
-                    name="Ingredient"
-                    label="Ingredients"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                    value={ingredients}
-                    style={{ width: '900px' }}
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-  
-            <br />
-  
-            <Paper
-              elevation={5}
-              style={{
-                backgroundColor: '#FFFFFF',
-                padding: '10px',
-                width: '1000px',
-              }}
-            >
-              <Grid
-                container
-                justify="flex-start"
-                spacing={16}
-                style={{ marginLeft: '20px', width: '700px' }}
-              >
-                <Grid item>
-                  <Typography
-                  variant="subheading"
-                  style={{ color: 'red' }}
-                  gutterBottom
-                  >
-                  Select Health and Dietary Labels from suggested:
-                  </Typography>
-                  <TextField
-                    name="healthLabels"
-                    label="Health Labels"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                    value={ healthLabels }
-                    style={{ width: '700px' }}
-                  />
-                </Grid>
-  
-                {/* <Grid item>
-                  <div>
-                    {chipData.map(data => {
-                      return (
-                        <Chip
-                          key={data.key}
-                          label={data.label}
-                          onDelete={ handleChipSelect(data) }
-                          className={classes.chip}
-                        />
-                      );
-                    })}
-                    </div>
-                </Grid> */}
-  
-                <Grid item>
-                  <TextField
-                    name="dietLabels"
-                    label="Diet Labels"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                    value={ dietLabels }
-                    style={{ width: '700px' }}
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-  
-            <br />
-  
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              style={{ width: '200px' }}
-            >
-              Submit
-            </Button>
+                />
+                <TextField
+                  name="Ingredient"
+                  label="Ingredients"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={ingredients}
+                  style={{ width: '800px' }}
+                />
 
-            <Button
-                type="button"
-                variant="contained"
-                color="secondary"
-                style={{ width: '200px', marginLeft: '10px' }}
-                onClick={() => handleDelete(this.state.product)}
-            >
-                Delete Recipe
-            <DeleteIcon />
-          </Button>
-  
-            <br />
-          </form>
-              </div>
-        </Fragment>
+                <TextField
+                  name="healthLabels"
+                  label="Health Labels"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={healthLabels}
+                  style={{ width: '800px' }}
+                />
+
+                {/* <div>
+                  {chipData.map(data => {
+                    return (
+                      <Chip
+                        key={data.key}
+                        label={data.label}
+                        onDelete={handleChipSelect(data)}
+                        className={classes.chip}
+                      />
+                    );
+                  })}
+                </div> */}
+                <TextField
+                  name="dietLabels"
+                  label="Diet Labels"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={handleChange}
+                  value={dietLabels}
+                  style={{ width: '800px' }}
+                />
+                <div style={{ textAlign: 'center' }}>
+                <br/>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    style={{ width: '200px' }}
+                    >
+                    Submit
+                    </Button>
+
+                    <Button
+                        type="button"
+                        variant="contained"
+                        color="secondary"
+                        style={{ width: '200px', marginLeft: '10px' }}
+                        onClick={() => handleDelete(this.state.product)}
+                    >
+                        Delete Recipe
+                    <DeleteIcon />
+                </Button>
+                </div>
+              </form>
+            </Paper>
+          </div>
+        </Grid>
+      </Fragment>
       );
   }
 }
 
+EditRecipe.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+
 const mapStateToProps = ({ forkedRecipes, createdRecipes }, { match }) => {
     const id = match.params.id;
     const editableRecipes = forkedRecipes.concat(createdRecipes)
-    console.log('id ', id)
     return {
         recipe: getRecipeById(editableRecipes, id)
     };
@@ -404,4 +289,4 @@ const mapDispatchToProps = (dispatch, { history }) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditRecipe);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EditRecipe));

@@ -9,7 +9,7 @@ import { addCreatedRecipe } from './../store/createdRecipes';
 import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
-import Nav from './Nav'
+import Nav from './Nav';
 
 const styles = theme => ({
   root: {
