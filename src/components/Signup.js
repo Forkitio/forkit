@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Grid, Typography, Button, Divider, TextField } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import { updateUser } from '../store/userStore'
-import LoginPage from './LoginPage'
-
 
 const styles = theme => ({
     divstyle: {
@@ -96,7 +94,7 @@ class Signup extends Component {
                         </form>
                     </div>
                 </Grid>
-                </Fragment> ) : <LoginPage />
+                </Fragment> ) : <Redirect to='/login'/>
             }
             </Fragment>
         )

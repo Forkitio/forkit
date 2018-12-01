@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../store/authStore'
-import Dashboard from './Dashboard'
 
 class LoginForm extends Component {
   constructor () {

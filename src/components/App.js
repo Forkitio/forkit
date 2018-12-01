@@ -16,7 +16,7 @@ import Homepage from './Homepage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 import CreateRecipe from './CreateRecipe';
-import EditRecipe from './EditRecipe';
+//import EditRecipe from './EditRecipe';
 import {getCreatedRecipes} from './../store/createdRecipes';
 import {getSavedRecipes} from './../store/savedRecipes';
 import {getForkedRecipes} from './../store/forkedRecipes';
@@ -51,10 +51,9 @@ class App extends Component {
           <Route path='/survey/time' render = { () => <Time/>}/>
           <Route path='/signup' render = { () => <Signup/>}/>
           <Route exact path='/login' component={LoginPage} />
-          <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
-          <Route path = '/user/dashboard' render = {() => <Dashboard />} />
+          <Route path = '/user/:userid/cookbook' render = {() => <Cookbook /> }/>
+          <Route path = '/user/:userid/dashboard' render = {() => <Dashboard />} />
           <Route path='/recipe/create' render={() => <CreateRecipe />}/>
-          <Route path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/>
         </Fragment>
       </Router>
     )
