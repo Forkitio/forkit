@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Nav from './Nav'
 import Cookbook from './Cookbook'
 import Dashboard from './Dashboard'
 import LoginPage from './LoginPage'
@@ -38,7 +37,7 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          <Route exact path='/' render = { () => <Homepage/> }/>
+          <Route exact path='/' render = {({ history }) => <Homepage history={history}/> }/>
           <Route path='/survey/name' render = {() => <Name/>}/>
           <Route path='/survey/cuisine' render = { () => <Cuisine/>}/>
           <Route path='/survey/protein' render = { () => <Protein/>}/>
@@ -47,13 +46,16 @@ class App extends Component {
           <Route path='/survey/time' render = { () => <Time/>}/>
           <Route path='/signup' render = { () => <Signup/>}/>
           <Route exact path='/login' component={LoginPage} />
+
           <Switch>
           <Route exact path='/recipe/create' render={() => <CerateRecipe />}/>
           <Route exact path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/>
           <Route path='/recipe/:id' render = { () => <Recipe/>}/>
           </Switch>
-          <Route path = '/user/cookbook' render = {() => <Cookbook /> }/>
-          <Route path = '/user/dashboard' render = {() => <Dashboard />} />
+          <Route path = '/user/:userid/cookbook' render = {({ history }) => <Cookbook history={history}/> }/>
+          <Route path = '/user/:userid/dashboard' render = {({ history }) => <Dashboard history={history}/>} />
+          {/* <Route path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/> */}
+
         </Fragment>
       </Router>
     )

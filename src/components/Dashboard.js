@@ -38,7 +38,6 @@ class Dashboard extends Component {
             getAPIRecipes('protein', auth.cuisine[0])
             getAPIRecipes('time', _time)
         }
-
     }
 
     render () {
@@ -47,8 +46,9 @@ class Dashboard extends Component {
         let _recipesProtein
         let _recipesFavorite = recipeData.hits.slice(0,8)
 
-        const { classes, recipeAPI, auth } = this.props
-        
+
+        const { classes, recipeAPI, auth, history } = this.props
+
 
         if (useTempData == 1){
             _recipesCuisine = recipeAPI.cuisine.slice(0,8)
@@ -60,9 +60,15 @@ class Dashboard extends Component {
             _recipesProtein = recipeData.hits.slice(0,8)
         }
 
+
+        auth.id ? _auth = true : null;
+
+        console.log('auth: ', auth)
+        console.log('_auth: ', _auth)
         const capitalize = word => {
             return word[0].toUpperCase() + word.slice(1, word.length)
         }
+
 
         return (
             // For now, Dashboard will recommend recipe based on your favorite protein, cuisine and time preference
@@ -70,7 +76,7 @@ class Dashboard extends Component {
             auth.id
             ?
             <div className = {classes.white}>
-            <Nav/>
+            <Nav history={history}/>
             <div className = {classes.navBarSpace}>
                 <br/>
                 <Typography variant = 'h6'>
