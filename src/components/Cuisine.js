@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Grid, Typography, Button, Divider, TextField, ButtonBase, Checkbox } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles'
@@ -177,9 +177,11 @@ class Cuisine extends Component {
                             <br/>
                             <br/>
                             <div>
-                                <Button variant='text' type='button' className={classes.boldedText} onClick={() => <Redirect to='/survey/name' />}>
+                            <Link to='/survey/name' className={classes.noUnderline}>
+                                <Typography variant='subtitle1' className={classes.boldedText}>
                                     Back
-                                </Button>
+                                </Typography>
+                            </Link>
                             </div>
                         </form>
                     </div>
