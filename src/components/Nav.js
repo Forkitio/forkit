@@ -5,6 +5,7 @@ import { logout } from '../store/authStore'
 import { Button, Typography, AppBar, Toolbar, Avatar} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 
+
 class Nav extends Component {
   constructor() {
     super()
