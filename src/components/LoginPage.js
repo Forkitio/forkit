@@ -12,7 +12,7 @@ const LoginPage = (props) => {
   return (
     <Fragment>
       <Nav/>
-      <Grid container justify='center'>
+      <Grid container justify='center' style={{marginTop: '200px'}}>
       <br/>
       <div className = {classes.navBarSpace} style={{textAlign:'center'}}>
         <Typography variant = 'h4' className={classes.boldedText} >

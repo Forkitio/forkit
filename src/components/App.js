@@ -20,6 +20,8 @@ import CerateRecipe from './CreateRecipe';
 import EditRecipe from './EditRecipe';
 import Ancestry from './Ancestry'
 
+//import Welcome from './Welcome'
+
 class App extends Component {
 
   componentDidMount() {

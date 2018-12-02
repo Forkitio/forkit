@@ -97,8 +97,6 @@ class Skill extends Component {
                             </Button>
                         </div>
                         </form>
-                        <br />
-                        <br />
                         <div>
                             <Link to='/survey/diet' className={classes.noUnderline}>
                                 <Typography variant='subtitle1' className={classes.boldedText}>

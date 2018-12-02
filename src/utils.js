@@ -12,10 +12,11 @@ const mapApiRecipeTolocalRecipe = (recipe) => {
     // res.healthLabels = recipe.healthLabels;
     res.ingredients = recipe.ingredientLines;
     res.time = recipe.totalTime;
-    res.image = recipe.image;
+    res.img = recipe.image;
     // res.dietLabels = recipe.dietLabels;
     // no servings info on API recipies and we require that
     res.serving = 0;
+    res.author = recipe.source;
     if(recipe.healthLabels.length !== 0){
         res.healthLabels = recipe.healthLabels.map((label) => {
             let labelObj = {};
@@ -106,11 +107,17 @@ const getAllDietLables = () => {
     ]
 }
 
+const strToArr = (str) => {
+    const array = str.split(' - ')
+    return array
+};
+
 export {
     mapApiRecipeTolocalRecipe,
     getRecipeById,
     getLatestForkId,
     getLatestCreatedId,
     getAllHealthLables,
-    getAllDietLables
+    getAllDietLables,
+    strToArr
 }
