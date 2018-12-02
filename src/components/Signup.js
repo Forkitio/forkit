@@ -92,6 +92,7 @@ class Signup extends Component {
                                 className={classes.fieldstyle}
                                 variant='outlined'
                                 name='password'
+                                type='password'
                             />
                             <br />
                             <br/>
