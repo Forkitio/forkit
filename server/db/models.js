@@ -162,8 +162,7 @@ Recipe.hasMany(RecipeComment)
 RecipeComment.belongsTo(Recipe)
 
 //Saved Recipe
-User.hasMany(Recipe)
-
+Recipe.hasMany(Recipe)
 
 module.exports = {
   conn,

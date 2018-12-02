@@ -97,9 +97,16 @@ class RecipeCard extends Component {
     const { handleSave, handleFork, handleClickEvent, handleClose } = this;
     const { modalOpen } = this.state;
     let avatarSymbol
-    const recipeSplit = recipe.uri.split('#')
-    const recipeId = recipeSplit[1]
+    let recipeSplit
+    let recipeId
+
+    if (recipe.uri){
+      recipeSplit = recipe.uri.split('#')
+      recipeId = recipeSplit[1]
+    }
+
     console.log(recipeId)
+
     let _author
     let _author_firstName
     let _author_lastName // THIS IS VERY VERY HACKY....
