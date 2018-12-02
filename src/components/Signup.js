@@ -69,7 +69,7 @@ class Signup extends Component {
                 !completed ? (
                 <Fragment>
                 <Grid container justify="center" display="flex">
-                <img src='/public/forkit-bk.png'></img>
+                <img src='/public/forkit-bk.png' style={{width: '150px'}}></img>
                 </Grid>
                 <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>

@@ -22,7 +22,7 @@ class Nav extends Component {
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
         <Link to="/user/dashboard" className={classes.noUnderline}>
-          <img src='/public/forkit.png'></img>
+          <img src='/public/forkit-wt.png' style={{width: '150px'}}></img>
         </Link>
         </Typography>
 

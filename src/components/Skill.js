@@ -8,7 +8,7 @@ import { updateUser } from '../store/userStore'
 
 const styles = theme => ({
     divstyle: {
-        marginTop: '300px',
+        marginTop: '200px',
         textAlign: 'center'
     },
 
@@ -64,7 +64,7 @@ class Skill extends Component {
             !completed ? (
             <Fragment>
                 <Grid container justify="center" display="flex">
-                <img src='/public/forkit-bk.png'></img>
+                <img src='/public/forkit-bk.png' style={{width: '150px'}}></img>
                 </Grid>
                 <Grid container justify="center" display="flex">
                     <div className={classes.divstyle}>
