@@ -4,6 +4,7 @@ import { Grid, Typography, Button, Divider, TextField } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import Nav from './Nav'
+import Ancestry from './Ancestry'
 import recipeAPIReducer, { getAPIRecipes, getOneAPIRecipe } from '../store/recipeAPI.js'
 import Chip from '@material-ui/core/Chip';
 import Schedule from '@material-ui/icons/Schedule';
@@ -24,25 +25,29 @@ class Recipe extends Component {
 
     componentDidMount() {
         const recipeId = this.props.match.params.id
-
-        if (recipeId.length == 39){
-            this.props.getOneAPIRecipe(this.props.match.params.id)
-            console.log(this.props.match.params.id)
-            console.log(this.props.recipe)
+        if (recipeId.length === 39){
+            this.props.getOneAPIRecipe(recipeId)
+            // console.log(this.props.match.params.id)
+            // console.log(this.props.recipe)
         } else {
             this.props.getAllRecipes()
             this.props.getAllUsers()
         }
     }
 
+    // componentDidUpdate(prevProps, prevState){
+    //     if(prevProps.allRecipes !== this.props.allRecipes){
+    //         this.props.getAllRecipes()
+    //     }
+    // }
+
     render() {
         const { recipe, allRecipes, users } = this.props
         const recipeId = this.props.match.params.id
         let title, source, time, healthLabels, calories, ingredient, img, directions, _recipe, author
 
-        console.log(recipeId)
 
-        if (recipeId.length == 39) {
+        if (recipeId.length === 39) {
             title = recipe.label
             source = recipe.source
             time = recipe.totalTime
@@ -51,8 +56,9 @@ class Recipe extends Component {
             ingredient = recipe.ingredientLines
             img = recipe.image
             directions = ''
-        } else {
+        } else if (allRecipes.length){
             _recipe = allRecipes.filter(recipe => recipe.id === this.props.match.params.id)[0]
+            console.log(_recipe)
             title = _recipe.title
             directions = _recipe.directions
             ingredient = _recipe.ingredients
@@ -61,6 +67,7 @@ class Recipe extends Component {
             author = users.filter(user => user.id === _recipe.createdBy)[0]
             source = author.firstName + ' ' + author.lastName
             calories = 'calories not available yet'
+            healthLabels = _recipe.healthLabels
         }
 
         const recipeDirectionsArr = strToArr(directions)
@@ -87,9 +94,11 @@ class Recipe extends Component {
                         </Typography>
                         {
                             healthLabels ? healthLabels.map(label => {
-                                return (
-                                    <Chip label={label} color='secondary' style={{ marginRight: '10px' }} />
-                                )
+                                if (typeof label === 'string'){
+                                    return (
+                                        <Chip label={label} color='secondary' style={{ marginRight: '10px' }} key = {label} />
+                                    )
+                                }
                             }) : null
                         }
                         <br />
@@ -98,7 +107,19 @@ class Recipe extends Component {
                         <br />
                         <br />
                         <Typography variant='subtitle1'>
+
                         </Typography>
+                        
+                        {
+                            recipeId.length == 36?
+                            <Link to = {`/recipe/ancestry/${recipeId}`}>
+                                <Button>
+                                    Ancestry
+                                </Button>
+                            </Link>
+                            :
+                            null
+                        }
 
                         <Typography variant='subtitle1'>
                             <Whatshot />Calories: {calories}
@@ -155,11 +176,19 @@ class Recipe extends Component {
                         <div style={{ marginTop: '100px', marginRight: '300px', width: '500px' }}>
                             <ExpansionPanel elevation={0}>
                                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} elevation={0}>
-                                    <Typography variant='subtitle1' style={{fontWeight: 'bold'}}> Recipe Versions </Typography>
+                                    <Typography variant='subtitle1' style={{fontWeight: 'bold'}}> Recipe Forks </Typography>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <Typography>
-                                        Here are the different versions
+                                        Here are the different Forks of this recipe
+                                        <Divider/>
+                                        {
+                                            _recipe
+                                            ?
+                                            <Ancestry recipeId = {recipeId}/>
+                                            :
+                                            'No one has forked this recipe yet'
+                                        }
                                 </Typography>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>

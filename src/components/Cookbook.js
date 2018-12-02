@@ -11,6 +11,8 @@ import {getSavedRecipes} from './../store/savedRecipes';
 import {getForkedRecipes} from './../store/forkedRecipes';
 import RecipeCard from './RecipeCard'
 import Nav from './Nav'
+import { getAllRecipes } from '../store/recipes.js'
+import { getAllUsers } from '../store/userStore.js'
 
 class Cookbook extends Component {
 
@@ -19,6 +21,8 @@ class Cookbook extends Component {
         this.props.loadSavedRecipes(id)
         this.props.loadForkedRecipes(id)
         this.props.loadCreatedRecipes(id)
+        this.props.getAllRecipes()
+        this.props.getAllUsers()
     }
 
     render () {
@@ -190,7 +194,9 @@ const mapDispatchToProps = dispatch => {
     return {
       loadSavedRecipes: (userId) => dispatch(getSavedRecipes(userId)),
       loadForkedRecipes: (userId) => dispatch(getForkedRecipes(userId)),
-      loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId))
+      loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId)),
+      getAllUsers: () => dispatch(getAllUsers()),
+      getAllRecipes: () => dispatch(getAllRecipes())
     }
 }
 

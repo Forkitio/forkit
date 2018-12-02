@@ -26,6 +26,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
+import { getAllUsers } from '../store/userStore.js'
 
 const styles = theme => ({
   typography: {
@@ -75,6 +76,10 @@ class RecipeCard extends Component {
       this.handleClickEvent = this.handleClickEvent.bind(this);
       this.handlePopoverClose = this.handlePopoverClose.bind(this);
   }
+
+  // componentDidMount(){
+  //   this.props.getAllUsers()
+  // }
 
   handleExpandClick() {
     this.setState({
@@ -241,6 +246,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onForkRecipe: (recipe, userId) => dispatch(forkRecipe(recipe, userId)),
     onSaveRecipe: (recipe, userId) => dispatch(saveRecipe(recipe, userId)),
+    getAllUsers: () => dispatch(getAllUsers())
   };
 };
 
