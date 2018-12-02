@@ -7,7 +7,7 @@ import { updateUser } from '../store/userStore'
 
 const styles = theme => ({
     divstyle: {
-        marginTop: '300px',
+        marginTop: '200px',
         textAlign: 'center'
     },
 
@@ -66,9 +66,14 @@ class Time extends Component {
                 <Grid container justify='center' display='flex'>
                     <div className={classes.divstyle}>
                         <form onSubmit={handleSubmit}>
-                        <Typography variant='h4' className={classes.boldedText}>
+                        <Typography variant='h4' className={classes.boldedText} style={{width: '600px'}}>
                             On average, how long do you usually spend cooking?
                             </Typography>
+                            <br/>
+                            <Typography variant='subtitle1' fontWeight='bold'>
+                                Do you take your time cooking or do you prefer something quick?
+                            </Typography>
+                            <br/>
                             <FormControl>
                             <RadioGroup
                                 aria-label='Time spent cooking'
@@ -85,11 +90,9 @@ class Time extends Component {
                             <br />
                             <br />
                             <Button variant='contained' color='primary' size='large' style={{ textDecoration: 'none' }} type='submit'>
-                                Next
+                            Continue
                             </Button>
                         </form>
-                        <br />
-                        <br />
                             <Link to='/survey/skill' className={classes.noUnderline}>
                                 <Typography variant='subtitle1' className={classes.boldedText}>
                                     Back

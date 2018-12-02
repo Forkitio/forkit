@@ -166,14 +166,14 @@ class Protein extends Component {
                             <br/>
                             <br/>
                             <Button variant='contained' color='primary' size='large' type='submit'>
-                                Next
+                                Continue
                             </Button>
                             <br />
                             <br/>
                             <Link to='/survey/cuisine' className={classes.noUnderline}>
-                                <Button variant='text' type = 'button' className={classes.boldedText}>
+                            <Typography variant='subtitle1' className={classes.boldedText}>
                                     Back
-                                </Button>
+                                </Typography>
                             </Link>
                         </form>
                     </div>

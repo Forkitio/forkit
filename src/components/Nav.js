@@ -21,7 +21,7 @@ class Nav extends Component {
       <AppBar position = 'fixed' className = {classes.NavColor} elevation={0}>
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
-        <Link to="/user/dashboard" className={classes.noUnderline}>
+        <Link to={ isLoggedIn ? "/user/dashboard" : '/'} className={classes.noUnderline}>
           <img src='/public/forkit-wt.png' style={{width: '150px'}}></img>
         </Link>
         </Typography>

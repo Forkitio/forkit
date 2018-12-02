@@ -102,7 +102,7 @@ class Diet extends Component {
                             <br/>
                             <br/>
                             <Button variant='contained' color='primary' size='large' type='submit'>
-                                Next
+                                Continue
                             </Button>
                             <br />
                             <br/>
