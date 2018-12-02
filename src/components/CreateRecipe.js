@@ -36,7 +36,7 @@ class CreateRecipe extends Component {
         serving: 0,
         healthLabels: [],
         dietLabels: [],
-        image: ''
+        img: ''
       },
       success: '',
       error: '',
@@ -105,7 +105,7 @@ class CreateRecipe extends Component {
           serving: 0,
           healthLabels: [],
           dietLabels: [],
-          image: ''
+          img: ''
         },
         error: ''
       });
@@ -124,7 +124,7 @@ class CreateRecipe extends Component {
       serving,
       healthLabels,
       dietLabels,
-      image
+      img
     } = this.state.recipe;
     const healthLabelsIndexes = healthLabels.map(el => el.key);
     const dietLabelsIndexes = dietLabels.map(el => el.key);
@@ -167,12 +167,12 @@ class CreateRecipe extends Component {
                 <TextField
                   required
                   type="url"
-                  name="image"
+                  name="img"
                   label="Image"
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange}
-                  value={image}
+                  value={img}
                   style={{ width: '800px' }}
                 />
 
