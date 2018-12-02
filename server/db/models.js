@@ -50,7 +50,7 @@ const User = conn.define('users', {
         defaultValue: "http://via.placeholder.com/640x360"
     },
     protein: {
-        type: conn.Sequelize.ARRAY(conn.Sequelize.ENUM('beef', 'chicken', 'fish', 'vegetarian', 'lamb', 'tofu')),
+        type: conn.Sequelize.ARRAY(conn.Sequelize.ENUM('beef', 'chicken', 'fish', 'pork', 'lamb', 'tofu')),
         allowNull: true
     },
     cuisine: {

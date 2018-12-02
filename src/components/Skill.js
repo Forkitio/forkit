@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { Grid, Typography, Button, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
-import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import { updateUser } from '../store/userStore'
@@ -86,9 +85,9 @@ class Skill extends Component {
                                 value={this.state.skill}
                                 onChange={handleChange}
                             >
-                                <FormControlLabel value="advance" control={<Radio />} label="Gordon Ramsey, just less angry" />
-                                <FormControlLabel value="beginner" control={<Radio />} label="I know what paprika is" />
-                                <FormControlLabel value="intermediate" control={<Radio />} label="I can make an omelette" />
+                                <FormControlLabel value="expert" control={<Radio />} label="Gordon Ramsey, just less angry" />
+                                <FormControlLabel value="intermediate" control={<Radio />} label="I know what paprika is" />
+                                <FormControlLabel value="advanced" control={<Radio />} label="I can make an omelette" />
                                 <FormControlLabel value="beginner" control={<Radio />} label="I am useless in the kitchen" />
                             </RadioGroup>
                         </FormControl>
