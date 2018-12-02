@@ -47,7 +47,7 @@ const User = conn.define('users', {
     img: {
         type: conn.Sequelize.STRING,
         allowNull: false,
-        defaultValue: "http://via.placeholder.com/640x360"
+        defaultValue: '/public/profile-pic.png'
     },
     protein: {
         type: conn.Sequelize.ARRAY(conn.Sequelize.ENUM('beef', 'chicken', 'fish', 'pork', 'lamb', 'tofu')),
