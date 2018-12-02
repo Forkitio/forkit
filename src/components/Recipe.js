@@ -13,6 +13,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { getAllRecipes } from '../store/recipes.js'
+import { getAllUsers } from '../store/userStore.js'
 
 
 
@@ -30,13 +31,14 @@ class Recipe extends Component {
             console.log(this.props.recipe)
         } else {
             this.props.getAllRecipes()
+            this.props.getAllUsers()
         }
     }
 
     render() {
-        const { recipe, allRecipes } = this.props
+        const { recipe, allRecipes, users } = this.props
         const recipeId = this.props.match.params.id
-        let title, source, time, healthLabels, calories, ingredient, img, directions, _recipe
+        let title, source, time, healthLabels, calories, ingredient, img, directions, _recipe, author
 
         console.log(recipeId)
 
@@ -45,7 +47,7 @@ class Recipe extends Component {
             source = recipe.source
             time = recipe.totalTime
             healthLabels = recipe.healthLabels
-            calories = recipe.calories
+            calories = Math.floor(recipe.calories)
             ingredient = recipe.ingredientLines
             img = recipe.image
             directions = ''
@@ -56,6 +58,9 @@ class Recipe extends Component {
             ingredient = _recipe.ingredients
             time = _recipe.time
             img = _recipe.img
+            author = users.filter(user => user.id === _recipe.createdBy)[0]
+            source = author.firstName + ' ' + author.lastName
+            calories = 'calories not available yet'
         }
         // const healthLabels = recipe ? recipe.healthLabels : null
         // const totalTime = recipe ? recipe.totalTime : null
@@ -94,12 +99,12 @@ class Recipe extends Component {
 
                         </Typography>
                         <Typography variant='subtitle1'>
-                            <Whatshot />Calories: {recipe ? Math.floor(recipe.calories) : null} calories
-                </Typography>
+                            <Whatshot />Calories: {calories}
+                        </Typography>
                         <br />
                         <Typography variant='h6'>
                             Ingredients
-                </Typography>
+                        </Typography>
                         <ol>
                             {ingredient? ingredient.map(ing => {
                                 return (
@@ -113,6 +118,7 @@ class Recipe extends Component {
                                 <Typography variant='h6'>
                                     Directions
                                 </Typography>
+                                <br/>
                                 <Typography variant='subtitle1'>
                                     {directions}
                                 </Typography>
@@ -162,11 +168,12 @@ const mapStateToProps = (state, { match }) => {
     return {
         match,
         recipe: recipe,
-        allRecipes: state.allRecipes
+        allRecipes: state.allRecipes,
+        users: state.user.users
     }
 }
 
-const mapDispatchToProps = ({ getOneAPIRecipe, getAllRecipes })
+const mapDispatchToProps = ({ getOneAPIRecipe, getAllRecipes, getAllUsers })
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recipe)
