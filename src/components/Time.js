@@ -76,10 +76,10 @@ class Time extends Component {
                                 value={this.state.time}
                                 onChange={handleChange}
                             >
-                                <FormControlLabel value="15 min " control={<Radio />} label="Real quick! About 15 minutes." />
-                                <FormControlLabel value="30 min" control={<Radio />} label="No more than 30 minutes." />
-                                <FormControlLabel value="1 hr" control={<Radio />} label="I've got some time, but not over an hour." />
-                                <FormControlLabel value="> 1 hr" control={<Radio />} label="Throwing down in the kitchen! An hour plus." />
+                                <FormControlLabel value='15 min' control={<Radio />} label="Real quick! About 15 minutes." />
+                                <FormControlLabel value='30 min' control={<Radio />} label="No more than 30 minutes." />
+                                <FormControlLabel value='1 hr' control={<Radio />} label="I've got some time, but not over an hour." />
+                                <FormControlLabel value='> 1 hr' control={<Radio />} label="Throwing down in the kitchen! An hour plus." />
                             </RadioGroup>
                             </FormControl>
                             <br />
@@ -90,7 +90,7 @@ class Time extends Component {
                         </form>
                         <br />
                         <br />
-                            <Link to='/survey/diet' className={classes.noUnderline}>
+                            <Link to='/survey/skill' className={classes.noUnderline}>
                                 <Typography variant='subtitle1' className={classes.boldedText}>
                                     Back
                                 </Typography>
