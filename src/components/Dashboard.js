@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import RecipeCard from './RecipeCard'
-import { Grid, Typography, Button, Divider } from '@material-ui/core'
+import { Grid, Typography, Button, Divider, Avatar } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { getAPIRecipes, getOneAPIRecipe } from '../store/recipeAPI.js'
+import { getAllUsers } from '../store/userStore.js'
 import recipeData from './tempData'
 import Nav from './Nav'
 import {Link} from 'react-router-dom';
@@ -38,6 +39,8 @@ class Dashboard extends Component {
             getAPIRecipes('protein', auth.cuisine[0])
             getAPIRecipes('time', _time)
         }
+
+        this.props.getAllUsers()
     }
 
     render () {
@@ -47,7 +50,7 @@ class Dashboard extends Component {
         let _recipesFavorite = recipeData.hits.slice(0,8)
 
 
-        const { classes, recipeAPI, auth, history } = this.props
+        const { classes, recipeAPI, auth, history, users } = this.props
 
 
         if (useTempData == 1){
@@ -78,20 +81,38 @@ class Dashboard extends Component {
                     Explore
                 </Typography>
                 <Typography variant = 'body1'>
-                    Our picks for you are below.  Click on any recipe to get started.
+                    Our picks for you are below.  Click on any person or recipe to get started.
                 </Typography>
-                {/* <Link to={'/recipe/create'} className = {classes.noUnderline}>
-                <Button variant = 'outlined' color = 'primary' size = 'small'>
-                    + Add a Recipe
-                </Button>
-                </Link> */}
                 <br/>
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    Our Top Forked Recipes
+                    Find some favorite people to follow
                 </Typography>
-                <Grid container spacing = {24}>
+                <div className = {classes.root}>
+                <Grid container spacing = {16} >
+                { users.map(user => (
+                    <Grid item xs = {1} key = {user.id}>
+                    <Avatar
+                        alt = {user.firstName}
+                        src = {user.img}
+                        className = {classes.avatar}
+                    />
+                    <Typography variant = 'caption' className = {classes.avatarName}>
+                        {`${user.firstName} ${user.lastName}`} 
+                    </Typography>
+                    </Grid>
+                ))
+                }
+                </Grid>
+                </div>
+                <br/>
+                <Divider />
+
+                <Typography variant = 'h6'>
+                    Fork our most-forked recipes
+                </Typography>
+                <Grid container spacing = {32}>
                 { _recipesFavorite.map(recipe => (
                     <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
                         <RecipeCard recipe = {recipe.recipe} />
@@ -102,11 +123,11 @@ class Dashboard extends Component {
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    {capitalize(auth.protein[0])} Recipes
+                    {capitalize(auth.protein[0])} recipes
                 </Typography>
-                <Grid container spacing = {24}>
+                <Grid container spacing = {32}>
                 { _recipesCuisine.map(recipe => (
-                    <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
+                    <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.avatarGrid}>
                         <RecipeCard recipe = {recipe.recipe} />
                     </Grid>
                 ))}
@@ -115,9 +136,9 @@ class Dashboard extends Component {
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    {capitalize(auth.cuisine[0])} Recipes
+                    {capitalize(auth.cuisine[0])} recipes
                 </Typography>
-                <Grid container spacing = {24}>
+                <Grid container spacing = {32}>
                 { _recipesProtein.map(recipe => (
                     <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
                         <RecipeCard recipe = {recipe.recipe} />
@@ -128,9 +149,9 @@ class Dashboard extends Component {
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    {auth.time} Recipes
+                    {auth.time} recipes
                 </Typography>
-                <Grid container spacing = {24}>
+                <Grid container spacing = {32}>
                 { _recipesTime.map(recipe => (
                     <Grid item sm = {3} key = {recipe.recipe.uri} className = {classes.spacing}>
                         <RecipeCard recipe = {recipe.recipe} />
@@ -173,18 +194,31 @@ const styles = theme => ({
     noUnderline: {
         textDecoration: 'none',
       },
+    avatar: {
+        marginBottom: '10px',
+        marginRight: '5px',
+        marginLeft: '5px',
+        marginTop: '10px',
+        width: 100,
+        height: 100,
+    },
+    root: {
+        display: 'flex',
+        flexGrow: 1
+    },
+    avatarName: {
+        textAlign: 'center'
+    }
 });
 
 const mapStateToProps = state => ({
     recipes: state.recipes,
     recipeAPI: state.recipeAPI,
     auth: state.auth,
-    // userRecipes: state.recipes.filter()
-    // authPreferences: __,
-    // authRecipes: __,
+    users: state.user.users.filter(user => user.id !== state.auth.id)
 })
 
-const mapDispatchtoProps = ({ getAPIRecipes, getOneAPIRecipe })
+const mapDispatchtoProps = ({ getAPIRecipes, getOneAPIRecipe, getAllUsers })
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchtoProps)(Dashboard))
 

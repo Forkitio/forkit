@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../store/authStore'
-import { Button, Typography, AppBar, Toolbar} from '@material-ui/core'
+import { Button, Typography, AppBar, Toolbar, Avatar} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 
 class Nav extends Component {
@@ -29,6 +29,11 @@ class Nav extends Component {
           isLoggedIn ? (
             <div>
               <div style={{display: 'flex', justifyContent:'space-around'}}>
+              <Avatar
+                alt = {auth.firstName}
+                src = {auth.img}
+                className = {classes.avatar}
+              />
               <Typography variant="subtitle1" className={classes.link} style={{marginRight:'20px'}}>
                Hey {auth.firstName}
               </Typography>
@@ -39,7 +44,7 @@ class Nav extends Component {
               </Link>
               <Typography variant="subtitle1" className={classes.bold} style={{marginRight:'20px'}}>
               <Link to = {`/user/dashboard`} className = {classes.link}>
-                Recipes
+                Explore Recipes
               </Link>
               </Typography>
               <Button variant='outlined' size='small' className={classes.loginButton} type='button' onClick={() => logout(history)}>
@@ -93,6 +98,11 @@ const styles = {
   link: {
     color: 'white',
     textDecoration: 'none'
+  },
+  avatar:{
+    width: 30,
+    height: 30,
+    marginRight: 10
   }
 };
 
