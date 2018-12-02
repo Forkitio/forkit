@@ -81,7 +81,7 @@ class Dashboard extends Component {
                     Explore
                 </Typography>
                 <Typography variant = 'body1'>
-                    Our picks for you are below.  Click on any person or recipe to get started.
+                    Our picks for you are below. Click on any person or recipe to get started.
                 </Typography>
                 <br/>
                 <Divider/>
