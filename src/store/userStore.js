@@ -60,7 +60,6 @@ export const getUser = user => {
 };
 
 export const createUser = user => {
-  console.log('in thunk')
   return dispatch => {
     return axios.post('/api/users', user)
       .then(response => response.data)

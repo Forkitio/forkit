@@ -9,7 +9,6 @@ describe('User Routes - /api/users/', () => {
     beforeEach(() => {
         return conn.sync()
             .then(() => {
-                console.log('AAA', User)
                 return Promise.all([
                     User.create({
                         firstName: "Moe",

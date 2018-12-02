@@ -43,13 +43,11 @@ class Name extends Component {
         this.setState({
           [ev.target.name]: ev.target.value,
         });
-        console.log(this.state)
       }
 
     handleSubmit(ev) {
         ev.preventDefault();
         const newUser = {...this.state, password : 'placeholder'};
-        console.log('inhandleSubmit')
         this.props.createUser(newUser)
             .then(() => this.setState({ userCreated : true }))
     }

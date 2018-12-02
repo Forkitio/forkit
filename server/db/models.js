@@ -90,11 +90,13 @@ const Recipe = conn.define('recipes', {
     },
     time:{
         type: conn.Sequelize.INTEGER,
-        allowNull: false
+        defaultValue: 1,
+        // allowNull: false
     },
     serving:{
         type: conn.Sequelize.INTEGER,
-        allowNull: false
+        // allowNull: false,
+        defaultValue: 1
     },
     nutrition:{
         type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
