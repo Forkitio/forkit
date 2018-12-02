@@ -48,7 +48,8 @@ const getCreatedRecipes = (userId) => {
   };
 }
 
-const addCreatedRecipe = (recipe) => {
+const addCreatedRecipe = (recipe, userId) => {
+  recipe['createdBy'] = userId;
   return (dispatch) => {
     return axios.post(`/api/recipes`, recipe)
       .then(res => res.data)

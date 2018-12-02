@@ -8,10 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { getRecipeById } from './../utils';
+import { getRecipeById, getAllHealthLables, getAllDietLables } from './../utils';
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav';
 import PropTypes from 'prop-types';
+import Chip from '@material-ui/core/Chip';
 
 const styles = theme => ({
     root: {
@@ -26,8 +27,8 @@ const styles = theme => ({
 });
 
 class EditRecipe extends Component {
-    constructor() {
-    super();
+    constructor(props) {
+    super(props);
     this.state = {
         recipe: {
         title: '',
@@ -46,6 +47,8 @@ class EditRecipe extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleChipDeSelect = this.handleChipDeSelect.bind(this);
+    this.handleChipSelect = this.handleChipSelect.bind(this);
   }
 
   componentDidMount() {
@@ -83,8 +86,30 @@ class EditRecipe extends Component {
     onDeleteRecipe(recipe);
   }
 
+  handleChipSelect(data, isHealthChip) {
+      if(isHealthChip){
+        const healthLabels = [...this.state.recipe.healthLabels, data];
+        this.setState(this.state.recipe.healthLabels = healthLabels)
+      }
+      const dietLabels = [...this.state.recipe.dietLabels, data];
+      this.setState(this.state.recipe.dietLabels = dietLabels)
+  };
+
+  handleChipDeSelect(data, isHealthChip) {
+      if(isHealthChip){
+        const healthLabels = [...this.state.recipe.healthLabels];
+        const chipToDelete = healthLabels.indexOf(data);
+        healthLabels.splice(chipToDelete, 1);
+        this.setState(this.state.recipe.healthLabels = healthLabels)
+      }
+      const dietLabels = [...this.state.recipe.dietLabels];
+      const chipToDelete = dietLabels.indexOf(data);
+      dietLabels.splice(chipToDelete, 1);
+      this.setState(this.state.recipe.dietLabels = dietLabels)
+  };
+
   render() {
-    const { handleChange, handleSubmit, handleDelete } = this;
+    const { handleChange, handleSubmit, handleDelete, handleChipDeSelect, handleChipSelect } = this;
     const { recipe, success, error } = this.state;
     const {
         title,
@@ -96,6 +121,9 @@ class EditRecipe extends Component {
         dietLabels,
         image
     } = this.state.recipe;
+    const { classes, allHealthLabels, allDietLables } = this.props;
+    const healthLabelsIndexes = healthLabels.map(el => el.key);
+    const dietLabelsIndexes = dietLabels.map(el => el.key);
     if(!recipe.title || recipe.title === '') {
       return null
     }
@@ -164,7 +192,7 @@ class EditRecipe extends Component {
                   multiline
                   name="directions"
                   rowsMax="100"
-                  value={directions}
+                  value={directions? directions: ''}
                   onChange={handleChange}
                   style={{ width: '800px' }}
                   margin="normal"
@@ -208,38 +236,63 @@ class EditRecipe extends Component {
                   value={ingredients}
                   style={{ width: '800px' }}
                 />
+                <Typography variant="subtitle1" gutterBottom style={{textAlign: 'left'}}>
+                Health Labels:
+                </Typography>
 
-                <TextField
-                  name="healthLabels"
-                  label="Health Labels"
-                  margin="normal"
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={healthLabels}
-                  style={{ width: '800px' }}
-                />
+                <Paper className={classes.root}>
+                    {allHealthLabels.map(data => {
+                        if(healthLabelsIndexes.includes(data.key)){
+                            return (
+                                <Chip
+                                className={classes.chip}
+                                color="primary"
+                                key={data.key}
+                                label={data.label}
+                                onClick={() => handleChipDeSelect(data, true)}
+                                variant="outlined"
+                                />
+                            );
+                        }
+                        return (
+                            <Chip
+                            key={data.key}
+                            label={data.label}
+                            onClick={() => handleChipSelect(data, true)}
+                            className={classes.chip}
+                            />
+                        );
+                    })}
+                </Paper>
 
-                {/* <div>
-                  {chipData.map(data => {
-                    return (
-                      <Chip
-                        key={data.key}
-                        label={data.label}
-                        onDelete={handleChipSelect(data)}
-                        className={classes.chip}
-                      />
-                    );
-                  })}
-                </div> */}
-                <TextField
-                  name="dietLabels"
-                  label="Diet Labels"
-                  margin="normal"
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={dietLabels}
-                  style={{ width: '800px' }}
-                />
+                <Typography variant="subtitle1" gutterBottom style={{textAlign: 'left'}}>
+                Diet Labels:
+                </Typography>
+
+                <Paper className={classes.root}>
+                    {allDietLables.map(data => {
+                        if(dietLabelsIndexes.includes(data.key)){
+                            return (
+                                <Chip
+                                className={classes.chip}
+                                color="primary"
+                                key={data.key}
+                                label={data.label}
+                                onClick={() => handleChipDeSelect(data, false)}
+                                variant="outlined"
+                                />
+                            );
+                        }
+                        return (
+                            <Chip
+                            key={data.key}
+                            label={data.label}
+                            onClick={() => handleChipSelect(data, false)}
+                            className={classes.chip}
+                            />
+                        );
+                    })}
+                </Paper>
                 <div style={{ textAlign: 'center' }}>
                 <br/>
                 <Button
@@ -257,7 +310,7 @@ class EditRecipe extends Component {
                             variant="contained"
                             color="secondary"
                             style={{ width: '200px', marginLeft: '10px' }}
-                            onClick={() => handleDelete(this.state.product)}
+                            onClick={() => handleDelete(recipe)}
                             >
                                 Delete Recipe
                                 <DeleteIcon />
@@ -282,7 +335,9 @@ const mapStateToProps = ({ forkedRecipes, createdRecipes }, { match }) => {
     const id = match.params.id;
     const editableRecipes = forkedRecipes.concat(createdRecipes)
     return {
-        recipe: getRecipeById(editableRecipes, id)
+        recipe: getRecipeById(editableRecipes, id),
+        allHealthLabels: getAllHealthLables(),
+        allDietLables: getAllDietLables()
     };
 };
 
