@@ -90,11 +90,13 @@ const Recipe = conn.define('recipes', {
     },
     time:{
         type: conn.Sequelize.INTEGER,
-        allowNull: false
+        defaultValue: 1,
+        // allowNull: false
     },
     serving:{
         type: conn.Sequelize.INTEGER,
-        allowNull: false
+        // allowNull: false,
+        defaultValue: 1
     },
     nutrition:{
         type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
@@ -107,7 +109,7 @@ const Recipe = conn.define('recipes', {
     },
     ancestoryId: {
         type: conn.Sequelize.UUID,
-        defaultValue: conn.Sequelize.UUIDV4,
+        defaultValue: null,
         // primaryKey: true
     },
     img: {
@@ -118,7 +120,7 @@ const Recipe = conn.define('recipes', {
     //parent recipe
     parentId:{
         type: conn.Sequelize.UUID,
-        defaultValue: conn.Sequelize.UUIDV4,
+        defaultValue: null,
         // primaryKey: true
     },
     //used id

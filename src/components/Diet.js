@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Grid, Typography, Button, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
@@ -54,8 +54,13 @@ class Diet extends Component {
     }
 
     render() {
-        const { handleSubmit, handleChange } = this
-        const { classes } = this.props
+        const { handleSubmit, handleChange } = this;
+        const { classes, user } = this.props;
+
+        if(!user.id) {
+            return <Redirect to='/survey/name' />
+        }
+
         return (
             <Fragment>
             {
@@ -79,7 +84,7 @@ class Diet extends Component {
                             <RadioGroup
                                 aria-label="Gender"
                                 name="gender1"
-                                value={this.state.value}
+                                value={this.state.diet}
                                 onChange={handleChange}
                             >
                                 <FormControlLabel value="vegan" control={<Radio />} label="Vegan" />
@@ -109,7 +114,7 @@ class Diet extends Component {
                         </form>
                     </div>
                 </Grid>
-            </Fragment> ) : <Skill />
+            </Fragment> ) : <Redirect to='/survey/skill' />
         }
             </Fragment>
         )

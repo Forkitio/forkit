@@ -1,19 +1,27 @@
 const conn = require('./conn');
+const Sequelize = require('sequelize');
+
 const { User, RecipeComment, Recipe } = require('./models.js');
 
 const syncAndSeed = () => {
+  let Gordon, Anthony, Rachael, tabbouleh, hummus, babaghanoush
+
   return conn.sync({ force: true })
     .then(() => {
       return Promise.all([
-        User.create({
-          firstName: 'moe',
-          lastName: 'smith',
-          email: 'moe@gmail.com',
-          username: 'moe',
-          password: 'moe',
+        User.create({ 
+          firstName: 'Gordon',
+          lastName: 'Ramsay',
+          email: 'gordon@gmail.com',
+          username: 'gordon',
+          password: 'gordon',
+          protein: ['beef', 'chicken', 'fish'],
+          cuisine: ['chinese', 'indian','thai'],
+          skill: 'advanced',
+          diet: 'low-carb',
           pinterestId: null,
           instagramId: null,
-          img: "http://via.placeholder.com/640x360"
+          img: "https://cdn2.i-scmp.com/sites/default/files/styles/landscape/public/images/methode/2018/10/06/698694fa-c6d4-11e8-9907-be608544c5a1_1280x720_113644.jpg?itok=4wUEjYn8"
         }),
         User.create({
           firstName: 'Anthony',
@@ -28,22 +36,26 @@ const syncAndSeed = () => {
           time: '30 min',
           pinterestId: null,
           instagramId: null,
-          img: "http://via.placeholder.com/640x360"
+          img: "https://pixel.nymag.com/imgs/fashion/daily/2018/06/08/08-anthony-bourdain-2.w700.h467.2x.jpg"
         }),
         User.create({
-          firstName: 'curly',
-          lastName: 'smith',
-          email: 'curly@gmail.com',
-          username: 'curly',
-          password: 'curly',
+          firstName: 'Rachael',
+          lastName: 'Ray',
+          email: 'rachael@gmail.com',
+          username: 'rachael',
+          password: 'rachael',
+          protein: ['beef', 'chicken', 'fish'],
+          cuisine: ['chinese', 'indian','thai'],
+          skill: 'advanced',
+          diet: 'low-carb',
           pinterestId: null,
           instagramId: null,
-          img: "http://via.placeholder.com/640x360"
+          img: "https://www.rachaelraymag.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_1400/MTUwMTcxNjQ2MDE0MDA3MjMx/rachael-ray-headshot-1017-103052773.webp"
         }),
       ]);
     })
     .then((users) => {
-      [moe, larry, curly] = users
+      [Gordon, Anthony, Rachael] = users
       return Promise.all([
         Recipe.create({
           title: 'Tabbouleh',
@@ -54,7 +66,8 @@ const syncAndSeed = () => {
           healthLabels: ['Peanut-Free',
             'Tree-Nut-Free',
             'Alcohol-Free'],
-          dietLabels: ['Low-​Carb'],
+          dietLabels: ['Low-Carb'],
+          createdBy: Anthony.id,
           img: 'https://img.taste.com.au/chMTakge/w643-h428-cfill-q90/taste/2016/11/tabouli-77701-1.jpeg',
         })
       ])
@@ -68,7 +81,8 @@ const syncAndSeed = () => {
       healthLabels: ['Peanut-Free',
         'Tree-Nut-Free',
         'Alcohol-Free'],
-      dietLabels: ['Low-​Carb'],
+      dietLabels: ['Low-Carb'],
+      createdBy: Anthony.id,
       img: 'https://www.seriouseats.com/images/2014/02/20140225-baba-ganoush-recipe-food-lab-vegan-primary-2.jpg',
     }),
     Recipe.create({
@@ -82,6 +96,7 @@ const syncAndSeed = () => {
         'Tree-Nut-Free',
         'Alcohol-Free'],
       dietLabels: ['Low-​Carb', 'Low-Sugar', 'High-Fiber'],
+      createdBy: Anthony.id,
       img: 'https://images.food52.com/07EJrOzOdqr296J_YZRu9ls5CgA=/753x502/04189bd1-6884-41e7-a94a-96600a1437a8--Shawarma_3_1-.jpg',
     }),
     Recipe.create({
@@ -94,7 +109,8 @@ const syncAndSeed = () => {
       healthLabels: ['Peanut-Free',
         'Tree-Nut-Free',
         'Alcohol-Free'],
-      dietLabels: ['Low-​Carb', 'Low-Sugar', 'High-Fiber'],
+      dietLabels: ['Low-Carb', 'Low-Sugar', 'High-Fiber'],
+      createdBy: Gordon.id,
       img: 'https://s3.amazonaws.com/finecooking.s3.tauntonclud.com/app/uploads/2017/04/18192953/fc81va068-01-main.jpg',
     }),
     Recipe.create({
@@ -112,8 +128,9 @@ const syncAndSeed = () => {
       '1/2 tsp. toasted Asian sesame oil'],
       time: 1.5,
       serving: 6,
-      healthLabels: ['Balanced', 'Dairy-​Free'],
-      dietLabels: ['Low-​Carb', 'Low-Sugar', 'Vegetarian'],
+      healthLabels: ['Balanced', 'Dairy-Free'],
+      dietLabels: ['Low-Carb', 'Low-Sugar', 'Vegetarian'],
+      createdBy: Gordon.id,
       img: 'https://s3.amazonaws.com/finecooking.s3.tauntonclud.com/app/uploads/2017/04/18132452/051103075-03-egg-scallion-dumplings-recipe-main.jpg',
     }),
     Recipe.create({
@@ -140,7 +157,8 @@ const syncAndSeed = () => {
       healthLabels: ['Peanut-Free',
         'Tree-Nut-Free',
         'Alcohol-Free'],
-      dietLabels: ['Low-​Carb', 'Low-Sugar', 'High-Fiber'],
+      dietLabels: ['Low-Carb', 'Low-Sugar', 'High-Fiber'],
+      createdBy: Rachael.id,
       img: 'https://images.101cookbooks.com/pineapple_rice_recipe.jpg?w=680&auto=format',
     }),
     Recipe.create({
@@ -156,7 +174,8 @@ const syncAndSeed = () => {
       healthLabels: ['Peanut-Free',
         'Tree-Nut-Free',
         'Alcohol-Free'],
-      dietLabels: ['Low-​Carb', 'Low-Sugar', 'High-Fiber'],
+      dietLabels: ['Low-Carb', 'Low-Sugar', 'High-Fiber'],
+      createdBy: Rachael.id,
       img: 'http://www.straightupfood.com/blog/wp-content/uploads/2012/10/CubanBurger_8635W2.jpg',
     }),
     Recipe.create({
@@ -169,8 +188,21 @@ const syncAndSeed = () => {
       healthLabels: ['Peanut-Free',
         'Tree-Nut-Free',
         'Alcohol-Free'],
-      dietLabels: ['Low-​Carb', 'Low-Sugar', 'High-Fiber'],
+      dietLabels: ['Low-Carb', 'Low-Sugar', 'High-Fiber'],
+      createdBy: Rachael.id,
       img: 'https://assets.marthastewart.com/styles/wmax-300/d21/med103031_0707_bag008/med103031_0707_bag008_vert.jpg?itok=oQOhJNwm',
+        ]);
+      })
+     
+    .then((recipes) => {
+      [ Tabbouleh, Hummus, Babaghanoush ] = recipes
+
+      tabbouleh.setUser(Anthony)
+      return Promise.all([
+        RecipeComment.create({title: 'A', content: 'AA'}),
+        RecipeComment.create({title: 'B', content: 'BB'}),
+        RecipeComment.create({title: 'C', content: 'CC'}),
+      ])
     })
 };
 

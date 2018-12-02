@@ -1,27 +1,28 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
 import classnames from 'classnames'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
-import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
-import Collapse from '@material-ui/core/Collapse'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
 import red from '@material-ui/core/colors/red'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { connect } from 'react-redux';
 import { saveRecipe } from './../store/savedRecipes';
 import { forkRecipe } from './../store/forkedRecipes';
 import Recipe from './Recipe'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {getLatestForkId} from './../utils';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   card: {
@@ -54,15 +55,18 @@ const styles = theme => ({
 });
 
 class RecipeCard extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      expanded: false
+    constructor(props) {
+        super(props)
+        this.state = {
+            expanded: false,
+            modalOpen: false
+        }
+        this.handleExpandClick = this.handleExpandClick.bind(this);
+        this.handleSave = this.handleSave.bind(this);
+        this.handleFork = this.handleFork.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleClickEvent = this.handleClickEvent.bind(this);
     }
-    this.handleExpandClick = this.handleExpandClick.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleFork = this.handleFork.bind(this);
-  }
 
   handleExpandClick() {
     this.setState({
@@ -76,77 +80,96 @@ class RecipeCard extends Component {
 
   handleFork() {
     this.props.onForkRecipe(this.props.recipe, this.props.userId);
+    this.setState({ modalOpen: true });
+  }
+
+  handleClose(){
+    this.setState({ modalOpen: false });
+  };
+
+  handleClickEvent(){
+    this.setState({ modalOpen: false });
   }
 
   render() {
-    const { classes, recipe } = this.props;
-    const { handlImageClick, handleExpandClick, handleSave, handleFork } = this;
+    const { classes, recipe, latestFork, author, userId } = this.props;
+    const { handleSave, handleFork, handleClickEvent, handleClose } = this;
+    const { modalOpen } = this.state;
+    let avatarSymbol
+    if (recipe.source){
+      avatarSymbol = recipe.source[0]
+    } else if (author){
+      avatarSymbol = author.firstName[0]
+    }
+
     return (
-      // <Link to={`/recipe/${recipe.label}`} style={{textDecoration: 'none'}}>
-        <Card className={classes.card}>
-          <a href='true'>
-            <CardMedia
-              className={classes.media}
-              image={recipe.image}
-              onClick={() => <Recipe props={recipe}/>}
-            />
-          </a>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar}>
-                {recipe.source[0]}
-              </Avatar>
-            }
-            // action={
-            //   <IconButton>
-            //     <MoreVertIcon />
-            //   </IconButton>
-            // }
-            title={recipe.label}
-            subheader={recipe.source}
-          />
-          <CardActions className={classes.actions} disableActionSpacing>
+      <Card className={classes.card}>
+        <a href = 'true'>
+        <CardMedia
+            className={classes.media}
+            image = {recipe.image || recipe.img}
+            onClick={() => <Recipe props={recipe}/>}
+        />
+        </a>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="Recipe" className={classes.avatar}>
+              {avatarSymbol}
+            </Avatar>
+          }
+          title = {recipe.label || recipe.title}
+          subheader= { recipe.source || null}
+        />
+        <CardActions className={classes.actions} disableActionSpacing>
+        {
+          recipe.createdBy === userId ? null : (
             <Tooltip TransitionComponent={Zoom} title="Save Recipe">
               <IconButton aria-label="Save Recipe" onClick={handleSave}>
                 <FavoriteIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
-              <IconButton
-                aria-label="Fork Recipe"
-                onClick={handleFork}
+          )
+        }
+          <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
+            <IconButton 
+              aria-label="Fork Recipe"
+              onClick={handleFork}
               >
-                <ShareIcon />
-              </IconButton>
+              <ShareIcon />
+            </IconButton>
             </Tooltip>
-            {/* <IconButton
-            className={classnames(classes.expand, {
-              [classes.expandOpen]: this.state.expanded,
-            })}
-            onClick={this.handleExpandClick()}
-            aria-expanded={this.state.expanded}
-            aria-label="Show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton> */}
-          </CardActions>
-          {/* <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography paragraph>Method:</Typography>
-            <Typography paragraph>
-              content
-            </Typography>
-          </CardContent>
-        </Collapse> */}
-        </Card>
-      // </Link>
+            <Dialog
+              open={modalOpen}
+              onClose={this.handleClose}
+              aria-labelledby="responsive-dialog-title"
+            >
+              <DialogTitle id="responsive-dialog-title">{"Edit Recipe?"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Your recipe has been successfully forked to your cookbook. 
+                  Would you like to edit that recipe?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="secondary" autoFocus>
+                  Look for more recipes
+                </Button>
+                <Button onClick={handleClickEvent} color="primary" href={`/#/recipe/edit/${latestFork}`}>
+                  Take me to the Fork
+                </Button>
+              </DialogActions>
+            </Dialog>
+        </CardActions>
+      </Card>
     );
   }
 }
 
+
 const matchStateToProps = (state) => {
   return {
-    userId: state.auth.id
+      userId: state.auth.id,
+      latestFork: getLatestForkId(state.forkedRecipes)
   }
 }
 

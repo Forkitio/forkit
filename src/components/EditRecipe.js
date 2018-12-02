@@ -1,34 +1,35 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
+import { updateRecipe, deleteRecipe } from './../store/createdRecipes';
+import { updateForkedRecipe } from './../store/forkedRecipes';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { addCreatedRecipe } from './../store/createdRecipes';
-import PropTypes from 'prop-types';
-import Chip from '@material-ui/core/Chip';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { getRecipeById } from './../utils';
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav';
-import {getLatestCreatedId} from './../utils';
+import PropTypes from 'prop-types';
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    padding: theme.spacing.unit / 2,
-  },
-  chip: {
-    margin: theme.spacing.unit / 2,
-  },
+    root: {
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      padding: theme.spacing.unit / 2,
+    },
+    chip: {
+      margin: theme.spacing.unit / 2,
+    },
 });
 
-class CreateRecipe extends Component {
-  constructor() {
+class EditRecipe extends Component {
+    constructor() {
     super();
     this.state = {
-      recipe: {
+        recipe: {
         title: '',
         directions: '',
         ingredients: [],
@@ -37,32 +38,28 @@ class CreateRecipe extends Component {
         healthLabels: [],
         dietLabels: [],
         image: ''
-      },
-      success: '',
-      error: '',
-      chipData: [
-        { key: 0, label: 'Angular' },
-        { key: 1, label: 'jQuery' },
-        { key: 2, label: 'React' },
-        { key: 3, label: 'Vue.js' }
-      ]
+        },
+        success: '',
+        error: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChipSelect = this.handleChipSelect.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
+  componentDidMount() {
+    const { recipe } = this.props;
+    this.setState({ recipe });
+  }
+  
+  componentDidUpdate(prevProps) {
+    const { recipe } = this.props;
 
-
-  handleChipSelect(data) {
-    this.setState(state => {
-      const chipData = [...state.chipData];
-      const chipToDelete = chipData.indexOf(data);
-      chipData.splice(chipToDelete, 1);
-      return { chipData };
-    });
-  };
+    if(prevProps !== this.props) {
+      this.setState({ recipe })
+    }
+  }
 
   handleChange(event) {
     const recipe = Object.assign({}, this.state.recipe, {
@@ -72,57 +69,39 @@ class CreateRecipe extends Component {
   }
 
   handleSubmit(event) {
-    const { onAddRecipe, userId } = this.props;
+    const { onUpdateRecipe } = this.props;
     const { recipe } = this.state;
-    // created recipe should not have ancestor and parent
-    recipe.ancestoryId = null;
-    recipe.parentId = null;
-    recipe.createdBy = userId;
 
     event.preventDefault();
-    onAddRecipe(recipe)
-    .then(() => {
-      this.setState({ success: 'Recipe added successfully!' });
-      this.setState({
-        recipe: {
-          title: '',
-          directions: '',
-          ingredients: [],
-          time: 0,
-          serving: 0,
-          healthLabels: [],
-          dietLabels: [],
-          image: ''
-        },
-        error: '',
-        chipData: [
-          { key: 0, label: 'Angular' },
-          { key: 1, label: 'jQuery' },
-          { key: 2, label: 'React' },
-          { key: 3, label: 'Vue.js' }
-        ]
-      });
-    })
-      .catch(ex => this.setState({ error: `An error has occurred. ${ex}`, success: '' }));
+    onUpdateRecipe(recipe).then(() => {
+      this.setState({ success: 'Recipe updated successfully!' });
+    });
+  }
+
+  handleDelete(recipe) {
+    const { onDeleteRecipe } = this.props;
+    onDeleteRecipe(recipe);
   }
 
   render() {
-    const { classes, latestCreated } = this.props;
-    const { handleChange, handleSubmit, handleChipSelect } = this;
-    const { success, error, chipData } = this.state;
+    const { handleChange, handleSubmit, handleDelete } = this;
+    const { recipe, success, error } = this.state;
     const {
-      title,
-      directions,
-      ingredients,
-      time,
-      serving,
-      healthLabels,
-      dietLabels,
-      image
+        title,
+        directions,
+        ingredients,
+        time,
+        serving,
+        healthLabels,
+        dietLabels,
+        image
     } = this.state.recipe;
-    console.log('!!!', chipData)
+    if(!recipe.title || recipe.title === '') {
+      return null
+    }
+
     return (
-      <Fragment>
+        <Fragment>
         <Grid container justify="center" display="flex" style={{marginTop:'100px'}}>
           <div>
             <Nav />
@@ -134,12 +113,12 @@ class CreateRecipe extends Component {
                 width: '800px',
               }}
             >
-              <Typography variant="h4" gutterBottom style={{textAlign: 'center', fontWeight:'bold'}}>
-                Create your own recipe
-              </Typography>
-              <Typography variant="subtitle1" gutterBottom style={{textAlign: 'center'}}>
-                      Fill in the form below and make some magic happen!
-              </Typography>
+            <Typography variant="h4" gutterBottom style={{textAlign: 'center', fontWeight:'bold'}}>
+                Edit your recipe
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom style={{textAlign: 'center'}}>
+                Let's spice it up!
+            </Typography>
 
               <Typography
                 variant="h6"
@@ -240,7 +219,7 @@ class CreateRecipe extends Component {
                   style={{ width: '800px' }}
                 />
 
-                <div>
+                {/* <div>
                   {chipData.map(data => {
                     return (
                       <Chip
@@ -251,7 +230,7 @@ class CreateRecipe extends Component {
                       />
                     );
                   })}
-                </div>
+                </div> */}
                 <TextField
                   name="dietLabels"
                   label="Diet Labels"
@@ -264,40 +243,59 @@ class CreateRecipe extends Component {
                 <div style={{ textAlign: 'center' }}>
                 <br/>
                 <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size = 'large'
-                  href={`/#/recipe/${latestCreated}`}
-                >
-                  Create Recipe
-                </Button>
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    style={{ width: '200px' }}
+                    >
+                    Submit
+                    </Button>
+                    {
+                        recipe.ancestoryId ? null : (
+                            <Button
+                            type="button"
+                            variant="contained"
+                            color="secondary"
+                            style={{ width: '200px', marginLeft: '10px' }}
+                            onClick={() => handleDelete(this.state.product)}
+                            >
+                                Delete Recipe
+                                <DeleteIcon />
+                            </Button>
+                        )
+                    }
                 </div>
               </form>
             </Paper>
           </div>
         </Grid>
       </Fragment>
-    );
+      );
   }
 }
 
-CreateRecipe.propTypes = {
-  classes: PropTypes.object.isRequired,
+EditRecipe.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+
+const mapStateToProps = ({ forkedRecipes, createdRecipes }, { match }) => {
+    const id = match.params.id;
+    const editableRecipes = forkedRecipes.concat(createdRecipes)
+    return {
+        recipe: getRecipeById(editableRecipes, id)
+    };
 };
 
-const matchStateToProps = (state) => {
+const mapDispatchToProps = (dispatch, { history }) => {
   return {
-    userId: state.auth.id,
-    latestCreated: getLatestCreatedId(state.createdRecipes)
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onAddRecipe: recipe => dispatch(addCreatedRecipe(recipe)),
+    onUpdateRecipe: (recipe) => {
+        if(recipe.ancestoryId){
+            return dispatch(updateForkedRecipe(recipe))
+        }
+        return dispatch(updateRecipe(recipe))
+    },
+    onDeleteRecipe: recipe => dispatch(deleteRecipe(recipe, history))
   };
 };
 
-export default connect(matchStateToProps, mapDispatchToProps)(withStyles(styles)(CreateRecipe));
-
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EditRecipe));

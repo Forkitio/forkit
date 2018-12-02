@@ -5,7 +5,6 @@ import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import { updateUser } from '../store/userStore'
-import Time from './Time'
 
 
 const styles = theme => ({
@@ -52,9 +51,14 @@ class Skill extends Component {
     }
 
     render() {
-        const { handleSubmit, handleChange } = this
-        const { completed } = this.state
-        const { classes } = this.props
+        const { handleSubmit, handleChange } = this;
+        const { completed } = this.state;
+        const { classes, user } = this.props;
+
+        if(!user.id) {
+            return <Redirect to='/survey/name' />
+        }
+
         return (
             <Fragment>
             {
@@ -76,10 +80,10 @@ class Skill extends Component {
                             <br />
                         <FormControl>
                             <RadioGroup
-                                aria-label="Gender"
-                                name="gender1"
+                                aria-label="Skill"
+                                name="Cooking proficiency"
                                 className={classes.group}
-                                value={this.state.value}
+                                value={this.state.skill}
                                 onChange={handleChange}
                             >
                                 <FormControlLabel value="advance" control={<Radio />} label="Gordon Ramsey, just less angry" />
@@ -105,7 +109,7 @@ class Skill extends Component {
                         </div>
                     </div>
                 </Grid>
-            </Fragment> ) : <Time />
+            </Fragment> ) : <Redirect to='/survey/time' />
             }
             </Fragment>
         )

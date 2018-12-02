@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Grid, Typography, Button, Divider, TextField } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import { createUser } from '../store/userStore.js'
-import Cuisine from './Cuisine'
-
 
 const styles = theme => ({
     divstyle : {
@@ -45,13 +43,11 @@ class Name extends Component {
         this.setState({
           [ev.target.name]: ev.target.value,
         });
-        console.log(this.state)
       }
 
     handleSubmit(ev) {
         ev.preventDefault();
         const newUser = {...this.state, password : 'placeholder'};
-        console.log('inhandleSubmit')
         this.props.createUser(newUser)
             .then(() => this.setState({ userCreated : true }))
     }
@@ -100,7 +96,7 @@ class Name extends Component {
                         </form>
                     </div>
                 </Grid>
-            </Fragment> ) : ( <Cuisine /> )}
+            </Fragment> ) : ( <Redirect to='/survey/cuisine'/> )}
             </div>
         )
     }

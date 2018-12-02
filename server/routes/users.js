@@ -15,7 +15,6 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    console.log('in user post route')
     User.create(req.body)
         .then(user => res.status(201).send(user))
         .catch(next)
