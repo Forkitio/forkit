@@ -5,7 +5,7 @@ import { Grid, Typography, Button, Divider, Avatar, IconButton } from '@material
 import { withStyles } from '@material-ui/core/styles';
 import { getAPIRecipes, getOneAPIRecipe } from '../store/recipeAPI.js'
 import { getAllUsers } from '../store/userStore.js'
-import { getRecipes } from '../store/recipes.js'
+import { getAllRecipes } from '../store/recipes.js'
 import recipeData from './tempData'
 import Nav from './Nav'
 import {Link} from 'react-router-dom';
@@ -14,7 +14,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 
 
 // To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1 and make sure you create a file for the API keys I provided
-const useTempData = 0
+const useTempData = 1
 
 class Dashboard extends Component {
     constructor(props){
@@ -37,14 +37,15 @@ class Dashboard extends Component {
             _time = '0-15'
         }
 
+        this.props.getAllUsers()
+        this.props.getAllRecipes()
+
         if (useTempData == 1 && auth.id){
-            getAPIRecipes('cuisine', auth.protein[0])
-            getAPIRecipes('protein', auth.cuisine[0])
-            getAPIRecipes('time', _time)
+            this.props.getAPIRecipes('cuisine', auth.protein[0])
+            this.props.getAPIRecipes('protein', auth.cuisine[0])
+            this.props.getAPIRecipes('time', _time)
         }
 
-        this.props.getAllUsers()
-        this.props.getRecipes()
     }
 
     handleFollow(){
@@ -129,7 +130,7 @@ class Dashboard extends Component {
                 <Divider />
 
                 <Typography variant = 'h6'>
-                    Fork our most-forked recipes
+                    Fork our most-forkable recipes
                 </Typography>
                 <br/>
                 <Grid container spacing = {32}>
@@ -143,7 +144,7 @@ class Dashboard extends Component {
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    {capitalize(auth.protein[0])} recipes
+                    Because you said you like {capitalize(auth.protein[0])} recipes
                 </Typography>
                 <Grid container spacing = {32}>
                 { _recipesCuisine.map(recipe => (
@@ -156,7 +157,7 @@ class Dashboard extends Component {
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    {capitalize(auth.cuisine[0])} recipes
+                    Because you said you liked {capitalize(auth.cuisine[0])} recipes
                 </Typography>
                 <Grid container spacing = {32}>
                 { _recipesProtein.map(recipe => (
@@ -169,7 +170,7 @@ class Dashboard extends Component {
                 <Divider/>
 
                 <Typography variant = 'h6'>
-                    {auth.time} recipes
+                    Because you said you liked {auth.time} recipes
                 </Typography>
                 <Grid container spacing = {32}>
                 { _recipesTime.map(recipe => (
@@ -244,7 +245,7 @@ const mapStateToProps = state => ({
     users: state.user.users.filter(user => user.id !== state.auth.id)
 })
 
-const mapDispatchtoProps = ({ getAPIRecipes, getOneAPIRecipe, getAllUsers, getRecipes })
+const mapDispatchtoProps = ({ getAPIRecipes, getOneAPIRecipe, getAllUsers, getAllRecipes })
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchtoProps)(Dashboard))
 

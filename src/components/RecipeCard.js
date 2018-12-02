@@ -125,13 +125,11 @@ class RecipeCard extends Component {
       <Fragment>
         <Link to={`/recipe/${recipeId}`} style={{ textDecoration:'none' }}>
       <Card className={classes.card}>
-        <a href = 'true'>
         <CardMedia
             className={classes.media}
             image = {recipe.image || recipe.img}
             onClick={() => <Recipe props={recipe}/>}
         />
-        </a>
         <CardHeader
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
