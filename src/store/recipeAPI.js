@@ -29,6 +29,7 @@ const gotOneRecipe = (recipe) => ({
 // }
 
 export const getAPIRecipes = (field, type) => {
+    console.log('**********GETTING RECIPES')
     return dispatch => (
         axios.get(`/api/edamam/recommendations/${field}/${type}`)
         .then(res => dispatch(gotRecipes(field, res.data.hits)))
@@ -37,7 +38,6 @@ export const getAPIRecipes = (field, type) => {
 }
 
 export const getOneAPIRecipe = (id) => {
-
   return dispatch => (
     axios.get(`/api/edamam/getRecipeInfo/${id}`)
     .then(res => {
