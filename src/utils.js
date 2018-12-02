@@ -100,7 +100,9 @@ const getAllDietLables = () => {
         { key: 0, label: "LOW_CARB" },
         { key: 1, label: "HIGH_CARB" },
         { key: 2, label: "LOW_FAT" },
-        { key: 3, label: "HIGH_FAT" }
+        { key: 3, label: "HIGH_FAT" },
+        { key: 4, label: "LOW_SUGAR"},
+        { key: 5, label: "HIGH_FIBER"}
     ]
 }
 

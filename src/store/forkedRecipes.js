@@ -71,6 +71,8 @@ const forkRecipe = (recipe, userId) => {
   } 
   // external API recipe forking from fork
   else {
+    savedRecipe = Object.assign({}, recipe);
+    delete savedRecipe['id'];
     savedRecipe['ancestoryId'] = recipe.ancestoryId;
   }
 
@@ -79,7 +81,6 @@ const forkRecipe = (recipe, userId) => {
   // otherwise parent recipe is a fork intself and the ancestoryId should persist
   if(!recipe.parentId){
     if(recipe.createdBy === undefined){
-      const _recipe = mapApiRecipeTolocalRecipe(recipe);
       savedRecipe['parentId'] = recipe.uri.split('_')[1];
     } else {
       savedRecipe['parentId'] = recipe.id;
