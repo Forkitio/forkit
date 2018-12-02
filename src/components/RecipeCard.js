@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 import Card from '@material-ui/core/Card'
@@ -23,6 +23,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {getLatestForkId} from './../utils';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom'
 
 const styles = theme => ({
   card: {
@@ -96,6 +97,9 @@ class RecipeCard extends Component {
     const { handleSave, handleFork, handleClickEvent, handleClose } = this;
     const { modalOpen } = this.state;
     let avatarSymbol
+    const recipeSplit = recipe.uri.split('#')
+    const recipeId = recipeSplit[1]
+    console.log(recipeId)
     let _author
     let _author_firstName
     let _author_lastName // THIS IS VERY VERY HACKY....
@@ -111,6 +115,8 @@ class RecipeCard extends Component {
     }
 
     return (
+      <Fragment>
+        <Link to={`/recipe/${recipeId}`} style={{ textDecoration:'none' }}>
       <Card className={classes.card}>
         <a href = 'true'>
         <CardMedia
@@ -169,6 +175,8 @@ class RecipeCard extends Component {
             </Dialog>
         </CardActions>
       </Card>
+      </Link>
+      </Fragment>
     );
   }
 }

@@ -18,7 +18,7 @@ class Nav extends Component {
     //if(this.state.loggedOut) { return <Redirect to='/' /> }
     return (
       <div className = {classes.root}>
-      <AppBar position = 'fixed' className = {classes.NavColor}>
+      <AppBar position = 'fixed' className = {classes.NavColor} elevation={0}>
       <Toolbar>
         <Typography variant = 'h6' className = {classes.grow}>
         <Link to="/user/dashboard" className={classes.noUnderline}>

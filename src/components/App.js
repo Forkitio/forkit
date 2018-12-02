@@ -48,7 +48,7 @@ class App extends Component {
           <Switch>
           <Route exact path='/recipe/create' render={() => <CerateRecipe />}/>
           <Route exact path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/>
-          <Route path='/recipe/:id' render = { () => <Recipe/>}/>
+          <Route path='/recipe/:id' render = { ({ match, history, location }) => <Recipe match={match} location={location} history={history}/>}/>
           </Switch>
 
           <Switch>
