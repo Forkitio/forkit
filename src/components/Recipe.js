@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { SayButton } from 'react-say'
 import { getAllRecipes } from '../store/recipes.js'
 import { getAllUsers } from '../store/userStore.js'
+import { strToArr } from '../utils.js'
 
 class Recipe extends Component {
     constructor() {
@@ -61,6 +62,9 @@ class Recipe extends Component {
             source = author.firstName + ' ' + author.lastName
             calories = 'calories not available yet'
         }
+
+        const recipeDirectionsArr = strToArr(directions)
+
         // const healthLabels = recipe ? recipe.healthLabels : null
         // const totalTime = recipe ? recipe.totalTime : null
         return (
@@ -70,7 +74,7 @@ class Recipe extends Component {
                     <div style={{ marginTop: '100px', marginLeft: '300px', width: '660px' }}>
                         <Link to='/user/dashboard' style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold', fontFamily: 'arial' }}>
                             ← All Recipes
-                </Link>
+                        </Link>
                         <br />
                         <br />
                         <Typography variant='h4'>
@@ -111,23 +115,39 @@ class Recipe extends Component {
                         </SayButton>
 
                         <ol>
-                            {ingredient ? ingredient.map(ing => {
+                            {ingredient ? ingredient.map((ing, idx) => {
                                 return (
-                                    <Typography variant='subtitle1'>
+                                    <Typography variant='subtitle1' key={idx + 1}>
                                         <li> {ing} </li>
                                     </Typography>
                                 )
                             }): null}
                         </ol>
-                            <div>
-                                <Typography variant='h6'>
-                                    Directions
-                                </Typography>
-                                <br/>
-                                <Typography variant='subtitle1'>
-                                    {directions}
-                                </Typography>
-                            </div>
+
+                        <Typography variant='h6'>
+                            Directions
+                        </Typography>
+
+                        <SayButton onClick={(evt) => console.log(evt)} speak={recipeDirectionsArr || 'Sorry my voice is gone'} voice={ voices => [].find.call(voices, v => v.lang === 'en-GB')}>
+                            Hear all the directions at once
+                        </SayButton>
+
+                        <ol>
+                            {
+                                recipeDirectionsArr.map((step, idx) => {
+                                    return (
+                                        <Fragment key={idx + 1}>
+                                            <Typography variant='subtitle1' >
+                                                <li>{step}</li>
+                                            </Typography>
+                                            <SayButton speak={step}>
+                                                Hear individual step
+                                            </SayButton>
+                                        </Fragment>
+                                    )
+                                })
+                            }
+                        </ol>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column' }}>

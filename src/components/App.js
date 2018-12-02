@@ -19,7 +19,7 @@ import queryString from 'query-string'
 import CerateRecipe from './CreateRecipe';
 import EditRecipe from './EditRecipe';
 import Ancestory from './Ancestory'
-import Welcome from './Welcome'
+//import Welcome from './Welcome'
 
 class App extends Component {
 

@@ -106,11 +106,17 @@ const getAllDietLables = () => {
     ]
 }
 
+const strToArr = (str) => {
+    const array = str.split(' - ')
+    return array
+};
+
 export {
     mapApiRecipeTolocalRecipe,
     getRecipeById,
     getLatestForkId,
     getLatestCreatedId,
     getAllHealthLables,
-    getAllDietLables
+    getAllDietLables,
+    strToArr
 }
