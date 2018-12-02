@@ -14,7 +14,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 
 
 // To avoid having to call the recipe API everytime we reload as we have a limited number of calls we can use, I have created temporary recipe data to develop with.  To use real API data, change the constant below to be equal to 1 and make sure you create a file for the API keys I provided
-const useTempData = 1
+const useTempData = 0
 
 class Dashboard extends Component {
     constructor(props){
@@ -109,7 +109,7 @@ class Dashboard extends Component {
                         className = {classes.avatar}
                     />
                     </Link>
-                    <IconButton 
+                    <IconButton
                     aria-label = {`follow ${user.firstName}`}
                     onClick = {handleFollow}
                     className = {classes.iconStyle}
