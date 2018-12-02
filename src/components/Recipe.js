@@ -12,10 +12,9 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { SayButton } from 'react-say'
 import { getAllRecipes } from '../store/recipes.js'
 import { getAllUsers } from '../store/userStore.js'
-
-
 
 class Recipe extends Component {
     constructor() {
@@ -105,6 +104,9 @@ class Recipe extends Component {
                         <Typography variant='h6'>
                             Ingredients
                         </Typography>
+                        <SayButton onClick={(evt) => console.log(evt)} speak={recipe.ingredientLines || 'Sorry my voice is gone'}>
+                            Hear the ingredients
+                        </SayButton>
                         <ol>
                             {ingredient? ingredient.map(ing => {
                                 return (
@@ -134,7 +136,7 @@ class Recipe extends Component {
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <Typography>
-                                        Here are the different versions 
+                                        Here are the different versions
                                 </Typography>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
