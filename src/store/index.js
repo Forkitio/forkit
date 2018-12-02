@@ -8,6 +8,7 @@ import userReducer from './userStore.js';
 import { forkedRecipeReducer } from './forkedRecipes';
 import { savedRecipeReducer } from './savedRecipes';
 import { createdRecipeReducer } from './createdRecipes';
+import recipeReducer from './recipes'
 
 const reducer = combineReducers({
   auth : authReducer,
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   createdRecipes : createdRecipeReducer,
   savedRecipes : savedRecipeReducer,
   forkedRecipes : forkedRecipeReducer,
-  user : userReducer
+  user : userReducer,
+  allRecipes: recipeReducer
 });
 
 const store = createStore(

@@ -55,18 +55,18 @@ const styles = theme => ({
 });
 
 class RecipeCard extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            expanded: false,
-            modalOpen: false
-        }
-        this.handleExpandClick = this.handleExpandClick.bind(this);
-        this.handleSave = this.handleSave.bind(this);
-        this.handleFork = this.handleFork.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleClickEvent = this.handleClickEvent.bind(this);
-    }
+  constructor(props) {
+      super(props)
+      this.state = {
+          expanded: false,
+          modalOpen: false
+      }
+      this.handleExpandClick = this.handleExpandClick.bind(this);
+      this.handleSave = this.handleSave.bind(this);
+      this.handleFork = this.handleFork.bind(this);
+      this.handleClose = this.handleClose.bind(this);
+      this.handleClickEvent = this.handleClickEvent.bind(this);
+  }
 
   handleExpandClick() {
     this.setState({
@@ -92,14 +92,22 @@ class RecipeCard extends Component {
   }
 
   render() {
-    const { classes, recipe, latestFork, author, userId } = this.props;
+    const { classes, recipe, latestFork, userId, users } = this.props;
     const { handleSave, handleFork, handleClickEvent, handleClose } = this;
     const { modalOpen } = this.state;
     let avatarSymbol
+    let _author
+    let _author_firstName
+    let _author_lastName // THIS IS VERY VERY HACKY....
     if (recipe.source){
       avatarSymbol = recipe.source[0]
-    } else if (author){
-      avatarSymbol = author.firstName[0]
+    } else if (recipe.createdBy){
+      _author = users.filter(user => user.id === recipe.createdBy)
+      if (_author[0]){
+        avatarSymbol = _author[0].firstName[0]
+        _author_firstName = _author[0].firstName
+        _author_lastName = _author[0].lastName
+      }
     }
 
     return (
@@ -118,7 +126,7 @@ class RecipeCard extends Component {
             </Avatar>
           }
           title = {recipe.label || recipe.title}
-          subheader= { recipe.source || null}
+          subheader = { recipe.source || `${_author_firstName} ${_author_lastName}` }
         />
         <CardActions className={classes.actions} disableActionSpacing>
         {
@@ -169,14 +177,15 @@ class RecipeCard extends Component {
 const matchStateToProps = (state) => {
   return {
       userId: state.auth.id,
-      latestFork: getLatestForkId(state.forkedRecipes)
+      latestFork: getLatestForkId(state.forkedRecipes),
+      users: state.user.users
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onForkRecipe: (recipe, userId) => dispatch(forkRecipe(recipe, userId)),
-    onSaveRecipe: (recipe, userId) => dispatch(saveRecipe(recipe, userId))
+    onSaveRecipe: (recipe, userId) => dispatch(saveRecipe(recipe, userId)),
   };
 };
 
