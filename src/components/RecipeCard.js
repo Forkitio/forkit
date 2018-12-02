@@ -107,8 +107,6 @@ class RecipeCard extends Component {
       recipeId = this.props.recipe.id
     }
 
-    console.log(recipeId)
-
     let _author
     let _author_firstName
     let _author_lastName // THIS IS VERY VERY HACKY....

@@ -102,17 +102,14 @@ const Recipe = conn.define('recipes', {
         type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
     },
     healthLabels: {
-        // type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
         type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
     },
     dietLabels:{
-        // type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
         type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
     },
     ancestoryId: {
         type: conn.Sequelize.UUID,
-        defaultValue: null,
-        // primaryKey: true
+        defaultValue: null
     },
     img: {
         type: conn.Sequelize.STRING,
@@ -122,8 +119,7 @@ const Recipe = conn.define('recipes', {
     //parent recipe
     parentId:{
         type: conn.Sequelize.UUID,
-        defaultValue: null,
-        // primaryKey: true
+        defaultValue: null
     },
     //used id
     createdBy:{
@@ -161,8 +157,12 @@ RecipeComment.belongsTo(User)
 Recipe.hasMany(RecipeComment)
 RecipeComment.belongsTo(Recipe)
 
-//Saved Recipe
-Recipe.hasMany(Recipe)
+//Recipe Use
+Recipe.belongsTo(User)
+User.hasMany(Recipe)
+
+// //Saved Recipe
+// Recipe.hasMany(Recipe)
 
 module.exports = {
   conn,
