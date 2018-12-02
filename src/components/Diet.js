@@ -9,7 +9,7 @@ import Skill from './Skill'
 
 const styles = theme => ({
     divstyle: {
-        marginTop: '300px',
+        marginTop: '200px',
         textAlign: 'center'
     },
 
