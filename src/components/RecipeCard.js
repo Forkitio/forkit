@@ -92,10 +92,9 @@ class RecipeCard extends Component {
   }
 
   render() {
-    const { classes, recipe, latestFork, fullScreen, author } = this.props;
+    const { classes, recipe, latestFork, author, userId } = this.props;
     const { handleSave, handleFork, handleClickEvent, handleClose } = this;
     const { modalOpen } = this.state;
-
     let avatarSymbol
     if (recipe.source){
       avatarSymbol = recipe.source[0]
@@ -122,11 +121,15 @@ class RecipeCard extends Component {
           subheader= { recipe.source || null}
         />
         <CardActions className={classes.actions} disableActionSpacing>
-          <Tooltip TransitionComponent={Zoom} title="Save Recipe">
-            <IconButton aria-label="Save Recipe" onClick={handleSave}>
-              <FavoriteIcon />
-            </IconButton>
-          </Tooltip>
+        {
+          recipe.createdBy === userId ? null : (
+            <Tooltip TransitionComponent={Zoom} title="Save Recipe">
+              <IconButton aria-label="Save Recipe" onClick={handleSave}>
+                <FavoriteIcon />
+              </IconButton>
+            </Tooltip>
+          )
+        }
           <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
             <IconButton 
               aria-label="Fork Recipe"
