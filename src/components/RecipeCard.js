@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import classnames from 'classnames'
+import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
@@ -24,8 +24,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {getLatestForkId} from './../utils';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
+import Popover from '@material-ui/core/Popover';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
+  typography: {
+    margin: theme.spacing.unit * 2,
+  },
   card: {
     maxWidth: 400,
     height: 350
@@ -60,13 +65,15 @@ class RecipeCard extends Component {
       super(props)
       this.state = {
           expanded: false,
-          modalOpen: false
+          modalOpen: false,
+          anchorEl: null
       }
       this.handleExpandClick = this.handleExpandClick.bind(this);
       this.handleSave = this.handleSave.bind(this);
       this.handleFork = this.handleFork.bind(this);
       this.handleClose = this.handleClose.bind(this);
       this.handleClickEvent = this.handleClickEvent.bind(this);
+      this.handlePopoverClose = this.handlePopoverClose.bind(this);
   }
 
   handleExpandClick() {
@@ -75,7 +82,12 @@ class RecipeCard extends Component {
     })
   };
 
-  handleSave() {
+  handleSave(event) {
+    console.log('Q', this.state.anchorEl)
+    this.setState({
+      anchorEl: event.currentTarget,
+    });
+    console.log('Qs', this.state.anchorEl)
     this.props.onSaveRecipe(this.props.recipe, this.props.userId);
   }
 
@@ -88,17 +100,24 @@ class RecipeCard extends Component {
     this.setState({ modalOpen: false });
   };
 
+  handlePopoverClose() {
+    this.setState({
+      anchorEl: null,
+    });
+  };
+
   handleClickEvent(){
     this.setState({ modalOpen: false });
   }
 
   render() {
     const { classes, recipe, latestFork, userId, users } = this.props;
-    const { handleSave, handleFork, handleClickEvent, handleClose } = this;
-    const { modalOpen } = this.state;
+    const { handleSave, handleFork, handleClickEvent, handleClose, handlePopoverClose } = this;
+    const { modalOpen, anchorEl } = this.state;
     let avatarSymbol
     let recipeSplit
     let recipeId
+    const open = Boolean(anchorEl);
 
     if (recipe.uri){
       recipeSplit = recipe.uri.split('#')
@@ -145,11 +164,29 @@ class RecipeCard extends Component {
         <CardActions className={classes.actions} disableActionSpacing>
         {
           recipe.createdBy === userId ? null : (
+            <div>
             <Tooltip TransitionComponent={Zoom} title="Save Recipe">
-              <IconButton aria-label="Save Recipe" onClick={handleSave}>
+              <IconButton onClick={handleSave}>
                 <FavoriteIcon />
               </IconButton>
             </Tooltip>
+            <Popover
+              id="simple-popper"
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handlePopoverClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+            >
+              <Typography className={classes.typography}>Recipe is saved to your Cookbook.</Typography>
+            </Popover>
+            </div>
           )
         }
           <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
@@ -188,6 +225,9 @@ class RecipeCard extends Component {
   }
 }
 
+RecipeCard.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 const matchStateToProps = (state) => {
   return {

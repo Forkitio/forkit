@@ -38,7 +38,7 @@ class EditRecipe extends Component {
         serving: 0,
         healthLabels: [],
         dietLabels: [],
-        image: ''
+        img: ''
         },
         success: '',
         error: '',
@@ -126,11 +126,12 @@ class EditRecipe extends Component {
         serving,
         healthLabels,
         dietLabels,
-        image
+        img
     } = this.state.recipe;
     const { classes, allHealthLabels, allDietLables } = this.props;
     const healthLabelsIndexes = healthLabels.map(el => el.key);
     const dietLabelsIndexes = dietLabels.map(el => el.key);
+
     if(!recipe.title || recipe.title === '') {
       return null
     }
@@ -173,13 +174,13 @@ class EditRecipe extends Component {
               <form onSubmit={handleSubmit}>
                 <TextField
                   required
-                  type="url"
-                  name="image"
+                  // type="text"
+                  name="img"
                   label="Image"
                   margin="normal"
                   variant="outlined"
                   onChange={handleChange}
-                  value={image}
+                  value={img}
                   style={{ width: '800px' }}
                 />
 
