@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import {Link} from 'react-router-dom';
 import { Typography, Button, Divider, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import ShareIcon from '@material-ui/icons/Share'
+import AddIcon from '@material-ui/icons/Add'
 import {getCreatedRecipes} from './../store/createdRecipes';
 import {getSavedRecipes} from './../store/savedRecipes';
 import {getForkedRecipes} from './../store/forkedRecipes';
@@ -42,6 +45,7 @@ class Cookbook extends Component {
                     <Divider />
 
                     <Typography variant = 'h6'>
+                        <AddIcon />
                         My Created Recipes
                     </Typography>
 
@@ -71,6 +75,7 @@ class Cookbook extends Component {
                     <Divider/>
 
                     <Typography variant = 'h6'>
+                        <ShareIcon fontSize = 'small'/>
                         My Forked Recipes
                     </Typography>
                     {
@@ -101,6 +106,7 @@ class Cookbook extends Component {
                     <Divider/>
 
                     <Typography variant = 'h6'>
+                        <FavoriteIcon fontSize = 'small'/>
                         My Saved Recipes
                     </Typography>
 

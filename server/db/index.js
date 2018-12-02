@@ -4,20 +4,24 @@ const Sequelize = require('sequelize');
 const { User, RecipeComment, Recipe } = require('./models.js');
 
 const syncAndSeed = () => {
-  let moe, Anthony, curly, tabbouleh, hummus, babaghanoush
+  let Gordon, Anthony, Rachael, tabbouleh, hummus, babaghanoush
 
   return conn.sync({ force: true })
     .then(()=> {
       return Promise.all([
         User.create({ 
-          firstName: 'moe',
-          lastName: 'smith',
-          email: 'moe@gmail.com',
-          username: 'moe',
-          password: 'moe',
+          firstName: 'Gordon',
+          lastName: 'Ramsay',
+          email: 'gordon@gmail.com',
+          username: 'gordon',
+          password: 'gordon',
+          protein: ['beef', 'chicken', 'fish'],
+          cuisine: ['chinese', 'indian','thai'],
+          skill: 'advanced',
+          diet: 'low-carb',
           pinterestId: null,
           instagramId: null,
-          img: "http://via.placeholder.com/640x360"
+          img: "https://cdn2.i-scmp.com/sites/default/files/styles/landscape/public/images/methode/2018/10/06/698694fa-c6d4-11e8-9907-be608544c5a1_1280x720_113644.jpg?itok=4wUEjYn8"
         }),
         User.create({
           firstName: 'Anthony',
@@ -32,22 +36,26 @@ const syncAndSeed = () => {
           time: '30 min',
           pinterestId: null,
           instagramId: null,
-          img: "http://via.placeholder.com/640x360"
+          img: "https://pixel.nymag.com/imgs/fashion/daily/2018/06/08/08-anthony-bourdain-2.w700.h467.2x.jpg"
         }),
         User.create({
-          firstName: 'curly',
-          lastName: 'smith',
-          email: 'curly@gmail.com',
-          username: 'curly',
-          password: 'curly',
+          firstName: 'Rachael',
+          lastName: 'Ray',
+          email: 'rachael@gmail.com',
+          username: 'rachael',
+          password: 'rachael',
+          protein: ['beef', 'chicken', 'fish'],
+          cuisine: ['chinese', 'indian','thai'],
+          skill: 'advanced',
+          diet: 'low-carb',
           pinterestId: null,
           instagramId: null,
-          img: "http://via.placeholder.com/640x360"
+          img: "https://www.rachaelraymag.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_1400/MTUwMTcxNjQ2MDE0MDA3MjMx/rachael-ray-headshot-1017-103052773.webp"
         }),
         ]);
       })
       .then( users => {
-        [ moe, Anthony, curly ] = users
+        [ Gordon, Anthony, Rachael ] = users
 
         return Promise.all([
           Recipe.create({

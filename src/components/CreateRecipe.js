@@ -79,7 +79,8 @@ class CreateRecipe extends Component {
     recipe.createdBy = userId;
 
     event.preventDefault();
-    onAddRecipe(recipe).then(() => {
+    onAddRecipe(recipe)
+    .then(() => {
       this.setState({ success: 'Recipe added successfully!' });
       this.setState({
         recipe: {
@@ -268,7 +269,7 @@ class CreateRecipe extends Component {
                   size = 'large'
                 >
                   Create Recipe
-          </Button>
+                </Button>
                 </div>
               </form>
             </Paper>
