@@ -6,6 +6,10 @@ const https = require('https')
 const http = require('http')
 const app = require('./app')
 
+// provisions the env file to be used when process.env.KEY is called.  
+// This is what is used to hide the edamam keys in the .env file
+
+require('dotenv').config()
 
 // require('./app').listen(PORT, () => console.log(`
 //   Listening on PORT ${PORT}!
