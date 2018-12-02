@@ -7,7 +7,7 @@ import { getAllRecipes } from '../store/recipes.js'
 import Nav from './Nav'
 import RecipeCard from './RecipeCard'
 
-class Ancestory extends Component {
+class Ancestry extends Component {
     constructor(){
         super()
     }
@@ -18,18 +18,26 @@ class Ancestory extends Component {
 
     render(){
         // const recipeId =  '2f2ae84f-f3d1-4bd0-bb56-fb98053aeaf4'
-        const { allRecipes, classes } = this.props
+        const { allRecipes, classes, recipeId } = this.props
         let family
-        let ancestoryId
-        const recipeId = this.props.history.location.pathname.slice(6)
+        let ancestryId
+        let _recipe
+        // const recipeId = this.props.history.location.pathname.slice(17)
+        console.log(recipeId)
 
-        if(recipeId){
-            ancestoryId = allRecipes.filter(recipe => recipe.id == recipeId)[0].ancestoryId
+        if(recipeId.length && allRecipes.length){
+            console.log(allRecipes)
+            _recipe = allRecipes.filter(recipe => recipe.id === recipeId)[0]
+            if (_recipe){
+                ancestryId = _recipe.ancestoryId
+            }
+            console.log(_recipe)
+            console.log(ancestryId)
         }
 
-        if (ancestoryId){
+        if (ancestryId){
             family = allRecipes.filter(recipe => 
-                recipe.ancestoryId === ancestoryId || recipe.id === ancestoryId
+                recipe.ancestoryId === ancestryId || recipe.id === ancestryId
             )
         } else {
             family = allRecipes.filter(recipe => 
@@ -38,39 +46,34 @@ class Ancestory extends Component {
             )
         }
 
-        const familyHead = family.filter(recipe => ancestoryId == null)[0]
-
-        // const compareTimeCreated = (a,b) => {
-        //     if (a.createdAt < b.createdAt){
-        //         return -1
-        //     } if (a.createdAt > b.createdAt){
-        //         return 1
-        //     }
-        //     return 0
-        // }
+        const familyHead = family.filter(recipe => recipe.parentId == null)[0]
 
         family.sort(function(a,b){ return a.createdAt - b.createdAt})
+        console.log(family)
         
         return (
-            recipeId
+            recipeId.length
             ?
             <Fragment>
                 <Nav/>
                 <div className = {classes.navBarSpace}>
                 <Typography variant = 'h6'>
-                    The OG {familyHead.title}
+                    The OG: {familyHead.title}
                 </Typography>
                 <br/>
                 <Divider/>
-                <Grid container spacing = {32}>
+                {/* <Grid container spacing = {32}> */}
                 {
                     family.map(recipe => (
-                        <Grid item sm = {3} key = {recipe.id} className = {classes.spacing}>
-                        <RecipeCard recipe = {recipe}/>
-                        </Grid>
+                        // <Grid item sm = {3} key = {recipe.id} className = {classes.spacing}>
+                        <div>
+                            <RecipeCard recipe = {recipe}/>
+                            <br/>
+                        </div>
+                        // </Grid>
                     ))
                 }
-                </Grid>
+                {/* </Grid> */}
                 </div>
             </Fragment>
             :
@@ -109,4 +112,4 @@ const mapDispatchToProps = ({ getAllRecipes })
 
 
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Ancestory))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Ancestry))
