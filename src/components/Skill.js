@@ -100,7 +100,7 @@ class Skill extends Component {
                         <br />
                         <br />
                         <div>
-                            <Link to='/survey/cuisine' className={classes.noUnderline}>
+                            <Link to='/survey/diet' className={classes.noUnderline}>
                                 <Typography variant='subtitle1' className={classes.boldedText}>
                                     Back
                                 </Typography>
