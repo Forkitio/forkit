@@ -41,7 +41,8 @@ class EditRecipe extends Component {
         image: ''
         },
         success: '',
-        error: ''
+        error: '',
+        tempIngredients: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -49,6 +50,7 @@ class EditRecipe extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleChipDeSelect = this.handleChipDeSelect.bind(this);
     this.handleChipSelect = this.handleChipSelect.bind(this);
+    this.handleIngredientsChange = this.handleIngredientsChange.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +76,8 @@ class EditRecipe extends Component {
   handleSubmit(event) {
     const { onUpdateRecipe } = this.props;
     const { recipe } = this.state;
+
+    recipe.ingredients = this.state.tempIngredients.split(',')
 
     event.preventDefault();
     onUpdateRecipe(recipe).then(() => {
@@ -108,13 +112,16 @@ class EditRecipe extends Component {
       this.setState(this.state.recipe.dietLabels = dietLabels)
   };
 
+  handleIngredientsChange(event) {
+    this.setState({[event.target.name]: event.target.value});
+  }
+
   render() {
-    const { handleChange, handleSubmit, handleDelete, handleChipDeSelect, handleChipSelect } = this;
-    const { recipe, success, error } = this.state;
+    const { handleChange, handleSubmit, handleDelete, handleChipDeSelect, handleChipSelect, handleIngredientsChange } = this;
+    const { recipe, success, error, tempIngredients } = this.state;
     const {
         title,
         directions,
-        ingredients,
         time,
         serving,
         healthLabels,
@@ -228,12 +235,12 @@ class EditRecipe extends Component {
                   style={{ width: '200px' }}
                 />
                 <TextField
-                  name="Ingredient"
+                  name="tempIngredients"
                   label="Ingredients"
                   margin="normal"
                   variant="outlined"
-                  onChange={handleChange}
-                  value={ingredients}
+                  onChange={handleIngredientsChange}
+                  value={tempIngredients}
                   style={{ width: '800px' }}
                 />
                 <Typography variant="subtitle1" gutterBottom style={{textAlign: 'left'}}>
