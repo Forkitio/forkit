@@ -75,19 +75,6 @@ class RecipeCard extends Component {
       this.handlePopoverClose = this.handlePopoverClose.bind(this);
   }
 
-<<<<<<< Updated upstream
-  // componentDidMount(){
-  //   this.props.getAllUsers()
-  // }
-
-  handleExpandClick() {
-    this.setState({
-      expanded: !this.state.expanded
-    })
-  };
-
-=======
->>>>>>> Stashed changes
   handleSave(event) {
     this.setState({
       anchorEl: event.currentTarget,
