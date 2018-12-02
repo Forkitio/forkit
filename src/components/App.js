@@ -19,7 +19,6 @@ import queryString from 'query-string'
 import CerateRecipe from './CreateRecipe';
 import EditRecipe from './EditRecipe';
 import Ancestory from './Ancestory'
-import Welcome from './Welcome'
 
 class App extends Component {
 
@@ -39,7 +38,6 @@ class App extends Component {
         <Fragment>
           <Route exact path='/' render = {({ history }) => <Homepage history={history}/> }/>
           <Route path='/survey/name' render = {() => <Name/>}/>
-          <Route path='/survey/welcome' render = { () => <Welcome/>}/>
           <Route path='/survey/cuisine' render = { () => <Cuisine/>}/>
           <Route path='/survey/protein' render = { () => <Protein/>}/>
           <Route path='/survey/diet' render = { () => <Diet/>}/>
