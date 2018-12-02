@@ -109,7 +109,7 @@ class Dashboard extends Component {
                         className = {classes.avatar}
                     />
                     </Link>
-                    <IconButton 
+                    <IconButton
                     aria-label = {`follow ${user.firstName}`}
                     onClick = {handleFollow}
                     className = {classes.iconStyle}

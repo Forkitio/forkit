@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Recipe, RecipeComment} = require('../db/models');
+const {Recipe, User} = require('../db/models');
 const conn = require('./../db/conn');
 const Op = conn.Sequelize.Op;
 

@@ -18,6 +18,7 @@ import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 import CerateRecipe from './CreateRecipe';
 import EditRecipe from './EditRecipe';
+import Ancestory from './Ancestory'
 
 class App extends Component {
 
@@ -48,6 +49,7 @@ class App extends Component {
           <Switch>
           <Route exact path='/recipe/create' render={() => <CerateRecipe />}/>
           <Route exact path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/>
+          <Route exact path = '/recipe/ancestory/:id' render ={({history}) => <Ancestory history = {history}/> }/>
           <Route path='/recipe/:id' render = { ({ match, history, location }) => <Recipe match={match} location={location} history={history}/>}/>
           </Switch>
 

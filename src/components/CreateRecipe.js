@@ -39,13 +39,15 @@ class CreateRecipe extends Component {
         image: ''
       },
       success: '',
-      error: ''
+      error: '',
+      tempIngredients: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChipSelect = this.handleChipSelect.bind(this);
     this.handleChipDeSelect = this.handleChipDeSelect.bind(this);
+    this.handleIngredientsChange = this.handleIngredientsChange.bind(this);
   }
 
   handleChipSelect(data, isHealthChip) {
@@ -75,6 +77,10 @@ class CreateRecipe extends Component {
       [event.target.name]: event.target.value,
     });
     this.setState({ recipe });
+  };
+
+  handleIngredientsChange(event) {
+    this.setState({[event.target.name]: event.target.value});
   }
 
   handleSubmit(event) {
@@ -84,6 +90,8 @@ class CreateRecipe extends Component {
     recipe.ancestoryId = null;
     recipe.parentId = null;
     recipe.createdBy = userId;
+
+    recipe.ingredients = this.state.tempIngredients.split(',')
 
     event.preventDefault();
     onAddRecipe(recipe, userId).then(() => {
@@ -107,12 +115,11 @@ class CreateRecipe extends Component {
 
   render() {
     const { classes, latestCreated, allDietLables, allHealthLabels } = this.props;
-    const { handleChange, handleSubmit, handleChipSelect, handleChipDeSelect } = this;
-    const { success, error, chipData } = this.state;
+    const { handleChange, handleSubmit, handleChipSelect, handleChipDeSelect, handleIngredientsChange } = this;
+    const { success, error, tempIngredients } = this.state;
     const {
       title,
       directions,
-      ingredients,
       time,
       serving,
       healthLabels,
@@ -221,12 +228,12 @@ class CreateRecipe extends Component {
                   style={{ width: '200px' }}
                 />
                 <TextField
-                  name="Ingredient"
+                  name="tempIngredients"
                   label="Ingredients"
                   margin="normal"
                   variant="outlined"
-                  onChange={handleChange}
-                  value={ingredients}
+                  onChange={handleIngredientsChange}
+                  value={tempIngredients}
                   style={{ width: '800px' }}
                 />
 

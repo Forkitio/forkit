@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const axios = require('axios')
-const { edamamKey } = require('../keys.js')
+const edamamId = process.env.EDAMAM_RECIPES_ID;
+const edamamKey = process.env.EDAMAM_RECIPES_KEY;
 
+console.log('ID', edamamId)
 router.get('/getRecipeInfo/:id', (req, res, next) => {
     
     const recipeId = 'http://www.edamam.com/ontologies/edamam.owl#' + req.params.id
@@ -11,8 +13,8 @@ router.get('/getRecipeInfo/:id', (req, res, next) => {
         method: 'GET',
         params: {
             r: recipeId,
-            app_id: edamamKey.recipes.appId,
-            app_key: edamamKey.recipes.appKey,
+            app_id: edamamId,
+            app_key: edamamKey,
         }
     })
     .then(result => {
@@ -32,8 +34,8 @@ router.get('/recommendations/:field/:type', (req, res, next) => {
             params: {
                 q: 'dinner',
                 time: req.params.type,
-                app_id: edamamKey.recipes.appId,
-                app_key: edamamKey.recipes.appKey,
+                app_id: edamamId,
+                app_key: edamamKey,
             }
         })
         .then(result => {
@@ -48,8 +50,8 @@ router.get('/recommendations/:field/:type', (req, res, next) => {
             method: 'GET',
             params: {
                 q: req.params.type,
-                app_id: edamamKey.recipes.appId,
-                app_key: edamamKey.recipes.appKey,
+                app_id: edamamId,
+                app_key: edamamKey,
             }
         })
         .then(result => {

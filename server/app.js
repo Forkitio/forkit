@@ -5,6 +5,11 @@ const { User } = require('./db/models.js');
 const passport = require('passport');
 const jwt = require('jwt-simple');
 
+// provisions the env file to be used when process.env.KEY is called.  
+// This is what is used to hide the edamam keys in the .env file
+
+require('dotenv').config()
+
 app.use('/public', express.static(path.join(__dirname, '../public')));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../public/index.html')));

@@ -34,7 +34,7 @@ class Protein extends Component {
             lamb : false,
             chicken : false,
             fish : false,
-            vegetarian : false,
+            pork : false,
             tofu : false,
             completed : false
         }
@@ -63,7 +63,7 @@ class Protein extends Component {
     render() {
         const { handleSubmit, handleChange } = this;
         const { classes, user } = this.props;
-        const { beef, lamb, chicken, fish, vegetarian, tofu, completed } = this.state;
+        const { beef, lamb, chicken, fish, pork, tofu, completed } = this.state;
         if(!user.id) {
             return <Redirect to='/survey/name' />
         }
@@ -129,38 +129,39 @@ class Protein extends Component {
                                     <Checkbox
                                         checked={fish}
                                         onChange={handleChange}
-                                        value="fish"
+                                        value='fish'
                                         name='fish'
                                         color='primary'
                                         label='fish'
                                     />
                                 }
-                                label="Fish"
+                                label='Fish'
                             />
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={vegetarian}
+                                        checked={pork}
                                         onChange={handleChange}
-                                        value="vegetarian"
+                                        value='pork'
+                                        name='pork'
                                         color='primary'
-                                        label='vegetarian'
+                                        label='pork'
                                     />
                                 }
-                                label="Vegetarian"
+                                label='Pork'
                             />
                             <FormControlLabel
                                 control={
                                     <Checkbox
                                         checked={tofu}
                                         onChange={handleChange}
-                                        value="tofu"
+                                        value='tofu'
                                         name='tofu'
                                         color='primary'
                                         label='tofu'
                                     />
                                 }
-                                label="Tofu"
+                                label='Tofu'
                             />
                             <br/>
                             <br/>
@@ -170,9 +171,9 @@ class Protein extends Component {
                             <br />
                             <br/>
                             <Link to='/survey/cuisine' className={classes.noUnderline}>
-                                <Typography variant='subtitle1' className={classes.boldedText}>
+                                <Button variant='text' type = 'button' className={classes.boldedText}>
                                     Back
-                                </Typography>
+                                </Button>
                             </Link>
                         </form>
                     </div>
