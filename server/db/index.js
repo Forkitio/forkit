@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const { User, RecipeComment, Recipe } = require('./models.js');
 
 const syncAndSeed = () => {
-  let Gordon, Anthony, Rachael, tabbouleh, hummus, babaghanoush
+  let Gordon, Anthony, Rachael, Tabbouleh, Hummus, Babaghanoush
 
   return conn.sync({ force: true })
     .then(() => {
@@ -69,9 +69,7 @@ const syncAndSeed = () => {
           dietLabels: ['Low-Carb'],
           createdBy: Anthony.id,
           img: 'https://img.taste.com.au/chMTakge/w643-h428-cfill-q90/taste/2016/11/tabouli-77701-1.jpeg',
-        })
-      ])
-    }),
+        }),
     Recipe.create({
       title: 'Babaganoush',
       directions: 'Preheat oven to 450 degrees F.Prick eggplant with a fork and place on a cookie sheet lined with foil. Bake the eggplant until it is soft inside, about 20 minutes. Alternatively, grill the eggplant over a gas grill, rotating it around until the skin is completely charred, about 10 minutes. Let the eggplant cool. Cut the eggplant in half lengthwise, drain off the liquid, and scoop the pulp into a food processor. Process the eggplant until smooth and transfer to a medium bowl.On a cutting board, work garlic and 1/4 teaspoon salt together with the flat side of a knife, until it forms a paste. Add the garlic-salt mixture to the eggplant. Stir in the parsley, tahini, and lemon juice. Season with more salt, to taste. Garnish with additional parsley.',
@@ -191,20 +189,19 @@ const syncAndSeed = () => {
       dietLabels: ['Low-Carb', 'Low-Sugar', 'High-Fiber'],
       createdBy: Rachael.id,
       img: 'https://assets.marthastewart.com/styles/wmax-300/d21/med103031_0707_bag008/med103031_0707_bag008_vert.jpg?itok=oQOhJNwm',
-        ]);
       })
-     
+    ])
     .then((recipes) => {
       [ Tabbouleh, Hummus, Babaghanoush ] = recipes
 
-      tabbouleh.setUser(Anthony)
       return Promise.all([
         RecipeComment.create({title: 'A', content: 'AA'}),
         RecipeComment.create({title: 'B', content: 'BB'}),
         RecipeComment.create({title: 'C', content: 'CC'}),
       ])
     })
-};
+  })
+  }
 
 module.exports = {
   syncAndSeed
