@@ -35,7 +35,13 @@ const getSavedRecipes = (userId) => {
 // createdBy will be set to the originalCreator or null
 // ancestor and parent will be set to the forked recipe's values accoring to below comments
 const saveRecipe = (recipe, userId) => {
-  const _recipe = mapApiRecipeTolocalRecipe(recipe);
+  let _recipe;
+  if(recipe.createdBy){
+    _recipe = Object.assign({}, recipe)
+    delete _recipe['id'];
+  } else {
+    _recipe = mapApiRecipeTolocalRecipe(recipe);
+  }
   const savedRecipe = Object.assign({}, _recipe);
   savedRecipe.userId = userId;
   return (dispatch) => {
