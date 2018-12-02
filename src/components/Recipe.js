@@ -23,7 +23,7 @@ class Recipe extends Component {
 
     componentDidMount() {
         const recipeId = this.props.match.params.id
-        
+
         if (recipeId.length == 39){
             this.props.getOneAPIRecipe(this.props.match.params.id)
             console.log(this.props.match.params.id)
@@ -94,21 +94,24 @@ class Recipe extends Component {
                         <br />
                         <br />
                         <Typography variant='subtitle1'>
-
-
                         </Typography>
+
                         <Typography variant='subtitle1'>
                             <Whatshot />Calories: {calories}
                         </Typography>
+
                         <br />
+
                         <Typography variant='h6'>
                             Ingredients
                         </Typography>
-                        <SayButton onClick={(evt) => console.log(evt)} speak={recipe.ingredientLines || 'Sorry my voice is gone'}>
+
+                        <SayButton onClick={(evt) => console.log(evt)} speak={ingredient || 'Sorry my voice is gone'}>
                             Hear the ingredients
                         </SayButton>
+
                         <ol>
-                            {ingredient? ingredient.map(ing => {
+                            {ingredient ? ingredient.map(ing => {
                                 return (
                                     <Typography variant='subtitle1'>
                                         <li> {ing} </li>
