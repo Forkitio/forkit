@@ -60,10 +60,10 @@ class Time extends Component {
             <Fragment>
             { !this.state.completed ? (
             <Fragment>
-                <Grid container justify="center" display="flex">
+                <Grid container justify='center' display='flex'>
                 <img src='/public/forkit-bk.png'></img>
                 </Grid>
-                <Grid container justify="center" display="flex">
+                <Grid container justify='center' display='flex'>
                     <div className={classes.divstyle}>
                         <form onSubmit={handleSubmit}>
                         <Typography variant='h4' className={classes.boldedText}>
@@ -72,14 +72,14 @@ class Time extends Component {
                             <FormControl>
                             <RadioGroup
                                 aria-label='Time spent cooking'
-                                name="cooking time"
+                                name='cooking time'
                                 value={this.state.time}
                                 onChange={handleChange}
                             >
-                                <FormControlLabel value='15 min' control={<Radio />} label="Real quick! About 15 minutes." />
-                                <FormControlLabel value='30 min' control={<Radio />} label="No more than 30 minutes." />
+                                <FormControlLabel value='15 min' control={<Radio />} label='Real quick! About 15 minutes.' />
+                                <FormControlLabel value='30 min' control={<Radio />} label='No more than 30 minutes.' />
                                 <FormControlLabel value='1 hr' control={<Radio />} label="I've got some time, but not over an hour." />
-                                <FormControlLabel value='> 1 hr' control={<Radio />} label="Throwing down in the kitchen! An hour plus." />
+                                <FormControlLabel value='> 1 hr' control={<Radio />} label='Throwing down in the kitchen! An hour plus.' />
                             </RadioGroup>
                             </FormControl>
                             <br />
