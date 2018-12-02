@@ -1,26 +1,23 @@
 import axios from 'axios';
-import {mapApiRecipeTolocalRecipe} from './../utils';
 
 // action constants
-export const GOT_RECIPES = 'GOT_RECIPES';
+export const GOT_ALL_RECIPES = 'GOT_ALL_RECIPES';
 
 // action creators
-export const gotRecipes = recipes => {
+export const gotAllRecipes = recipes => {
   return {
-    type: GOT_RECIPES,
+    type: GOT_ALL_RECIPES,
     recipes
   }
 }
 
-
-
 // thunks
 
-export const getRecipes = () => {
+export const getAllRecipes = () => {
   return (dispatch) => {
     return axios.get(`/api/recipes`)
       .then(res => res.data)
-      .then(recipes => dispatch(gotRecipes(recipes)))
+      .then(recipes => dispatch(gotAllRecipes(recipes)))
       .catch(error => console.log(error))
   };
 }
@@ -28,7 +25,7 @@ export const getRecipes = () => {
 // reducer
 const recipeReducer = (state = [], action) => {
   switch(action.type) {
-    case GOT_RECIPES:
+    case GOT_ALL_RECIPES:
       state = action.recipes
       break;
   }
