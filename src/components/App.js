@@ -13,6 +13,7 @@ import Time from './Time'
 import Signup from './Signup'
 import Recipe from './Recipe'
 import Homepage from './Homepage'
+import UserPage from './UserPage'
 import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 import CerateRecipe from './CreateRecipe';
@@ -49,9 +50,13 @@ class App extends Component {
           <Route exact path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/>
           <Route path='/recipe/:id' render = { ({ match, history, location }) => <Recipe match={match} location={location} history={history}/>}/>
           </Switch>
+
+          <Switch>
           <Route path = '/user/cookbook' render = {({ history }) => <Cookbook history={history}/> }/>
           <Route path = '/user/dashboard' render = {({ history }) => <Dashboard history={history}/>} />
           {/* <Route path='/recipe/edit/:id' render={({location, match, history}) => <EditRecipe location={location} history={history} match={match} />}/> */}
+          <Route path='/user/:id' render = { ({ history }) => <UserPage history={history}/>}/>
+          </Switch>
 
         </Fragment>
       </Router>

@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
 import Nav from './Nav';
-import {getLatestCreatedId} from './../utils';
+import {getLatestCreatedId, getAllDietLables, getAllHealthLables} from './../utils';
 
 const styles = theme => ({
   root: {
@@ -39,29 +39,35 @@ class CreateRecipe extends Component {
         image: ''
       },
       success: '',
-      error: '',
-      chipData: [
-        { key: 0, label: 'Angular' },
-        { key: 1, label: 'jQuery' },
-        { key: 2, label: 'React' },
-        { key: 3, label: 'Vue.js' }
-      ]
+      error: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChipSelect = this.handleChipSelect.bind(this);
+    this.handleChipDeSelect = this.handleChipDeSelect.bind(this);
   }
 
+  handleChipSelect(data, isHealthChip) {
+    if(isHealthChip){
+      const healthLabels = [...this.state.recipe.healthLabels, data];
+      this.setState(this.state.recipe.healthLabels = healthLabels)
+    }
+    const dietLabels = [...this.state.recipe.dietLabels, data];
+    this.setState(this.state.recipe.dietLabels = dietLabels)
+  };
 
-
-  handleChipSelect(data) {
-    this.setState(state => {
-      const chipData = [...state.chipData];
-      const chipToDelete = chipData.indexOf(data);
-      chipData.splice(chipToDelete, 1);
-      return { chipData };
-    });
+  handleChipDeSelect(data, isHealthChip) {
+    if(isHealthChip){
+      const healthLabels = [...this.state.recipe.healthLabels];
+      const chipToDelete = healthLabels.indexOf(data);
+      healthLabels.splice(chipToDelete, 1);
+      this.setState(this.state.recipe.healthLabels = healthLabels)
+    }
+    const dietLabels = [...this.state.recipe.dietLabels];
+    const chipToDelete = dietLabels.indexOf(data);
+    dietLabels.splice(chipToDelete, 1);
+    this.setState(this.state.recipe.dietLabels = dietLabels)
   };
 
   handleChange(event) {
@@ -80,8 +86,7 @@ class CreateRecipe extends Component {
     recipe.createdBy = userId;
 
     event.preventDefault();
-    onAddRecipe(recipe)
-    .then(() => {
+    onAddRecipe(recipe, userId).then(() => {
       this.setState({ success: 'Recipe added successfully!' });
       this.setState({
         recipe: {
@@ -94,21 +99,15 @@ class CreateRecipe extends Component {
           dietLabels: [],
           image: ''
         },
-        error: '',
-        chipData: [
-          { key: 0, label: 'Angular' },
-          { key: 1, label: 'jQuery' },
-          { key: 2, label: 'React' },
-          { key: 3, label: 'Vue.js' }
-        ]
+        error: ''
       });
     })
       .catch(ex => this.setState({ error: `An error has occurred. ${ex}`, success: '' }));
   }
 
   render() {
-    const { classes, latestCreated } = this.props;
-    const { handleChange, handleSubmit, handleChipSelect } = this;
+    const { classes, latestCreated, allDietLables, allHealthLabels } = this.props;
+    const { handleChange, handleSubmit, handleChipSelect, handleChipDeSelect } = this;
     const { success, error, chipData } = this.state;
     const {
       title,
@@ -120,7 +119,8 @@ class CreateRecipe extends Component {
       dietLabels,
       image
     } = this.state.recipe;
-    console.log('!!!', chipData)
+    const healthLabelsIndexes = healthLabels.map(el => el.key);
+    const dietLabelsIndexes = dietLabels.map(el => el.key);
     return (
       <Fragment>
         <Grid container justify="center" display="flex" style={{marginTop:'100px'}}>
@@ -230,37 +230,63 @@ class CreateRecipe extends Component {
                   style={{ width: '800px' }}
                 />
 
-                <TextField
-                  name="healthLabels"
-                  label="Health Labels"
-                  margin="normal"
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={healthLabels}
-                  style={{ width: '800px' }}
-                />
+                <Typography variant="subtitle1" gutterBottom style={{textAlign: 'left'}}>
+                Health Labels:
+                </Typography>
 
-                <div>
-                  {chipData.map(data => {
-                    return (
-                      <Chip
-                        key={data.key}
-                        label={data.label}
-                        onDelete={handleChipSelect(data)}
-                        className={classes.chip}
-                      />
-                    );
-                  })}
-                </div>
-                <TextField
-                  name="dietLabels"
-                  label="Diet Labels"
-                  margin="normal"
-                  variant="outlined"
-                  onChange={handleChange}
-                  value={dietLabels}
-                  style={{ width: '800px' }}
-                />
+                <Paper className={classes.root}>
+                    {allHealthLabels.map(data => {
+                        if(healthLabelsIndexes.includes(data.key)){
+                            return (
+                                <Chip
+                                className={classes.chip}
+                                color="primary"
+                                key={data.key}
+                                label={data.label}
+                                onClick={() => handleChipDeSelect(data, true)}
+                                variant="outlined"
+                                />
+                            );
+                        }
+                        return (
+                            <Chip
+                            key={data.key}
+                            label={data.label}
+                            onClick={() => handleChipSelect(data, true)}
+                            className={classes.chip}
+                            />
+                        );
+                    })}
+                </Paper>
+
+                <Typography variant="subtitle1" gutterBottom style={{textAlign: 'left'}}>
+                Diet Labels:
+                </Typography>
+
+                <Paper className={classes.root}>
+                    {allDietLables.map(data => {
+                        if(dietLabelsIndexes.includes(data.key)){
+                            return (
+                                <Chip
+                                className={classes.chip}
+                                color="primary"
+                                key={data.key}
+                                label={data.label}
+                                onClick={() => handleChipDeSelect(data, false)}
+                                variant="outlined"
+                                />
+                            );
+                        }
+                        return (
+                            <Chip
+                            key={data.key}
+                            label={data.label}
+                            onClick={() => handleChipSelect(data, false)}
+                            className={classes.chip}
+                            />
+                        );
+                    })}
+                </Paper>
                 <div style={{ textAlign: 'center' }}>
                 <br/>
                 <Button
@@ -268,7 +294,6 @@ class CreateRecipe extends Component {
                   variant="contained"
                   color="primary"
                   size = 'large'
-                  href={`/#/recipe/${latestCreated}`}
                 >
                   Create Recipe
                 </Button>
@@ -289,13 +314,15 @@ CreateRecipe.propTypes = {
 const matchStateToProps = (state) => {
   return {
     userId: state.auth.id,
-    latestCreated: getLatestCreatedId(state.createdRecipes)
+    latestCreated: getLatestCreatedId(state.createdRecipes),
+    allHealthLabels: getAllHealthLables(),
+    allDietLables: getAllDietLables()
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddRecipe: recipe => dispatch(addCreatedRecipe(recipe)),
+    onAddRecipe: (recipe, userId) => dispatch(addCreatedRecipe(recipe, userId)),
   };
 };
 

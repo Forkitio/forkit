@@ -102,10 +102,12 @@ const Recipe = conn.define('recipes', {
         type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
     },
     healthLabels: {
-        type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
+        // type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
+        type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
     },
     dietLabels:{
-        type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
+        // type: conn.Sequelize.ARRAY(conn.Sequelize.STRING)
+        type: conn.Sequelize.ARRAY(conn.Sequelize.JSON)
     },
     ancestoryId: {
         type: conn.Sequelize.UUID,
