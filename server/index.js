@@ -1,4 +1,5 @@
 const httpPORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000
 const httpsPORT = process.env.PORT || 8080
 const { syncAndSeed } = require('./db')
 const fs = require('fs')
