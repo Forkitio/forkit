@@ -12,6 +12,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { getAllRecipes } from '../store/recipes.js'
 
 
 
@@ -21,15 +22,25 @@ class Recipe extends Component {
     }
 
     componentDidMount() {
-        this.props.getOneAPIRecipe(this.props.match.params.id)
-        console.log(this.props.match.params.id)
-        console.log(this.props.recipe)
+        const recipeId = this.props.match.params.id
+        
+        if (recipeId.length == 39){
+            this.props.getOneAPIRecipe(this.props.match.params.id)
+            console.log(this.props.match.params.id)
+            console.log(this.props.recipe)
+        } else {
+            this.props.getAllRecipes()
+        }
     }
 
     render() {
-        const { recipe } = this.props
-        let title, source, time, healthLabels, calories, ingredient, img, directions
-        if (recipe.uri) {
+        const { recipe, allRecipes } = this.props
+        const recipeId = this.props.match.params.id
+        let title, source, time, healthLabels, calories, ingredient, img, directions, _recipe
+
+        console.log(recipeId)
+
+        if (recipeId.length == 39) {
             title = recipe.label
             source = recipe.source
             time = recipe.totalTime
@@ -39,12 +50,12 @@ class Recipe extends Component {
             img = recipe.image
             directions = ''
         } else {
-            title = recipe.title
-            directions = recipe.directions
-            ingredient = recipe.ingredients
-            time = recipe.time
-            img = recipe.img
-            directions = recipe.directions
+            _recipe = allRecipes.filter(recipe => recipe.id === this.props.match.params.id)[0]
+            title = _recipe.title
+            directions = _recipe.directions
+            ingredient = _recipe.ingredients
+            time = _recipe.time
+            img = _recipe.img
         }
         // const healthLabels = recipe ? recipe.healthLabels : null
         // const totalTime = recipe ? recipe.totalTime : null
@@ -75,7 +86,7 @@ class Recipe extends Component {
                         }
                         <br />
                         <br />
-                        <img src={recipe ? recipe.image : null} style={{ height: '400px' }}></img>
+                        <img src={img} style={{ height: '400px' }}></img>
                         <br />
                         <br />
                         <Typography variant='subtitle1'>
@@ -83,31 +94,29 @@ class Recipe extends Component {
 
                         </Typography>
                         <Typography variant='subtitle1'>
-                            <Whatshot />Calories: {recipe.calories ? Math.floor(recipe.calories) : null} calories
+                            <Whatshot />Calories: {recipe ? Math.floor(recipe.calories) : null} calories
                 </Typography>
                         <br />
                         <Typography variant='h6'>
                             Ingredients
                 </Typography>
                         <ol>
-                            {recipe.ingredientLines ? recipe.ingredientLines.map(ing => {
+                            {ingredient? ingredient.map(ing => {
                                 return (
                                     <Typography variant='subtitle1'>
                                         <li> {ing} </li>
                                     </Typography>
                                 )
-                            }) : ''}
+                            }): null}
                         </ol>
-                        {recipe.directions ?
                             <div>
                                 <Typography variant='h6'>
                                     Directions
-                </Typography>
-                                {recipe.directions}
+                                </Typography>
+                                <Typography variant='subtitle1'>
+                                    {directions}
+                                </Typography>
                             </div>
-                            :
-                            null
-                        }
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -129,11 +138,11 @@ class Recipe extends Component {
                             <div>
                                 <Typography variant='h6'>
                                     Nutritional Information
-                </Typography>
+                                </Typography>
                                 <hr />
                             </div>
                             <Typography variant='subtitle1'>
-                                {recipe.digest ? recipe.digest.slice(0,10).map(digest => {
+                                {recipe && recipe.digest ? recipe.digest.slice(0,10).map(digest => {
                                     return (
                                         <p> {digest.label} {Math.floor(digest.total)} </p>
                                     )
@@ -152,11 +161,12 @@ const mapStateToProps = (state, { match }) => {
     const recipe = state.recipeAPI.selectedRecipe
     return {
         match,
-        recipe: recipe
+        recipe: recipe,
+        allRecipes: state.allRecipes
     }
 }
 
-const mapDispatchToProps = ({ getOneAPIRecipe })
+const mapDispatchToProps = ({ getOneAPIRecipe, getAllRecipes })
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recipe)
