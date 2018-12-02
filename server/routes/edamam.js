@@ -3,6 +3,7 @@ const axios = require('axios')
 const edamamId = process.env.EDAMAM_RECIPES_ID;
 const edamamKey = process.env.EDAMAM_RECIPES_KEY;
 
+console.log('ID', edamamId)
 router.get('/getRecipeInfo/:id', (req, res, next) => {
     
     const recipeId = 'http://www.edamam.com/ontologies/edamam.owl#' + req.params.id
