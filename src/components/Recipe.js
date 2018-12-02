@@ -27,6 +27,18 @@ class Recipe extends Component {
 
     render() {
         const { recipe } = this.props
+        if (recipe.uri) {
+            const title = recipe.title
+            const source = recipe.source
+            const time = recipe.totalTime
+            const healthLabels = recipe.healthLabels
+            const calories = recipe.calories
+            const ingredient = recipe.ingredientLines
+        } else {
+
+        }
+        const healthLabels = recipe ? recipe.healthLabels : null
+        const totalTime = recipe ? recipe.totalTime : null
         return (
             <Fragment>
                 <Nav/>
@@ -44,7 +56,7 @@ class Recipe extends Component {
                     By { recipe ? recipe.source : ''}
                 </Typography>
                 {
-                    recipe.healthLabels ? recipe.healthLabels.map( label => {
+                    healthLabels ? healthLabels.map( label => {
                         return (
                             <Chip label={label} color='secondary' style={{marginRight: '10px'}}/>
                         )
@@ -56,7 +68,7 @@ class Recipe extends Component {
                 <br/>
                 <br/>
                 <Typography variant='subtitle1'>
-                    <Schedule/>Time: {recipe.totalTime ? recipe.totalTime : null} hours
+                    <Schedule/>Time: {recipe.totalTime ? recipe.totalTime : null} minutes
                 </Typography>
                 <Typography variant='subtitle1'>
                     <Whatshot/>Calories: {recipe.calories ? recipe.calories : null} calories

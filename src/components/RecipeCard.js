@@ -103,6 +103,8 @@ class RecipeCard extends Component {
     if (recipe.uri){
       recipeSplit = recipe.uri.split('#')
       recipeId = recipeSplit[1]
+    } else {
+      recipeId = this.props.recipe.id
     }
 
     console.log(recipeId)
@@ -123,14 +125,15 @@ class RecipeCard extends Component {
 
     return (
       <Fragment>
-        <Link to={`/recipe/${recipeId}`} style={{ textDecoration:'none' }}>
       <Card className={classes.card}>
         <a href = 'true'>
+        <Link to={`/recipe/${recipeId}`} style={{ textDecoration:'none' }}>
         <CardMedia
             className={classes.media}
             image = {recipe.image || recipe.img}
             onClick={() => <Recipe props={recipe}/>}
         />
+        </Link>
         </a>
         <CardHeader
           avatar={
@@ -182,7 +185,6 @@ class RecipeCard extends Component {
             </Dialog>
         </CardActions>
       </Card>
-      </Link>
       </Fragment>
     );
   }
