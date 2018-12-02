@@ -65,11 +65,9 @@ class RecipeCard extends Component {
   constructor(props) {
       super(props)
       this.state = {
-          expanded: false,
           modalOpen: false,
           anchorEl: null
       }
-      this.handleExpandClick = this.handleExpandClick.bind(this);
       this.handleSave = this.handleSave.bind(this);
       this.handleFork = this.handleFork.bind(this);
       this.handleClose = this.handleClose.bind(this);
@@ -77,6 +75,7 @@ class RecipeCard extends Component {
       this.handlePopoverClose = this.handlePopoverClose.bind(this);
   }
 
+<<<<<<< Updated upstream
   // componentDidMount(){
   //   this.props.getAllUsers()
   // }
@@ -87,12 +86,12 @@ class RecipeCard extends Component {
     })
   };
 
+=======
+>>>>>>> Stashed changes
   handleSave(event) {
-    console.log('Q', this.state.anchorEl)
     this.setState({
       anchorEl: event.currentTarget,
     });
-    console.log('Qs', this.state.anchorEl)
     this.props.onSaveRecipe(this.props.recipe, this.props.userId);
   }
 

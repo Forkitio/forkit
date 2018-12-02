@@ -18,34 +18,72 @@ import { getAllRecipes } from '../store/recipes.js'
 import { getAllUsers } from '../store/userStore.js'
 import { strToArr } from '../utils.js'
 
+import PropTypes from 'prop-types';
+import IconButton from '@material-ui/core/IconButton'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import ShareIcon from '@material-ui/icons/Share'
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
+import { saveRecipe } from './../store/savedRecipes';
+import { forkRecipe } from './../store/forkedRecipes';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {getLatestForkId} from './../utils';
+
+const styles = theme => ({
+    typography: {
+      margin: theme.spacing.unit * 2,
+    }
+  });
+
 class Recipe extends Component {
     constructor() {
         super()
+        this.state = {
+            modalOpen: false
+        }
+        this.handleSave = this.handleSave.bind(this);
+        this.handleFork = this.handleFork.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleClickEvent = this.handleClickEvent.bind(this);
     }
 
     componentDidMount() {
         const recipeId = this.props.match.params.id
         if (recipeId.length === 39){
             this.props.getOneAPIRecipe(recipeId)
-            // console.log(this.props.match.params.id)
-            // console.log(this.props.recipe)
         } else {
             this.props.getAllRecipes()
             this.props.getAllUsers()
         }
     }
 
-    // componentDidUpdate(prevProps, prevState){
-    //     if(prevProps.allRecipes !== this.props.allRecipes){
-    //         this.props.getAllRecipes()
-    //     }
-    // }
+    handleSave(recipe) {
+        this.props.onSaveRecipe(recipe, this.props.userId);
+      }
+    
+      handleFork(recipe) {
+        this.props.onForkRecipe(recipe, this.props.userId);
+        this.setState({ modalOpen: true });
+      }
+    
+      handleClose(){
+        this.setState({ modalOpen: false });
+      };
+    
+      handleClickEvent(){
+        this.setState({ modalOpen: false });
+      }
 
     render() {
-        const { recipe, allRecipes, users } = this.props
+        const { recipe, allRecipes, users, userId, classes, latestFork } = this.props
         const recipeId = this.props.match.params.id
-        let title, source, time, healthLabels, calories, ingredient, img, directions, _recipe, author
-
+        let title, source, time, healthLabels, calories, ingredient, img, directions, _recipe, author, finalRecipe
+        const { handleSave, handleFork, handleClickEvent, handleClose, handlePopoverClose } = this;
+        const { modalOpen } = this.state;
 
         if (recipeId.length === 39) {
             title = recipe.label
@@ -56,6 +94,7 @@ class Recipe extends Component {
             ingredient = recipe.ingredientLines
             img = recipe.image
             directions = ''
+            finalRecipe = recipe;
         } else if (allRecipes.length){
             _recipe = allRecipes.filter(recipe => recipe.id === this.props.match.params.id)[0]
             console.log(_recipe)
@@ -68,12 +107,14 @@ class Recipe extends Component {
             source = author.firstName + ' ' + author.lastName
             calories = 'calories not available yet'
             healthLabels = _recipe.healthLabels
+            finalRecipe = _recipe;
         }
 
         const recipeDirectionsArr = strToArr(directions)
 
         // const healthLabels = recipe ? recipe.healthLabels : null
         // const totalTime = recipe ? recipe.totalTime : null
+        console.log('!', finalRecipe)
         return (
             <Fragment>
                 <Nav />
@@ -82,6 +123,48 @@ class Recipe extends Component {
                         <Link to='/user/dashboard' style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold', fontFamily: 'arial' }}>
                             ← All Recipes
                         </Link>
+                        <div>
+                            {
+                            recipe.createdBy === userId ? null : (
+                                <Tooltip TransitionComponent={Zoom} title="Save Recipe">
+                                <IconButton aria-label="Save Recipe" onClick={() => {
+                                    return handleSave(finalRecipe)}}>
+                                    <FavoriteIcon />
+                                </IconButton>
+                                </Tooltip>
+                            )
+                            }
+                            <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
+                                <IconButton 
+                                aria-label="Fork Recipe"
+                                onClick={() => {
+                                    return handleFork(finalRecipe)}}
+                                >
+                                <ShareIcon />
+                                </IconButton>
+                                </Tooltip>
+                                <Dialog
+                                open={modalOpen}
+                                onClose={this.handleClose}
+                                aria-labelledby="responsive-dialog-title"
+                                >
+                                <DialogTitle id="responsive-dialog-title">{"Edit Recipe?"}</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                    Your recipe has been successfully forked to your cookbook. 
+                                    Would you like to edit that recipe?
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClose} color="secondary" autoFocus>
+                                    Look for more recipes
+                                    </Button>
+                                    <Button onClick={handleClickEvent} color="primary" href={`/#/recipe/edit/${latestFork}`}>
+                                    Take me to the Fork
+                                    </Button>
+                                </DialogActions>
+                                </Dialog>
+                            </div>
                         <br />
                         <br />
                         <Typography variant='h4'>
@@ -217,17 +300,31 @@ class Recipe extends Component {
     }
 }
 
+Recipe.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+
 const mapStateToProps = (state, { match }) => {
     const recipe = state.recipeAPI.selectedRecipe
     return {
         match,
         recipe: recipe,
         allRecipes: state.allRecipes,
-        users: state.user.users
+        users: state.user.users,
+        userId: state.auth.id,
+        latestFork: getLatestForkId(state.forkedRecipes),
     }
 }
 
-const mapDispatchToProps = ({ getOneAPIRecipe, getAllRecipes, getAllUsers })
+const mapDispatchToProps = (dispatch) => {
+    return {
+      onForkRecipe: (recipe, userId) => dispatch(forkRecipe(recipe, userId)),
+      onSaveRecipe: (recipe, userId) => dispatch(saveRecipe(recipe, userId)),
+      getOneAPIRecipe: (id) => dispatch(getOneAPIRecipe(id)),
+      getAllRecipes: () => dispatch(getAllRecipes()),
+      getAllUsers: () => dispatch(getAllUsers())
+    };
+  };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Recipe)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Recipe))
