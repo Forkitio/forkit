@@ -51,9 +51,11 @@ export const getAllUsers = () => {
   }
 };
 
-export const getUser = user => {
+export const getUser = userId => {
+  console.log(
+  )
   return dispatch => {
-    return axios.get(`/api/users/${user.id}`)
+    return axios.get(`/api/users/${userId}`)
       .then(response => response.data)
       .then(user => dispatch(_getUser(user)))
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom';
-import { Typography, Button, Divider, Grid } from '@material-ui/core'
+import { Typography, Button, Divider, Grid, Avatar, IconButton } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
@@ -9,20 +9,23 @@ import AddIcon from '@material-ui/icons/Add'
 import {getCreatedRecipes} from './../store/createdRecipes';
 import {getSavedRecipes} from './../store/savedRecipes';
 import {getForkedRecipes} from './../store/forkedRecipes';
+import {getUser} from './../store/userStore';
 import RecipeCard from './RecipeCard'
 import Nav from './Nav'
 
-class Cookbook extends Component {
+class UserPage extends Component {
 
     componentDidMount(){
-        const { id } = this.props.auth
+        const id = this.props.history.location.pathname.slice(6)
+        
+        this.props.getUser(id)
         this.props.loadSavedRecipes(id)
         this.props.loadForkedRecipes(id)
         this.props.loadCreatedRecipes(id)
     }
 
     render () {
-        const { classes, history, auth, createdRecipes, forkedRecipes, savedRecipes } = this.props;
+        const { classes, history, auth, createdRecipes, forkedRecipes, savedRecipes, user } = this.props;
 
         return(
             auth.id
@@ -30,23 +33,29 @@ class Cookbook extends Component {
             <div className = {classes.white}>
                 <Nav history={history}/>
                 <div className = {classes.navBarSpace}>
-                    <Typography variant = 'h6'>
-                        My Cookbook
-                    </Typography>
-                    <br/>
-
-                    <Link to={'/recipe/create'} className = {classes.noUnderline}>
-                        <Button variant = 'outlined' color = 'primary' size = 'small'>
-                            + Add a recipe
-                        </Button>
-                    </Link>
-                    <br/>
-                    <br/>
+                    <div style={{display: 'flex', justifyContent:'flex-start', alignItems: 
+                    'bottom'}}>
+                        <Avatar
+                            alt = {user.firstName}
+                            src = {user.img}
+                            className = {classes.avatar}
+                        />
+                        <Typography variant = 'h6' className = {classes.textbottom}>
+                            {user.firstName}'s Cookbook
+                        <IconButton 
+                        aria-label = {`follow ${user.firstName}`}
+                        // onClick = {handleFollow}
+                        >
+                            <FavoriteIcon color = 'primary'/>
+                        </IconButton>
+                        </Typography>
+                    </div>
                     <Divider />
+                    <br/>
 
                     <Typography variant = 'h6'>
                         <AddIcon />
-                        My Created Recipes
+                        {user.firstName}'s Created Recipes
                     </Typography>
 
                     {
@@ -76,7 +85,7 @@ class Cookbook extends Component {
 
                     <Typography variant = 'h6'>
                         <ShareIcon fontSize = 'small'/>
-                        My Forked Recipes
+                        {user.firstName}'s forked recipes
                     </Typography>
                     {
                         forkedRecipes.length
@@ -90,14 +99,7 @@ class Cookbook extends Component {
                         </Grid>
                         :
                         <Typography variant = 'body1'>
-                            Go out there and explore, fork a few recipes!
-                            <br />
-                            <br />
-                            <Link to={'/user/dashboard'} className = {classes.noUnderline}>
-                                <Button variant = 'outlined' color = 'primary' size = 'small'>
-                                    I'm ready for an adventure!
-                                </Button>
-                            </Link>
+                            No saved recipes
 
                         </Typography>
                     }
@@ -107,7 +109,7 @@ class Cookbook extends Component {
 
                     <Typography variant = 'h6'>
                         <FavoriteIcon fontSize = 'small'/>
-                        My Saved Recipes
+                        {user.firstName}'s saved recipes
                     </Typography>
 
                         {
@@ -122,15 +124,7 @@ class Cookbook extends Component {
                         </Grid>
                         :
                         <Typography variant = 'body1'>
-                            We believe in you - you can find one recipe to like!
-                            <br />
-                            <br />
-                            <Link to={'/user/dashboard'} className = {classes.noUnderline}>
-                                <Button variant = 'outlined' color = 'primary' size = 'small'>
-                                    I believe in myself!
-                                </Button>
-                            </Link>
-
+                            {user.firstName} hasn't liked any recipes yet
                         </Typography>
                     }
                     
@@ -160,7 +154,7 @@ class Cookbook extends Component {
 
 const styles = theme => ({
     navBarSpace: {
-      marginTop: '70px',
+      marginTop: '60px',
       marginLeft: '15px',
       backgroundColor: 'white'
     },
@@ -174,6 +168,17 @@ const styles = theme => ({
     noUnderline: {
         textDecoration: 'none',
     },
+    avatar: {
+        marginBottom: '10px',
+        marginRight: '5px',
+        marginLeft: '5px',
+        marginTop: '30px',
+        width: 150,
+        height: 150,
+    },
+    textbottom: {
+       marginTop: 150
+    },
 });
 
 const mapStateToProps = (state) => {
@@ -181,7 +186,8 @@ const mapStateToProps = (state) => {
         auth: state.auth,
         createdRecipes: state.createdRecipes,
         forkedRecipes: state.forkedRecipes,
-        savedRecipes: state.savedRecipes
+        savedRecipes: state.savedRecipes,
+        user: state.user.user
     }
   }
   
@@ -190,8 +196,9 @@ const mapDispatchToProps = dispatch => {
     return {
       loadSavedRecipes: (userId) => dispatch(getSavedRecipes(userId)),
       loadForkedRecipes: (userId) => dispatch(getForkedRecipes(userId)),
-      loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId))
+      loadCreatedRecipes: (userId) => dispatch(getCreatedRecipes(userId)),
+      getUser: (userId) => dispatch(getUser(userId))
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Cookbook))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserPage))
