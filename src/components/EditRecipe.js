@@ -74,13 +74,12 @@ class EditRecipe extends Component {
   }
 
   handleSubmit(event) {
-    const { onUpdateRecipe } = this.props;
+    const { onUpdateRecipe, history } = this.props;
     const { recipe } = this.state;
-
     recipe.ingredients = this.state.tempIngredients.split(',')
 
     event.preventDefault();
-    onUpdateRecipe(recipe).then(() => {
+    onUpdateRecipe(recipe, history).then(() => {
       this.setState({ success: 'Recipe updated successfully!' });
     });
   }
@@ -339,23 +338,24 @@ EditRecipe.propTypes = {
     classes: PropTypes.object.isRequired,
   };
 
-const mapStateToProps = ({ forkedRecipes, createdRecipes }, { match }) => {
+const mapStateToProps = ({ forkedRecipes, createdRecipes }, { match, history }) => {
     const id = match.params.id;
     const editableRecipes = forkedRecipes.concat(createdRecipes)
     return {
         recipe: getRecipeById(editableRecipes, id),
         allHealthLabels: getAllHealthLables(),
-        allDietLables: getAllDietLables()
+        allDietLables: getAllDietLables(),
+        history
     };
 };
 
 const mapDispatchToProps = (dispatch, { history }) => {
   return {
-    onUpdateRecipe: (recipe) => {
+    onUpdateRecipe: (recipe, history) => {
         if(recipe.ancestoryId){
-            return dispatch(updateForkedRecipe(recipe))
+            return dispatch(updateForkedRecipe(recipe, history))
         }
-        return dispatch(updateRecipe(recipe))
+        return dispatch(updateRecipe(recipe, history))
     },
     onDeleteRecipe: recipe => dispatch(deleteRecipe(recipe, history))
   };

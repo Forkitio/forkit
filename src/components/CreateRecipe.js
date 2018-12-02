@@ -84,7 +84,8 @@ class CreateRecipe extends Component {
   }
 
   handleSubmit(event) {
-    const { onAddRecipe, userId } = this.props;
+    const { onAddRecipe, userId, history } = this.props;
+
     const { recipe } = this.state;
     // created recipe should not have ancestor and parent
     recipe.ancestoryId = null;
@@ -94,7 +95,7 @@ class CreateRecipe extends Component {
     recipe.ingredients = this.state.tempIngredients.split(',')
 
     event.preventDefault();
-    onAddRecipe(recipe, userId).then(() => {
+    onAddRecipe(recipe, userId, history).then(() => {
       this.setState({ success: 'Recipe added successfully!' });
       this.setState({
         recipe: {
@@ -318,18 +319,19 @@ CreateRecipe.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const matchStateToProps = (state) => {
+const matchStateToProps = (state, {history}) => {
   return {
     userId: state.auth.id,
     latestCreated: getLatestCreatedId(state.createdRecipes),
     allHealthLabels: getAllHealthLables(),
-    allDietLables: getAllDietLables()
+    allDietLables: getAllDietLables(),
+    history
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddRecipe: (recipe, userId) => dispatch(addCreatedRecipe(recipe, userId)),
+    onAddRecipe: (recipe, userId, history) => dispatch(addCreatedRecipe(recipe, userId, history)),
   };
 };
 

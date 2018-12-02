@@ -31,11 +31,14 @@ export const _updateForkedRecipe = recipe => {
 
 // thunks
 
-const updateForkedRecipe = (recipe) => {
+const updateForkedRecipe = (recipe, history) => {
   return (dispatch) => {
     return axios.put(`/api/recipes/${recipe.id}`, recipe)
       .then(res => res.data)
-      .then(recipe => dispatch(_updateForkedRecipe(recipe)))
+      .then(recipe => {
+        dispatch(_updateForkedRecipe(recipe))
+        history.push('/user/cookbook')
+      })
       .catch(error => console.log(error))
   };
 };

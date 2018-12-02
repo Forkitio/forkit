@@ -48,12 +48,15 @@ const getCreatedRecipes = (userId) => {
   };
 }
 
-const addCreatedRecipe = (recipe, userId) => {
+const addCreatedRecipe = (recipe, userId, history) => {
   recipe['createdBy'] = userId;
   return (dispatch) => {
     return axios.post(`/api/recipes`, recipe)
       .then(res => res.data)
-      .then(recipe => dispatch(_addCreatedRecipe(recipe)))
+      .then(recipe => {
+        dispatch(_addCreatedRecipe(recipe))
+        history.push('/user/cookbook')
+      })
       .catch(error => console.log(error))
   };
 };
@@ -62,7 +65,10 @@ const updateRecipe = (recipe) => {
   return (dispatch) => {
     return axios.put(`/api/recipes/${recipe.id}`, recipe)
       .then(res => res.data)
-      .then(recipe => dispatch(_updateRecipe(recipe)))
+      .then(recipe => {
+        dispatch(_updateRecipe(recipe))
+        history.push('/user/cookbook')
+      })
       .catch(error => console.log(error))
   };
 };
