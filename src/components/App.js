@@ -18,7 +18,7 @@ import { exchangeTokenForAuth } from '../store/authStore'
 import queryString from 'query-string'
 import CerateRecipe from './CreateRecipe';
 import EditRecipe from './EditRecipe';
-import Ancestory from './Ancestory'
+import Ancestry from './Ancestry'
 
 class App extends Component {
 
