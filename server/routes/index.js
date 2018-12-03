@@ -7,5 +7,5 @@ router.use('/users', require('./users'));
 router.use('/recipes', require('./recipes'));
 router.use('/comments', require('./comments'));
 router.use('/auth', require('./auth'));
-router.use('/pinterest', require('./oauthPinterest'));
+router.use('/google', require('./oauthGoogle'));
 router.use('/edamam', require('./edamam'));

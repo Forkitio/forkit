@@ -6,10 +6,7 @@ const User = conn.define('users', {
       defaultValue: conn.Sequelize.UUIDV4,
       primaryKey: true
     },
-    pinterestId:{
-        type: conn.Sequelize.STRING
-    },
-    instagramId:{
+    googleId:{
         type: conn.Sequelize.STRING
     },
     firstName: {
