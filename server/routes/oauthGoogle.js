@@ -2,37 +2,36 @@ const router = require('express').Router()
 const passport = require('passport')
 const { User } = require('../db/models.js')
 const jwt = require('jwt-simple')
-const pinterest = require('passport-pinterest')
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 module.exports = router
 
-router.get('/', passport.authenticate('pinterest', { scope : 'email' }));
+router.get('/', passport.authenticate('google', { scope : 'email' }));
 
 router.get('/callback',
-passport.authenticate('pinterest', { session : false, failureRedirect : '/login' }), (req, res) => {
+passport.authenticate('google', { session : false, failureRedirect : '/login' }), (req, res) => {
   const token = req.user.token;
   res.redirect('/?token=' + token)
 });
 
 
-const pinterestCredentials = {
-  clientID: '5001086713473297614',
-  clientSecret: 'b6be9664e307f5002bedc6b112de2e00c9e7dfbf0b773eba961a5db7b5141774',
-  scope: ['read_public', 'write_public'],
-  callbackURL: '/api/pinterest/callback',
+const googleCredentials = {
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: '/api/google/callback',
   state : false
 };
 
 const verificationCallback = (accessToken, refreshToken, profile, done) => {
   console.log('callback profile: ', profile)
   const info = {
-    firstName : profile._json.data.first_name,
-    lastName : profile._json.data.last_name,
-    img : profile.profileImage.url,
-    username : profile.username,
+    firstName : profile.name.givenName,
+    lastName : profile.name.familyName,
+    img : profile.photos[0].value,
+    email : profile.emails[0].value,
     password : accessToken
   };
   User.findOrCreate({
-    where : { pinterestId : profile.id },
+    where : { googleId : profile.id },
     defaults : info
   })
   .then(user => {
@@ -45,7 +44,7 @@ const verificationCallback = (accessToken, refreshToken, profile, done) => {
   })
 };
 
-const strategy = new pinterest.Strategy(pinterestCredentials, verificationCallback);
+const strategy = new GoogleStrategy(googleCredentials, verificationCallback);
 
 passport.use(strategy);
 
