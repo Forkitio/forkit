@@ -219,7 +219,7 @@ class CreateRecipe extends Component {
                   name="time"
                   type="number"
                   step="0.1"
-                  placeholder="0 hours"
+                  placeholder="0 minutes"
                   min="0"
                   label="Time to Cook (in hours)"
                   margin="normal"

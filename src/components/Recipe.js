@@ -32,6 +32,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {getLatestForkId} from './../utils';
+import PlayArrow from '@material-ui/icons/PlayArrow'
 
 const styles = theme => ({
     typography: {
@@ -124,25 +125,6 @@ class Recipe extends Component {
                             ← All Recipes
                         </Link>
                         <div>
-                            {
-                            recipe.createdBy === userId ? null : (
-                                <Tooltip TransitionComponent={Zoom} title="Save Recipe">
-                                <IconButton aria-label="Save Recipe" onClick={() => {
-                                    return handleSave(finalRecipe)}}>
-                                    <FavoriteIcon />
-                                </IconButton>
-                                </Tooltip>
-                            )
-                            }
-                            <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
-                                <IconButton 
-                                aria-label="Fork Recipe"
-                                onClick={() => {
-                                    return handleFork(finalRecipe)}}
-                                >
-                                <ShareIcon />
-                                </IconButton>
-                                </Tooltip>
                                 <Dialog
                                 open={modalOpen}
                                 onClose={this.handleClose}
@@ -166,7 +148,6 @@ class Recipe extends Component {
                                 </Dialog>
                             </div>
                         <br />
-                        <br />
                         <Typography variant='h4'>
                             {/* {recipe ? recipe.label : ''} */}
                             {title}
@@ -175,6 +156,7 @@ class Recipe extends Component {
                             {/* By {recipe ? recipe.source : ''} */}
                             By {source}
                         </Typography>
+                        <br/>
                         {
                             healthLabels ? healthLabels.map(label => {
                                 if (typeof label === 'string'){
@@ -184,8 +166,27 @@ class Recipe extends Component {
                                 }
                             }) : null
                         }
-                        <br />
-                        <br />
+                        <br/>
+                        {
+                            recipe.createdBy === userId ? null : (
+                                <Tooltip TransitionComponent={Zoom} title="Save Recipe">
+                                <IconButton aria-label="Save Recipe" onClick={() => {
+                                    return handleSave(finalRecipe)}}>
+                                    <FavoriteIcon />
+                                </IconButton>
+                                </Tooltip>
+                            )
+                            }
+                            <Tooltip TransitionComponent={Zoom} title="Fork Recipe">
+                                <IconButton 
+                                aria-label="Fork Recipe"
+                                onClick={() => {
+                                    return handleFork(finalRecipe)}}
+                                >
+                                <ShareIcon />
+                                </IconButton>
+                                </Tooltip>
+                        <br/>
                         <img src={img} style={{ height: '400px' }}></img>
                         <br />
                         <br />
@@ -203,9 +204,18 @@ class Recipe extends Component {
                             :
                             null
                         }
-
+                        { time ? 
+                        <div>
                         <Typography variant='subtitle1'>
-                            <Whatshot />Calories: {calories}
+                            <Schedule/> Time: {time} minutes
+                        </Typography>
+                        </div>
+                        :
+                        ''
+                        }
+                        <br/>
+                        <Typography variant='subtitle1'>
+                            <Whatshot/> Calories: {calories}
                         </Typography>
 
                         <br />
@@ -213,9 +223,11 @@ class Recipe extends Component {
                         <Typography variant='h6'>
                             Ingredients
                         </Typography>
-
-                        <SayButton onClick={(evt) => console.log(evt)} speak={ingredient || 'Sorry my voice is gone'}>
-                            Hear the ingredients
+                        
+                        <SayButton onClick={(evt) => console.log(evt)} speak={ingredient || 'Sorry my voice is gone'} style={{backgroundColor: 'red'}}>
+                        <Button variant='contained' color='primary' size='large'>
+                            Listen
+                        </Button>
                         </SayButton>
 
                         <ol>
@@ -227,31 +239,37 @@ class Recipe extends Component {
                                 )
                             }): null}
                         </ol>
-
+                        { directions ? 
+                        <div>
                         <Typography variant='h6'>
-                            Directions
-                        </Typography>
+                        Directions
+                    </Typography>
 
-                        <SayButton onClick={(evt) => console.log(evt)} speak={recipeDirectionsArr || 'Sorry my voice is gone'} voice={ voices => [].find.call(voices, v => v.lang === 'en-GB')}>
-                            Hear all the directions at once
-                        </SayButton>
+                    <SayButton onClick={(evt) => console.log(evt)} speak={recipeDirectionsArr || 'Sorry my voice is gone'} voice={ voices => [].find.call(voices, v => v.lang === 'en-GB')}>
+                    <Button >
+                        Play 
+                    </Button>
+                    </SayButton>
 
-                        <ol>
-                            {
-                                recipeDirectionsArr.map((step, idx) => {
-                                    return (
-                                        <Fragment key={idx + 1}>
-                                            <Typography variant='subtitle1' >
-                                                <li>{step}</li>
-                                            </Typography>
-                                            <SayButton speak={step}>
-                                                Hear individual step
-                                            </SayButton>
-                                        </Fragment>
-                                    )
-                                })
-                            }
-                        </ol>
+                    <ol>
+                        {
+                            recipeDirectionsArr.map((step, idx) => {
+                                return (
+                                    <Fragment key={idx + 1}>
+                                        <Typography variant='subtitle1' >
+                                            <li>{step}</li>
+                                        </Typography>
+                                        <SayButton speak={step}>
+                                            Hear individual step
+                                        </SayButton>
+                                    </Fragment>
+                                )
+                            })
+                        }
+                    </ol>
+                    </div>
+                        : 
+                    ''}
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -277,6 +295,7 @@ class Recipe extends Component {
                             </ExpansionPanel>
                         </div>
 
+                        { recipe && recipe.digest ? 
                         <div style={{ backgroundColor: 'white', marginTop:'50px', marginRight: '300px', width: '460px', height: '500px', padding: '20px' }}>
                             <div>
                                 <Typography variant='h6'>
@@ -292,6 +311,7 @@ class Recipe extends Component {
                                 }) : null}
                             </Typography>
                         </div>
+                        : '' }
 
                     </div>
                 </div>
