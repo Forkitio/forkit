@@ -44,7 +44,8 @@ class Recipe extends Component {
     constructor() {
         super()
         this.state = {
-            modalOpen: false
+            modalOpen: false,
+            saved: false
         }
         this.handleSave = this.handleSave.bind(this);
         this.handleFork = this.handleFork.bind(this);
@@ -64,6 +65,7 @@ class Recipe extends Component {
 
     handleSave(recipe) {
         this.props.onSaveRecipe(recipe, this.props.userId);
+        this.setState({saved: true})
       }
     
       handleFork(recipe) {
@@ -111,7 +113,7 @@ class Recipe extends Component {
             finalRecipe = _recipe;
         }
 
-        const recipeDirectionsArr = strToArr(directions)
+        const recipeDirectionsArr = directions ? strToArr(directions) : null
 
         // const healthLabels = recipe ? recipe.healthLabels : null
         // const totalTime = recipe ? recipe.totalTime : null
@@ -172,7 +174,7 @@ class Recipe extends Component {
                                 <Tooltip TransitionComponent={Zoom} title="Save Recipe">
                                 <IconButton aria-label="Save Recipe" onClick={() => {
                                     return handleSave(finalRecipe)}}>
-                                    <FavoriteIcon />
+                                    { this.state.saved ? <FavoriteIcon color='primary'/> : <FavoriteIcon/> }
                                 </IconButton>
                                 </Tooltip>
                             )
@@ -219,16 +221,18 @@ class Recipe extends Component {
                         </Typography>
 
                         <br />
-
+                        <div style={{display: 'flex'}}>
                         <Typography variant='h6'>
                             Ingredients
                         </Typography>
-                        
-                        <SayButton onClick={(evt) => console.log(evt)} speak={ingredient || 'Sorry my voice is gone'} style={{backgroundColor: 'red'}}>
-                        <Button variant='contained' color='primary' size='large'>
-                            Listen
+                        <div style={{color: 'red', marginLeft: 'auto'}}>
+                        <SayButton onClick={(evt) => console.log(evt)} speak={ingredient || 'Sorry my voice is gone'}>
+                        <Button variant='contained' color='primary' size='small'>
+                            <PlayArrow style={{marginRight: '1px'}}/> Play
                         </Button>
                         </SayButton>
+                        </div>
+                        </div>
 
                         <ol>
                             {ingredient ? ingredient.map((ing, idx) => {
@@ -241,27 +245,38 @@ class Recipe extends Component {
                         </ol>
                         { directions ? 
                         <div>
+                        <div style={{display: 'flex'}}>
+
                         <Typography variant='h6'>
                         Directions
                     </Typography>
-
-                    <SayButton onClick={(evt) => console.log(evt)} speak={recipeDirectionsArr || 'Sorry my voice is gone'} voice={ voices => [].find.call(voices, v => v.lang === 'en-GB')}>
-                    <Button >
-                        Play 
-                    </Button>
+                    <div style={{marginLeft: 'auto'}}>
+                    <SayButton onClick={(evt) => console.log(evt)} speak={recipeDirectionsArr || 'Sorry my voice is gone'} voice={ voices => [].find.call(voices, v => v.lang === 'en-GB')} style={{display: 'none'}}>
+                    <Button variant='contained' color='primary' size='small'>
+                            <PlayArrow style={{marginRight: '1px'}}/> Play
+                        </Button> 
                     </SayButton>
+
+                        </div>
+                        </div>
 
                     <ol>
                         {
                             recipeDirectionsArr.map((step, idx) => {
                                 return (
                                     <Fragment key={idx + 1}>
+                                    <div style={{display: 'flex'}}>
+                                    <div>
                                         <Typography variant='subtitle1' >
                                             <li>{step}</li>
                                         </Typography>
-                                        <SayButton speak={step}>
-                                            Hear individual step
+                                    </div>
+                                    <div style={{marginLeft: 'auto'}}>
+                                        <SayButton speak={step} style={{block: 'none'}}>
+                                           <PlayArrow size='small'/>
                                         </SayButton>
+                                    </div>
+                                    </div>
                                     </Fragment>
                                 )
                             })
@@ -306,7 +321,7 @@ class Recipe extends Component {
                             <Typography variant='subtitle1'>
                                 {recipe && recipe.digest ? recipe.digest.slice(0,10).map(digest => {
                                     return (
-                                        <p> {digest.label} {Math.floor(digest.total)} </p>
+                                        <p> {digest.label} {Math.floor(digest.total)} mg </p>
                                     )
                                 }) : null}
                             </Typography>
