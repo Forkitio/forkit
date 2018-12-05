@@ -251,11 +251,14 @@ class Recipe extends Component {
                         Directions
                     </Typography>
                     <div style={{marginLeft: 'auto'}}>
-                    <SayButton onClick={(evt) => console.log(evt)} speak={recipeDirectionsArr || 'Sorry my voice is gone'} voice={ voices => [].find.call(voices, v => v.lang === 'en-GB')} style={{display: 'none'}}>
-                    <Button variant='contained' color='primary' size='small'>
-                            <PlayArrow style={{marginRight: '1px'}}/> Play
-                        </Button> 
-                    </SayButton>
+                    <div>
+                        <SayButton onClick={(evt) => console.log(evt)} speak={recipeDirectionsArr || 'Sorry my voice is gone'} voice={ voices => [].find.call(voices, v => v.lang === 'en-GB')} style={{display: 'none'}}>
+                            <Button variant='contained' color='primary' size='small'>
+                                <PlayArrow style={{marginRight: '1px'}}/> Play
+                            </Button> 
+                        </SayButton>
+                    </div>
+                    
 
                         </div>
                         </div>
